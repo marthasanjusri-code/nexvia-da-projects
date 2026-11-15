@@ -1,0 +1,354 @@
+table Finance
+	lineageTag: 6634d93f-d1a0-419e-b1b2-f7ea7ebd58c1
+
+	/// Finance "as of" date (D24): the last finance period, ignoring report filters.
+	measure 'Finance As Of Date' =
+			VAR LastKey = CALCULATE ( MAX ( Finance[period_date_key] ), REMOVEFILTERS () )
+			RETURN
+			    LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], LastKey )
+		formatString: yyyy-mm-dd
+		displayFolder: As Of
+		lineageTag: 5b0f3e21-a7a9-4ede-b13e-73ba309dd672
+
+	/// Balance sheet "as of" date (D115): the last month with asset rows, ignoring report filters.
+	measure 'Balance Sheet As Of Date' =
+			VAR LastAssetKey =
+			    CALCULATE (
+			        MAX ( Finance[period_date_key] ),
+			        REMOVEFILTERS (),
+			        'Account'[Account Level 2] = "Assets",
+			        'Scenario'[Scenario] = "Actual"
+			    )
+			RETURN
+			    LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], LastAssetKey )
+		formatString: yyyy-mm-dd
+		displayFolder: As Of
+		lineageTag: 9481e962-c263-49b8-a188-84765adc9b03
+
+	/// F1, F2. Income statement amount in USD towards net income (D38): income positive, costs negative. Scenario fixed to Actual (F-a); year-end adjustments included (F-b).
+	measure 'Actual Amount' =
+			CALCULATE (
+			    SUMX ( Finance, Finance[Amount USD] * RELATED ( 'Account'[Sign to Net Income] ) ),
+			    KEEPFILTERS ( 'Account'[Statement] = "Income statement" ),
+			    'Scenario'[Scenario] = "Actual"
+			)
+		formatString: \$#,0
+		displayFolder: Income Statement
+		lineageTag: 3c841b72-823a-4670-822c-a0bf69fcb44f
+
+	/// F1. Budget amount in USD towards net income. Budget exists May 2022 - April 2023 only.
+	measure 'Budget Amount' =
+			CALCULATE (
+			    SUMX ( Finance, Finance[Amount USD] * RELATED ( 'Account'[Sign to Net Income] ) ),
+			    KEEPFILTERS ( 'Account'[Statement] = "Income statement" ),
+			    'Scenario'[Scenario] = "Budget"
+			)
+		formatString: \$#,0
+		displayFolder: Budget
+		lineageTag: 413c2f66-9ec0-44f1-818a-b79d9df46557
+
+	/// F4. Operating expenses in USD as a positive amount (F-e), Actual.
+	measure 'Operating Expenses' =
+			CALCULATE (
+			    SUM ( Finance[Amount USD] ),
+			    KEEPFILTERS ( 'Account'[Account Level 3] = "Operating Expenses" ),
+			    'Scenario'[Scenario] = "Actual"
+			)
+		formatString: \$#,0
+		displayFolder: Income Statement
+		lineageTag: bedcccf5-0009-47d7-bf5b-519ab02e59e8
+
+	/// F7 (D37). Income statement amount in the units' own currency, shown only when one currency is in context.
+	measure 'Local Currency Amount' =
+			IF (
+			    HASONEVALUE ( Finance[Currency Code] ),
+			    CALCULATE (
+			        SUMX ( Finance, Finance[Amount Local] * RELATED ( 'Account'[Sign to Net Income] ) ),
+			        KEEPFILTERS ( 'Account'[Statement] = "Income statement" ),
+			        'Scenario'[Scenario] = "Actual"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Income Statement
+		lineageTag: 9a87cf9f-ba3f-4557-935a-38925adec457
+
+	/// F5, F6. Balance sheet amount in USD at the last month with asset rows in the selected period (D39, D115). Blank when both sides are in context, because the sides are never added together (D97).
+	measure 'Closing Balance' =
+			VAR LastAssetKey =
+			    CALCULATE (
+			        MAX ( Finance[period_date_key] ),
+			        REMOVEFILTERS ( 'Account' ),
+			        'Account'[Account Level 2] = "Assets",
+			        'Scenario'[Scenario] = "Actual"
+			    )
+			VAR BothSides =
+			    COUNTROWS (
+			        FILTER (
+			            VALUES ( 'Account'[Account Level 2] ),
+			            'Account'[Account Level 2] IN { "Assets", "Liabilities and Owners Equity" }
+			        )
+			    ) > 1
+			RETURN
+			    IF (
+			        NOT BothSides,
+			        CALCULATE (
+			            SUM ( Finance[Amount USD] ),
+			            KEEPFILTERS ( 'Account'[Statement] = "Balance sheet" ),
+			            'Scenario'[Scenario] = "Actual",
+			            REMOVEFILTERS ( 'Date' ),
+			            'Date'[date_key] = LastAssetKey
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: Balance Sheet
+		lineageTag: 25df9e93-31a7-41c4-a048-2ad560de3e93
+
+	/// F2. Net sales from the finance data (never combined with sales revenue, D40).
+	measure 'Finance Net Sales' = CALCULATE ( [Actual Amount], KEEPFILTERS ( 'Account'[Account Level 4] = "Net Sales" ) )
+		formatString: \$#,0
+		displayFolder: Income Statement
+		lineageTag: 8ab1006b-09ba-4ac1-a79f-69c38478ecce
+
+	/// F2. Net sales minus total cost of sales (account 400 Gross Margin).
+	measure 'Finance Gross Profit' = CALCULATE ( [Actual Amount], KEEPFILTERS ( 'Account'[Account Level 3] = "Gross Margin" ) )
+		formatString: \$#,0
+		displayFolder: Income Statement
+		lineageTag: 452e92f5-e36c-4725-997d-fa187825b19a
+
+	/// F2. Gross profit minus operating expenses (account 40).
+	measure 'Operating Profit' = CALCULATE ( [Actual Amount], KEEPFILTERS ( 'Account'[Account Level 2] = "Operating Profit" ) )
+		formatString: \$#,0
+		displayFolder: Income Statement
+		lineageTag: 6c65060d-5173-4913-897c-9781ee3d0e8c
+
+	/// F2, F3. Operating profit plus other income and expense, minus taxes (account 4).
+	measure 'Net Income' = CALCULATE ( [Actual Amount], KEEPFILTERS ( 'Account'[Account Level 1] = "Net Income" ) )
+		formatString: \$#,0
+		displayFolder: Income Statement
+		lineageTag: 8f3aadaf-739e-4969-b28a-871d6ca709aa
+
+	/// F1. Actual amount counted only in months that have a budget (F-c).
+	measure 'Actual in Budget Months' =
+			SUMX (
+			    VALUES ( 'Date'[Year Month] ),
+			    IF ( NOT ISBLANK ( [Budget Amount] ), [Actual Amount] )
+			)
+		formatString: \$#,0
+		displayFolder: Budget
+		lineageTag: 60ba21d1-d2d7-4091-9b69-5a87385e75eb
+
+	/// F1. Actual minus budget in months that have a budget (F-c). Positive = better than budget, because amounts are signed towards net income.
+	measure 'Budget Variance' =
+			SUMX (
+			    VALUES ( 'Date'[Year Month] ),
+			    IF ( NOT ISBLANK ( [Budget Amount] ), [Actual Amount] - [Budget Amount] )
+			)
+		formatString: \$#,0
+		displayFolder: Budget
+		lineageTag: 0af6a151-4851-4520-8820-40ea43760181
+
+	/// F6. Closing total assets.
+	measure 'Total Assets' = CALCULATE ( [Closing Balance], KEEPFILTERS ( 'Account'[Account Level 2] = "Assets" ) )
+		formatString: \$#,0
+		displayFolder: Balance Sheet
+		lineageTag: d32dea54-5001-4518-bf2b-88b3153ecf39
+
+	/// F5. Closing current assets.
+	measure 'Current Assets' = CALCULATE ( [Closing Balance], KEEPFILTERS ( 'Account'[Account Level 3] = "Current Assets" ) )
+		formatString: \$#,0
+		displayFolder: Balance Sheet
+		lineageTag: a9747310-3f79-4dc1-8530-57c37340ca5a
+
+	/// F6. Closing liabilities.
+	measure 'Total Liabilities' = CALCULATE ( [Closing Balance], KEEPFILTERS ( 'Account'[Account Level 3] = "Liabilities" ) )
+		formatString: \$#,0
+		displayFolder: Balance Sheet
+		lineageTag: f289ded6-0784-480c-9294-6f0032252ea2
+
+	/// F5. Closing current liabilities (account 2200, including accrued expenses 2300).
+	measure 'Current Liabilities' = CALCULATE ( [Closing Balance], KEEPFILTERS ( 'Account'[Account Level 4] = "Current Liabilities" ) )
+		formatString: \$#,0
+		displayFolder: Balance Sheet
+		lineageTag: eaa6ad0c-b24d-40b9-8c09-9db88b188135
+
+	/// F6. Closing owners equity.
+	measure 'Owners Equity' = CALCULATE ( [Closing Balance], KEEPFILTERS ( 'Account'[Account Level 3] = "Owners Equity" ) )
+		formatString: \$#,0
+		displayFolder: Balance Sheet
+		lineageTag: 9f0cbfdd-5174-43ec-b49d-0ddc5bd68d48
+
+	/// F2. Finance gross profit / finance net sales.
+	measure 'Finance Gross Margin %' = DIVIDE ( [Finance Gross Profit], [Finance Net Sales] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Income Statement
+		lineageTag: 22b3bfb8-ccdf-452f-9c2f-a451fe982c3a
+
+	/// F2. Operating profit / finance net sales.
+	measure 'Operating Margin %' = DIVIDE ( [Operating Profit], [Finance Net Sales] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Income Statement
+		lineageTag: 3225345b-01f0-41b3-a411-bb79ce18b9e3
+
+	/// F2. Net income / finance net sales.
+	measure 'Net Margin %' = DIVIDE ( [Net Income], [Finance Net Sales] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Income Statement
+		lineageTag: bf56a993-2b3b-4a16-912f-06792719aa70
+
+	/// F1. Budget variance / budget.
+	measure 'Budget Variance %' = DIVIDE ( [Budget Variance], ABS ( [Budget Amount] ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Budget
+		lineageTag: daca73ec-e31e-4ce5-9889-935ef804c348
+
+	/// F5. Closing current assets / closing current liabilities.
+	measure 'Current Ratio' = DIVIDE ( [Current Assets], [Current Liabilities] )
+		formatString: 0.00
+		displayFolder: Balance Sheet
+		lineageTag: fc994d51-f8e0-43af-9e8c-9024354334df
+
+	column finance_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f6b2ad97-b1c9-4163-93ae-9fa3420285cf
+		summarizeBy: sum
+		sourceColumn: finance_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: a7a90955-51e6-416d-a34c-fd96f09c0072
+		summarizeBy: sum
+		sourceColumn: period_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column organization_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 36bfa648-d9a2-4957-831c-4ff3c5c4f81e
+		summarizeBy: sum
+		sourceColumn: organization_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column finance_department_group_key
+		dataType: int64
+		formatString: 0
+		lineageTag: c469a696-7438-4a95-9b47-220d73bfb5e8
+		summarizeBy: sum
+		sourceColumn: finance_department_group_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 35320af9-e847-4ed1-8ac0-ff3513e826f2
+		summarizeBy: sum
+		sourceColumn: account_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column scenario_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b283d15-63db-4aab-9467-a2b9d293272e
+		summarizeBy: sum
+		sourceColumn: scenario_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Entry Type'
+		dataType: string
+		lineageTag: 2727ea34-00d3-44a5-acfd-f53a929d99d0
+		summarizeBy: none
+		sourceColumn: Entry Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Source Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4ddacffc-476c-4322-91f8-ad9bcf19a881
+		summarizeBy: none
+		sourceColumn: Source Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Currency Code'
+		dataType: string
+		lineageTag: 5b0ba3ab-4657-49c5-ba91-190354290529
+		summarizeBy: none
+		sourceColumn: Currency Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Amount Local'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 0be1105d-630b-4921-be8c-8f23bb585685
+		summarizeBy: sum
+		sourceColumn: Amount Local
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Exchange Rate'
+		dataType: double
+		lineageTag: e6b51597-3173-4910-ac7f-f2d531b848bc
+		summarizeBy: sum
+		sourceColumn: Exchange Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Amount USD'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 7b3550c4-7140-4d18-8d98-08323380a049
+		summarizeBy: sum
+		sourceColumn: Amount USD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column batch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3258708e-73a6-4225-a591-70c131e52169
+		summarizeBy: sum
+		sourceColumn: batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column loaded_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6e8b340a-d8c1-47cc-8f41-0d2ec3c9f6d3
+		summarizeBy: none
+		sourceColumn: loaded_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Finance = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "fact_finance"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"finance_id", "period_date_key", "organization_key", "finance_department_group_key", "account_key", "scenario_key", "entry_type", "source_date", "currency_code", "amount_local", "exchange_rate", "amount_usd", "batch_id", "loaded_at"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"finance_id", Int64.Type}, {"period_date_key", Int64.Type}, {"organization_key", Int64.Type}, {"finance_department_group_key", Int64.Type}, {"account_key", Int64.Type}, {"scenario_key", Int64.Type}, {"entry_type", type text}, {"source_date", type date}, {"currency_code", type text}, {"amount_local", Currency.Type}, {"exchange_rate", type number}, {"amount_usd", Currency.Type}, {"batch_id", Int64.Type}, {"loaded_at", type datetime}}),
+				    Renamed = Table.RenameColumns(Typed, {{"entry_type", "Entry Type"}, {"source_date", "Source Date"}, {"currency_code", "Currency Code"}, {"amount_local", "Amount Local"}, {"exchange_rate", "Exchange Rate"}, {"amount_usd", "Amount USD"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

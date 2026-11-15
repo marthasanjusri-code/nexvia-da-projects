@@ -1,0 +1,125 @@
+table Organization
+	lineageTag: de0fc7fe-4f7e-49a7-af7d-2f53dc2053db
+
+	column organization_key
+		dataType: int64
+		formatString: 0
+		lineageTag: c76c4bb5-71dd-47f7-8c6a-9c3a446af605
+		summarizeBy: sum
+		sourceColumn: organization_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column organization_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3edc25fa-7c95-42c7-a724-b4c7faafaf59
+		summarizeBy: sum
+		sourceColumn: organization_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: 5305ce38-c705-4e72-9a55-6f8983d06ebe
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 07ae9668-577c-46c8-a3ef-8a02eded1ff8
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Organization
+		dataType: string
+		lineageTag: 4451b9b7-634e-4f6a-9c29-9de546bf3503
+		summarizeBy: none
+		sourceColumn: Organization
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Organization Level 1'
+		dataType: string
+		lineageTag: e565095a-f221-4f4a-aa39-2e272a6d647d
+		summarizeBy: none
+		sourceColumn: Organization Level 1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Organization Level 2'
+		dataType: string
+		lineageTag: ff302401-c77e-4fd5-8670-e9b42d708e2f
+		summarizeBy: none
+		sourceColumn: Organization Level 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Organization Level 3'
+		dataType: string
+		lineageTag: da6d1a17-c9d9-42c8-83fb-6f7c028f1bc2
+		summarizeBy: none
+		sourceColumn: Organization Level 3
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Region Group'
+		dataType: string
+		lineageTag: 313365a7-6eb2-40ba-91f8-75d7d6b57e83
+		summarizeBy: none
+		sourceColumn: Region Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mapped Territory Code'
+		dataType: string
+		lineageTag: 4dc0e992-e06f-43d5-8d73-b54fd1c10b82
+		summarizeBy: none
+		sourceColumn: Mapped Territory Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mapped Territory'
+		dataType: string
+		lineageTag: b1327b5e-8320-4ce0-8d7c-5b69c9622691
+		summarizeBy: none
+		sourceColumn: Mapped Territory
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Currency Code'
+		dataType: string
+		lineageTag: cc3dcbd2-c3e4-4b26-b77d-33a61b4d18fb
+		summarizeBy: none
+		sourceColumn: Currency Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Leaf'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 487d8944-c331-4602-ac11-b31885bdd08e
+		summarizeBy: none
+		sourceColumn: Is Leaf
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Organization = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_organization"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"organization_key", "organization_id", "row_type", "is_in_source", "organization_name", "level_1", "level_2", "level_3", "region_group", "mapped_territory_code", "mapped_territory_name", "currency_code", "is_leaf"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"organization_key", Int64.Type}, {"organization_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"organization_name", type text}, {"level_1", type text}, {"level_2", type text}, {"level_3", type text}, {"region_group", type text}, {"mapped_territory_code", type text}, {"mapped_territory_name", type text}, {"currency_code", type text}, {"is_leaf", type logical}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"organization_name", "Organization"}, {"level_1", "Organization Level 1"}, {"level_2", "Organization Level 2"}, {"level_3", "Organization Level 3"}, {"region_group", "Region Group"}, {"mapped_territory_code", "Mapped Territory Code"}, {"mapped_territory_name", "Mapped Territory"}, {"currency_code", "Currency Code"}, {"is_leaf", "Is Leaf"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

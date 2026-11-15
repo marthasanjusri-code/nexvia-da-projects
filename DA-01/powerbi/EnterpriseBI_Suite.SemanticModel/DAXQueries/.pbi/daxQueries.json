@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "tabOrder": [
+    "Test Row Counts",
+    "Test Relationships",
+    "Test Date Table",
+    "Test Sales",
+    "Test Finance",
+    "Test HR",
+    "Test Supply Chain"
+  ],
+  "defaultTab": "Test Supply Chain"
+}

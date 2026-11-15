@@ -1,0 +1,25 @@
+table 'Last Load'
+	lineageTag: 6b7e0f4f-ec9a-432c-8d37-8ca1ca578c69
+
+	column 'Last Successful Load'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: fca23409-a510-4b8a-99e7-54adbaa09c18
+		summarizeBy: none
+		sourceColumn: Last Successful Load
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Last Load' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Batches = Source{[Schema = "etl", Item = "load_batch"]}[Data],
+				    Succeeded = Table.SelectRows(Batches, each [status] = "Succeeded"),
+				    LastLoad = #table(type table [#"Last Successful Load" = nullable datetime], {{List.Max(Succeeded[ended_at])}})
+				in
+				    LastLoad
+
+	annotation PBI_ResultType = Table
+

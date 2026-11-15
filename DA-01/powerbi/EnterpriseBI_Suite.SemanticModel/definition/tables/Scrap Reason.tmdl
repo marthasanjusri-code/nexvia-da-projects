@@ -1,0 +1,60 @@
+table 'Scrap Reason'
+	lineageTag: 7b3904ac-4d19-4b12-9c62-242710fe1b1d
+
+	column scrap_reason_key
+		dataType: int64
+		formatString: 0
+		lineageTag: a61b6063-3640-401e-8e17-b9d320362e4c
+		summarizeBy: sum
+		sourceColumn: scrap_reason_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column scrap_reason_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 24f0f835-5aa4-4fdb-8a2d-6d4153238889
+		summarizeBy: sum
+		sourceColumn: scrap_reason_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: 80eba708-69a8-4aac-93dd-b45e5d02d047
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ab35fafb-25e0-4238-ba11-3a338014d09f
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Scrap Reason'
+		dataType: string
+		lineageTag: 72306f8a-3209-4785-81a9-a38c45d5efd7
+		summarizeBy: none
+		sourceColumn: Scrap Reason
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Scrap Reason' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_scrap_reason"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"scrap_reason_key", "scrap_reason_id", "row_type", "is_in_source", "scrap_reason_name"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"scrap_reason_key", Int64.Type}, {"scrap_reason_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"scrap_reason_name", type text}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"scrap_reason_name", "Scrap Reason"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

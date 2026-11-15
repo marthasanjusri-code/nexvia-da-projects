@@ -1,0 +1,26 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Date'[Year],
+    "Active Headcount", [Active Headcount], "Average Headcount", [Average Headcount],
+    "Hires", [Hires], "Tenure", [Average Tenure (Months)], "Avg Pay", [Average Pay Rate],
+    "Revenue per Employee", [Revenue per Employee]
+)
+ORDER BY 'Date'[Year]
+
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Department'[Department Group], 'Department'[Department],
+    "Employees", [Active Headcount], "Avg Pay", [Average Pay Rate],
+    "Vacation", [Total Vacation Hours], "Sick", [Total Sick Leave Hours]
+)
+ORDER BY 'Department'[Department Group], 'Department'[Department]
+
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Department'[Department Group],
+    "Employees", [Active Headcount], "Avg Pay", [Average Pay Rate],
+    "Vacation", [Total Vacation Hours], "Sick", [Total Sick Leave Hours]
+)
+ORDER BY 'Department'[Department Group]
+
+EVALUATE ROW("HR As Of", [HR As Of Date])

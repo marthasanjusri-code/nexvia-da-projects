@@ -1,0 +1,73 @@
+table 'Security User Region'
+	lineageTag: b773138d-70bd-4b1b-a127-75cc42cbbee6
+
+	column user_email
+		dataType: string
+		lineageTag: 1bb6d495-192b-4537-95e1-376e201c66e4
+		summarizeBy: none
+		sourceColumn: user_email
+
+		annotation SummarizationSetBy = Automatic
+
+	column employee_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a6e2be8f-0742-4404-b160-9271bbbe93e2
+		summarizeBy: sum
+		sourceColumn: employee_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_name
+		dataType: string
+		lineageTag: ffccac7f-d1df-428e-9896-5e5a880599e3
+		summarizeBy: none
+		sourceColumn: full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column job_title
+		dataType: string
+		lineageTag: b10ada80-bc6a-4e04-bd21-3b554d6dc5f4
+		summarizeBy: none
+		sourceColumn: job_title
+
+		annotation SummarizationSetBy = Automatic
+
+	column security_role
+		dataType: string
+		lineageTag: ab309890-ef1c-44b3-ae31-497c13d56a04
+		summarizeBy: none
+		sourceColumn: security_role
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_group
+		dataType: string
+		lineageTag: 69e491f8-2aa8-4286-ac11-929e1e63bb60
+		summarizeBy: none
+		sourceColumn: region_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_note
+		dataType: string
+		lineageTag: 0d5b3f7d-4d98-407b-9f1f-342bcf5c358a
+		summarizeBy: none
+		sourceColumn: source_note
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Security User Region' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "security_user_region"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"user_email", "employee_id", "full_name", "job_title", "security_role", "region_group", "source_note"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"user_email", type text}, {"employee_id", Int64.Type}, {"full_name", type text}, {"job_title", type text}, {"security_role", type text}, {"region_group", type text}, {"source_note", type text}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

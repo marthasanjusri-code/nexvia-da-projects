@@ -1,0 +1,401 @@
+table Purchases
+	lineageTag: a160a159-b2cf-4043-b5e0-e423e6b3af1f
+
+	/// Purchases "as of" date (D24, decision 2): the last purchase order date, ignoring report filters.
+	measure 'Purchases As Of Date' =
+			VAR AsOfKey = CALCULATE ( MAX ( Purchases[order_date_key] ), REMOVEFILTERS () )
+			RETURN
+			    LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], AsOfKey )
+		formatString: yyyy-mm-dd
+		displayFolder: As Of
+		lineageTag: b87ff150-f092-46b8-913e-128c7a3cc933
+
+	/// P1 (D42). Accepted goods value (stocked quantity x order price), all order statuses.
+	measure Spend = SUM ( Purchases[Accepted Value] )
+		formatString: \$#,0
+		displayFolder: Spend
+		lineageTag: 6b1d9fac-28b5-4a70-872d-6c195f2edf76
+
+	/// P2. Ordered value of the purchase order lines in context.
+	measure 'Purchase Order Value' = SUM ( Purchases[Ordered Value] )
+		formatString: \$#,0
+		displayFolder: Orders
+		lineageTag: fe580447-0555-4db5-8ae6-f13e7bad553f
+
+	/// P2. Purchase order lines.
+	measure 'PO Lines' = COUNTROWS ( Purchases )
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: c0e275eb-6ad4-4e4c-9301-1c4251a68742
+
+	/// P2. Distinct purchase orders.
+	measure 'Purchase Orders' = DISTINCTCOUNT ( Purchases[purchase_order_id] )
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: 428f075c-1137-41f9-8df4-892469731339
+
+	/// P3 (D43, D45). Lines on time, in full and with no rejects / lines; only lines with a valid due date on or before the purchases as-of date.
+	measure 'OTIF %' =
+			VAR AsOfKey = CALCULATE ( MAX ( Purchases[order_date_key] ), REMOVEFILTERS () )
+			VAR DueLines =
+			    FILTER (
+			        Purchases,
+			        Purchases[Is Due Date Invalid] = FALSE ()
+			            && Purchases[due_date_key] <= AsOfKey
+			    )
+			RETURN
+			    DIVIDE (
+			        COUNTROWS (
+			            FILTER (
+			                DueLines,
+			                NOT ISBLANK ( Purchases[ship_date_key] )
+			                    && Purchases[ship_date_key] <= Purchases[due_date_key]
+			                    && Purchases[Received Quantity] = Purchases[Order Quantity]
+			                    && Purchases[Rejected Quantity] = 0
+			            )
+			        ),
+			        COUNTROWS ( DueLines )
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Vendor Quality
+		lineageTag: c8d93bac-4362-4a13-9c22-8241c5c89934
+
+	/// P3 (D43). Received / ordered units on the same lines as OTIF.
+	measure 'Unit Fill Rate %' =
+			VAR AsOfKey = CALCULATE ( MAX ( Purchases[order_date_key] ), REMOVEFILTERS () )
+			VAR DueLines =
+			    FILTER (
+			        Purchases,
+			        Purchases[Is Due Date Invalid] = FALSE ()
+			            && Purchases[due_date_key] <= AsOfKey
+			    )
+			RETURN
+			    DIVIDE ( SUMX ( DueLines, Purchases[Received Quantity] ), SUMX ( DueLines, Purchases[Order Quantity] ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Vendor Quality
+		lineageTag: 4460d149-61d3-40d2-a206-3358e7e9e4f9
+
+	/// P3 (D43). Rejected / received units on the same lines as OTIF.
+	measure 'Rejection %' =
+			VAR AsOfKey = CALCULATE ( MAX ( Purchases[order_date_key] ), REMOVEFILTERS () )
+			VAR DueLines =
+			    FILTER (
+			        Purchases,
+			        Purchases[Is Due Date Invalid] = FALSE ()
+			            && Purchases[due_date_key] <= AsOfKey
+			    )
+			RETURN
+			    DIVIDE ( SUMX ( DueLines, Purchases[Rejected Quantity] ), SUMX ( DueLines, Purchases[Received Quantity] ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Vendor Quality
+		lineageTag: 104cf570-6d6f-4cbe-838e-35b13ea61de5
+
+	/// P3 (D18: hidden, always 100%). Lines delivered by their due date / lines.
+	measure 'Vendor On-time %' =
+			VAR AsOfKey = CALCULATE ( MAX ( Purchases[order_date_key] ), REMOVEFILTERS () )
+			VAR DueLines =
+			    FILTER (
+			        Purchases,
+			        Purchases[Is Due Date Invalid] = FALSE ()
+			            && Purchases[due_date_key] <= AsOfKey
+			    )
+			RETURN
+			    DIVIDE (
+			        COUNTROWS (
+			            FILTER (
+			                DueLines,
+			                NOT ISBLANK ( Purchases[ship_date_key] )
+			                    && Purchases[ship_date_key] <= Purchases[due_date_key]
+			            )
+			        ),
+			        COUNTROWS ( DueLines )
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: Vendor Quality
+		lineageTag: 5c9b69ad-4c1c-4cf3-b523-a4bd49feb07f
+
+	/// P8 (D51, P-a). On-order units: ordered minus received on Approved purchase order lines, overdue lines included (standard inventory position: approved, open orders not yet received). Current figure: date filters are ignored. Pending orders are not yet approved; Complete and Rejected orders are closed.
+	measure 'Open Purchase Quantity' =
+			CALCULATE (
+			    SUMX (
+			        FILTER (
+			            Purchases,
+			            Purchases[PO Status] = "Approved"
+			                && Purchases[Received Quantity] < Purchases[Order Quantity]
+			        ),
+			        Purchases[Order Quantity] - Purchases[Received Quantity]
+			    ),
+			    REMOVEFILTERS ( 'Date' )
+			) + 0
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: 8ab935ec-4a4b-44b0-8b64-da68360d385e
+
+	/// P8 (P-a). The part of Open Purchase Quantity already past its due date at the purchases as-of date: overdue orders to chase with the vendor.
+	measure 'Overdue Open Quantity' =
+			VAR AsOfKey = CALCULATE ( MAX ( Purchases[order_date_key] ), REMOVEFILTERS () )
+			RETURN
+			    CALCULATE (
+			        SUMX (
+			            FILTER (
+			                Purchases,
+			                Purchases[PO Status] = "Approved"
+			                    && Purchases[Received Quantity] < Purchases[Order Quantity]
+			                    && Purchases[due_date_key] <= AsOfKey
+			            ),
+			            Purchases[Order Quantity] - Purchases[Received Quantity]
+			        ),
+			        REMOVEFILTERS ( 'Date' )
+			    ) + 0
+		formatString: #,0
+		displayFolder: Orders
+		lineageTag: ecbd4353-90c7-47e2-a825-0e71a4980204
+
+	column purchase_order_line_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a6c564b8-c3a6-428b-aaee-fa9d76951983
+		summarizeBy: sum
+		sourceColumn: purchase_order_line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchase_order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 08960f8e-d8d3-40d2-bd51-7cde686e98aa
+		summarizeBy: sum
+		sourceColumn: purchase_order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9199cb10-2a71-49d6-8ea3-9b349200fabb
+		summarizeBy: sum
+		sourceColumn: order_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column due_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: cf84289e-b35a-424d-8bb1-0fba6c9f91d9
+		summarizeBy: sum
+		sourceColumn: due_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column ship_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 72c05775-adb3-4a3d-afb1-5279c0e9b046
+		summarizeBy: sum
+		sourceColumn: ship_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: int64
+		formatString: 0
+		lineageTag: afdad83e-248a-4d22-ad92-13c644e8406c
+		summarizeBy: sum
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendor_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 325331e6-820c-4d99-8bc4-40a74b14c411
+		summarizeBy: sum
+		sourceColumn: vendor_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column buyer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f63d37eb-57c3-4ad3-bf7b-59a146e8363c
+		summarizeBy: sum
+		sourceColumn: buyer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column ship_method_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c944d23-6a64-4fb9-be97-de2e640a5e13
+		summarizeBy: sum
+		sourceColumn: ship_method_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PO Status'
+		dataType: string
+		lineageTag: 2268e42d-5868-4a52-a8cf-754ba1f6a182
+		summarizeBy: none
+		sourceColumn: PO Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ba6908b-cb95-4a83-95d4-e22e31499488
+		summarizeBy: sum
+		sourceColumn: Order Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Received Quantity'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 570add39-251c-4c08-a7ef-0d649f91c6d9
+		summarizeBy: sum
+		sourceColumn: Received Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Rejected Quantity'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 1e0a4817-303a-4bb3-bb5f-832b00b80242
+		summarizeBy: sum
+		sourceColumn: Rejected Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Stocked Quantity'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 8c59deaa-c99e-407e-8f10-7b0afc250030
+		summarizeBy: sum
+		sourceColumn: Stocked Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Unit Price'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: f3931813-2f38-49de-9fb4-5322ad900467
+		summarizeBy: sum
+		sourceColumn: Unit Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Ordered Value'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: ac130b47-094d-4701-87fd-37799cc91e21
+		summarizeBy: sum
+		sourceColumn: Ordered Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Accepted Value'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 584ba179-df16-4653-b0d5-c64c3e231361
+		summarizeBy: sum
+		sourceColumn: Accepted Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Rejected Value'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 3df385c4-81fb-49fb-846e-175d8e69b31d
+		summarizeBy: sum
+		sourceColumn: Rejected Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Short Delivered Value'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 92d1e378-21c9-4702-b058-e9783e84bc4a
+		summarizeBy: sum
+		sourceColumn: Short Delivered Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Freight Allocated'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 85f73955-3b7a-4da6-8139-f94b4ee456c8
+		summarizeBy: sum
+		sourceColumn: Freight Allocated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Promised Lead Days'
+		dataType: int64
+		formatString: 0
+		lineageTag: 84ccd980-f52c-450b-8c5b-f7d816165b59
+		summarizeBy: sum
+		sourceColumn: Promised Lead Days
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Due Date Invalid'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: bd230ea7-3185-437f-bade-a26fe30fd5da
+		summarizeBy: none
+		sourceColumn: Is Due Date Invalid
+
+		annotation SummarizationSetBy = Automatic
+
+	column batch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: ce567bbb-b2ea-4736-9efd-4ba4f3977a96
+		summarizeBy: sum
+		sourceColumn: batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column loaded_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b0312e65-3b0a-4d70-b2ce-6fbc30107bc2
+		summarizeBy: none
+		sourceColumn: loaded_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Purchases = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "fact_purchase"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"purchase_order_line_id", "purchase_order_id", "order_date_key", "due_date_key", "ship_date_key", "product_key", "vendor_key", "buyer_key", "ship_method_key", "po_status", "order_qty", "received_qty", "rejected_qty", "stocked_qty", "unit_price", "ordered_value", "accepted_value", "rejected_value", "short_delivered_value", "freight_allocated", "promised_lead_days", "is_due_date_invalid", "batch_id", "loaded_at"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"purchase_order_line_id", Int64.Type}, {"purchase_order_id", Int64.Type}, {"order_date_key", Int64.Type}, {"due_date_key", Int64.Type}, {"ship_date_key", Int64.Type}, {"product_key", Int64.Type}, {"vendor_key", Int64.Type}, {"buyer_key", Int64.Type}, {"ship_method_key", Int64.Type}, {"po_status", type text}, {"order_qty", Int64.Type}, {"received_qty", Currency.Type}, {"rejected_qty", Currency.Type}, {"stocked_qty", Currency.Type}, {"unit_price", Currency.Type}, {"ordered_value", Currency.Type}, {"accepted_value", Currency.Type}, {"rejected_value", Currency.Type}, {"short_delivered_value", Currency.Type}, {"freight_allocated", Currency.Type}, {"promised_lead_days", Int64.Type}, {"is_due_date_invalid", type logical}, {"batch_id", Int64.Type}, {"loaded_at", type datetime}}),
+				    Renamed = Table.RenameColumns(Typed, {{"po_status", "PO Status"}, {"order_qty", "Order Quantity"}, {"received_qty", "Received Quantity"}, {"rejected_qty", "Rejected Quantity"}, {"stocked_qty", "Stocked Quantity"}, {"unit_price", "Unit Price"}, {"ordered_value", "Ordered Value"}, {"accepted_value", "Accepted Value"}, {"rejected_value", "Rejected Value"}, {"short_delivered_value", "Short Delivered Value"}, {"freight_allocated", "Freight Allocated"}, {"promised_lead_days", "Promised Lead Days"}, {"is_due_date_invalid", "Is Due Date Invalid"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,9 @@
+EVALUATE
+SELECTCOLUMNS(
+    INFO.VIEW.RELATIONSHIPS(),
+    "Name", [Name], "From", [FromTable] & "[" & [FromColumn] & "]",
+    "To", [ToTable] & "[" & [ToColumn] & "]",
+    "Active", [IsActive], "Cardinality", [FromCardinality] & " to " & [ToCardinality],
+    "Filter", [CrossFilteringBehavior]
+)
+ORDER BY [Name]

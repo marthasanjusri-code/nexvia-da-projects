@@ -1,0 +1,60 @@
+table Scenario
+	lineageTag: 93e810a6-1f3d-4a10-a22c-c03958489f6d
+
+	column scenario_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 0cce6907-db0b-4a3a-93cc-122b13595438
+		summarizeBy: sum
+		sourceColumn: scenario_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column scenario_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d416c459-c6e5-45e1-86cb-3b9cebba9bf9
+		summarizeBy: sum
+		sourceColumn: scenario_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: 2e030499-6187-4816-9204-7655f3110db9
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cb6efffb-9a06-4d6d-a36c-c4b112d5e279
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Scenario
+		dataType: string
+		lineageTag: 7e9b6ed9-0b3d-446e-9a6a-2b0507aef8f0
+		summarizeBy: none
+		sourceColumn: Scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Scenario = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_scenario"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"scenario_key", "scenario_id", "row_type", "is_in_source", "scenario_name"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"scenario_key", Int64.Type}, {"scenario_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"scenario_name", type text}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"scenario_name", "Scenario"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

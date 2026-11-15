@@ -1,0 +1,144 @@
+table 'Sales Quota'
+	lineageTag: 52b9bdda-dd36-4a5c-8206-78db19115457
+
+	/// S5, S9. Sales quota of the quota rows in context.
+	measure Quota = SUM ( 'Sales Quota'[Sales Quota] )
+		formatString: \$#,0
+		displayFolder: Quota
+		lineageTag: b02d45f4-6589-4270-ab01-c9a1554032bb
+
+	/// can be a region-level row (D61) while its sales sit in real territories.
+	measure 'Revenue in Quota Periods' =
+			SUMX (
+			    'Sales Quota',
+			    VAR Person = 'Sales Quota'[salesperson_key]
+			    VAR PeriodStart = 'Sales Quota'[Quota Period Start]
+			    VAR PeriodEnd = 'Sales Quota'[Quota Period End]
+			    RETURN
+			        CALCULATE (
+			            [Revenue],
+			            REMOVEFILTERS ( 'Date' ),
+			            REMOVEFILTERS ( 'Territory' ),
+			            DATESBETWEEN ( 'Date'[Date], PeriodStart, PeriodEnd ),
+			            TREATAS ( { Person }, Sales[salesperson_key] )
+			        )
+			)
+		formatString: \$#,0
+		displayFolder: Quota
+		lineageTag: 8a832b1e-b235-4955-8538-689b51399a2b
+
+	/// S5, S9. Revenue in quota periods / quota.
+	measure 'Quota Attainment %' = DIVIDE ( [Revenue in Quota Periods], [Quota] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Quota
+		lineageTag: dcb4d980-577a-456e-b7f3-ed7d531df263
+
+	column salesperson_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 34772622-36dc-4095-8398-9f7b775f3fc1
+		summarizeBy: sum
+		sourceColumn: salesperson_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quota_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 3e4d7fc8-0500-475f-a15e-f9df3a4f825b
+		summarizeBy: sum
+		sourceColumn: quota_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column salesperson_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 0a07ad6a-18b7-4fd8-b47c-b196fa948341
+		summarizeBy: sum
+		sourceColumn: salesperson_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column territory_key
+		dataType: int64
+		formatString: 0
+		lineageTag: cac6aad0-d515-43fa-9c98-e35d2f9148d8
+		summarizeBy: sum
+		sourceColumn: territory_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Territory Source'
+		dataType: string
+		lineageTag: e8fa6009-69ff-42c2-b650-109af21fe91a
+		summarizeBy: none
+		sourceColumn: Territory Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quota Period Start'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f72770db-2d99-4ae3-a675-12f9ad9cd5c8
+		summarizeBy: none
+		sourceColumn: Quota Period Start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Quota Period End'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2afc23e5-580d-4385-aee2-df578cf75e5a
+		summarizeBy: none
+		sourceColumn: Quota Period End
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Sales Quota'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 03886f96-015c-4c5f-bb08-41f0cfadeb47
+		summarizeBy: sum
+		sourceColumn: Sales Quota
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column batch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 779f92d8-952b-44a5-af0d-03f64d14bf1d
+		summarizeBy: sum
+		sourceColumn: batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column loaded_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a145a9d7-2227-4400-b3dc-80d8a9690ac4
+		summarizeBy: none
+		sourceColumn: loaded_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Sales Quota' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "fact_sales_quota"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"salesperson_id", "quota_date_key", "salesperson_key", "territory_key", "territory_source", "quota_period_start", "quota_period_end", "sales_quota", "batch_id", "loaded_at"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"salesperson_id", Int64.Type}, {"quota_date_key", Int64.Type}, {"salesperson_key", Int64.Type}, {"territory_key", Int64.Type}, {"territory_source", type text}, {"quota_period_start", type date}, {"quota_period_end", type date}, {"sales_quota", Currency.Type}, {"batch_id", Int64.Type}, {"loaded_at", type datetime}}),
+				    Renamed = Table.RenameColumns(Typed, {{"territory_source", "Territory Source"}, {"quota_period_start", "Quota Period Start"}, {"quota_period_end", "Quota Period End"}, {"sales_quota", "Sales Quota"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

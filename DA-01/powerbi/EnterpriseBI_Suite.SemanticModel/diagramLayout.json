@@ -1,0 +1,360 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Account",
+          "nodeLineageTag": "3b63f6f9-37e5-4bbf-bc86-90b3c56887c8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 0
+          },
+          "nodeIndex": "Customer",
+          "nodeLineageTag": "86142ede-1969-45eb-b25b-0da662da5a2b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 0
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "9995b2ad-4fb4-4458-a83d-66f3c081abdf",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 38
+          },
+          "nodeIndex": "Department",
+          "nodeLineageTag": "db9e7838-804e-4fdc-9181-51c7b0cfb09a",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 0
+          },
+          "nodeIndex": "Employee",
+          "nodeLineageTag": "bfc4a426-dbcb-41b2-9d8a-8c6925343859",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420,
+            "y": 0
+          },
+          "nodeIndex": "Employee HR",
+          "nodeLineageTag": "3e6f6018-f833-49e5-a793-46c0bf74ec7d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704,
+            "y": 0
+          },
+          "nodeIndex": "Finance",
+          "nodeLineageTag": "6634d93f-d1a0-419e-b1b2-f7ea7ebd58c1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 26
+          },
+          "nodeIndex": "Finance Department Group",
+          "nodeLineageTag": "f13168ae-d07a-43ec-9472-3b84349cc959",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2272,
+            "y": 0
+          },
+          "nodeIndex": "Headcount",
+          "nodeLineageTag": "32430567-83e1-493f-b21d-a11593612ec1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2556,
+            "y": 0
+          },
+          "nodeIndex": "Inventory",
+          "nodeLineageTag": "f94e869b-940e-43c7-a253-ddb0ce0f2357",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2840,
+            "y": 98
+          },
+          "nodeIndex": "Last Load",
+          "nodeLineageTag": "6b7e0f4f-ec9a-432c-8d37-8ca1ca578c69",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3124,
+            "y": 14
+          },
+          "nodeIndex": "Location",
+          "nodeLineageTag": "69302474-bf89-42f3-9044-22f415afbbdd",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3408,
+            "y": 0
+          },
+          "nodeIndex": "Organization",
+          "nodeLineageTag": "de0fc7fe-4f7e-49a7-af7d-2f53dc2053db",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3692,
+            "y": 0
+          },
+          "nodeIndex": "Product",
+          "nodeLineageTag": "fec72d1d-91e4-4065-97e3-c6ca1c26bd89",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3976,
+            "y": 0
+          },
+          "nodeIndex": "Promotion",
+          "nodeLineageTag": "b3d9dae0-2e92-4fde-82e5-b9237994a541",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4260,
+            "y": 0
+          },
+          "nodeIndex": "Purchases",
+          "nodeLineageTag": "a160a159-b2cf-4043-b5e0-e423e6b3af1f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4544,
+            "y": 0
+          },
+          "nodeIndex": "Sales",
+          "nodeLineageTag": "6063b254-75d6-4cee-a1c9-7503b3ea3277",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4828,
+            "y": 0
+          },
+          "nodeIndex": "Sales Quota",
+          "nodeLineageTag": "52b9bdda-dd36-4a5c-8206-78db19115457",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 5112,
+            "y": 50
+          },
+          "nodeIndex": "Scenario",
+          "nodeLineageTag": "93e810a6-1f3d-4a10-a22c-c03958489f6d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 5396,
+            "y": 50
+          },
+          "nodeIndex": "Scrap Reason",
+          "nodeLineageTag": "7b3904ac-4d19-4b12-9c62-242710fe1b1d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 5680,
+            "y": 26
+          },
+          "nodeIndex": "Security User Region",
+          "nodeLineageTag": "b773138d-70bd-4b1b-a127-75cc42cbbee6",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 5964,
+            "y": 26
+          },
+          "nodeIndex": "Shift",
+          "nodeLineageTag": "e185846d-ad94-4477-9b7d-cfa25547c8c8",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 6248,
+            "y": 26
+          },
+          "nodeIndex": "Ship Method",
+          "nodeLineageTag": "fe50fbe1-8baf-44a0-ab62-eba45817dc45",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 6532,
+            "y": 0
+          },
+          "nodeIndex": "Territory",
+          "nodeLineageTag": "8ee4c6b4-ca0c-4dee-ac03-5eb32ef062d9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 6816,
+            "y": 2
+          },
+          "nodeIndex": "Vendor",
+          "nodeLineageTag": "c72bf1ea-a7dd-4388-9912-2c059eaa4839",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 7100,
+            "y": 0
+          },
+          "nodeIndex": "Work Orders",
+          "nodeLineageTag": "2418c894-6b87-415c-8494-2884fe6bf542",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

@@ -1,0 +1,128 @@
+table Employee
+	lineageTag: bfc4a426-dbcb-41b2-9d8a-8c6925343859
+
+	column employee_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f808314-bd13-4e89-bcf4-60385115eb68
+		summarizeBy: sum
+		sourceColumn: employee_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column employee_id
+		dataType: int64
+		formatString: 0
+		lineageTag: ac90f4e5-827c-40de-9865-dcf266307487
+		summarizeBy: sum
+		sourceColumn: employee_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: 065a3e5b-c38f-45e1-b1d0-b2454f947d4f
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fbbead45-a2bb-40ea-840e-01f42286aee0
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Employee
+		dataType: string
+		lineageTag: 1d8d72f0-ec6a-4415-a43f-3f089bac1f11
+		summarizeBy: none
+		sourceColumn: Employee
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Job Title'
+		dataType: string
+		lineageTag: 00ee33ad-d6c9-4223-8642-ccbee7f1a48b
+		summarizeBy: none
+		sourceColumn: Job Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Organization Level'
+		dataType: int64
+		formatString: 0
+		lineageTag: 41894851-8c5c-47cd-a1a9-7ff1a10e6cac
+		summarizeBy: sum
+		sourceColumn: Organization Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column manager_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 64a67541-b395-4e0b-bccf-53bf1f239e30
+		summarizeBy: sum
+		sourceColumn: manager_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Department'
+		dataType: string
+		lineageTag: 0be84b77-9b7c-4d4e-a2a1-8fa0c32d270d
+		summarizeBy: none
+		sourceColumn: Current Department
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Department Group'
+		dataType: string
+		lineageTag: 3b921a56-2435-4a3b-8438-1fdf7ef8df8d
+		summarizeBy: none
+		sourceColumn: Current Department Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Shift'
+		dataType: string
+		lineageTag: eee132a4-b37d-421a-9498-ecc599d4437a
+		summarizeBy: none
+		sourceColumn: Current Shift
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Salesperson'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 36d493bd-7c18-4157-89fb-ab87a3d23cb4
+		summarizeBy: none
+		sourceColumn: Is Salesperson
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Buyer'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 04bb79b6-40b0-4548-bf09-9249280d102f
+		summarizeBy: none
+		sourceColumn: Is Buyer
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Employee = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_employee"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"employee_key", "employee_id", "row_type", "is_in_source", "employee_name", "job_title", "organization_level", "manager_key", "current_department", "current_department_group", "current_shift", "is_salesperson", "is_buyer"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"employee_key", Int64.Type}, {"employee_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"employee_name", type text}, {"job_title", type text}, {"organization_level", Int64.Type}, {"manager_key", Int64.Type}, {"current_department", type text}, {"current_department_group", type text}, {"current_shift", type text}, {"is_salesperson", type logical}, {"is_buyer", type logical}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"employee_name", "Employee"}, {"job_title", "Job Title"}, {"organization_level", "Organization Level"}, {"current_department", "Current Department"}, {"current_department_group", "Current Department Group"}, {"current_shift", "Current Shift"}, {"is_salesperson", "Is Salesperson"}, {"is_buyer", "Is Buyer"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

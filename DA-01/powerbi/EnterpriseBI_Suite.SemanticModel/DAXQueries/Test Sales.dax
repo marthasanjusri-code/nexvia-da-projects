@@ -1,0 +1,19 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Date'[Year],
+    "Revenue", [Revenue], "Gross Profit", [Gross Profit], "Gross Margin %", [Gross Margin %],
+    "Orders", [Orders], "Customers", [Customers], "AOV", [Average Order Value],
+    "Total Discount", [Total Discount], "Discount %", [Discount Rate %],
+    "Revenue PY", [Revenue PY], "YoY %", [Revenue YoY %]
+)
+ORDER BY 'Date'[Year]
+
+EVALUATE
+ROW(
+    "As Of", [Sales As Of Date],
+    "Revenue YTD", [Revenue YTD], "Revenue YTD PY", [Revenue YTD PY],
+    "Rolling Avg Jun 2025", CALCULATE([Revenue 3M Rolling Avg], 'Date'[Year Month] = "2025-06"),
+    "Quota", [Quota], "Revenue in Quota Periods", [Revenue in Quota Periods],
+    "Quota Attainment %", [Quota Attainment %],
+    "Days to Ship", [Days to Ship], "% Shipped by Due", [% Shipped by Due Date]
+)

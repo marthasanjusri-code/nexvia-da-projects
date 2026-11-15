@@ -1,0 +1,118 @@
+table Promotion
+	lineageTag: b3d9dae0-2e92-4fde-82e5-b9237994a541
+
+	column promotion_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 45cf318c-7a2d-40b5-a813-900218da676b
+		summarizeBy: sum
+		sourceColumn: promotion_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column promotion_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f0ab50cb-359f-437e-b81b-13d2f7b67bc5
+		summarizeBy: sum
+		sourceColumn: promotion_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: db19cfc2-178f-4244-b38a-33c0fe0c2f12
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6a5c5b5f-3ff0-4e3d-a589-e0b046592218
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Promotion
+		dataType: string
+		lineageTag: 0f1270c8-0874-495d-b82a-ab89a0d71f2d
+		summarizeBy: none
+		sourceColumn: Promotion
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Promotion Type'
+		dataType: string
+		lineageTag: eb5d15d8-3592-4ecf-9af2-0e62c6aa3c6b
+		summarizeBy: none
+		sourceColumn: Promotion Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Promotion Category'
+		dataType: string
+		lineageTag: 3836360d-b715-4259-be35-d3abac706907
+		summarizeBy: none
+		sourceColumn: Promotion Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Offer Discount %'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: f23f6ed8-cd8c-473b-80e2-11b16e387e3f
+		summarizeBy: sum
+		sourceColumn: Offer Discount %
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Start Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 71b139ec-96e7-45c1-a797-75db94199468
+		summarizeBy: none
+		sourceColumn: Start Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'End Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 911ee312-753c-42bf-a437-010e3b80c1c0
+		summarizeBy: none
+		sourceColumn: End Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Was Used'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 932d666c-0437-4de0-a546-c38f5dea9d34
+		summarizeBy: none
+		sourceColumn: Was Used
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Promotion = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_promotion"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"promotion_key", "promotion_id", "row_type", "is_in_source", "promotion_name", "promotion_type", "promotion_category", "offer_discount_pct", "start_date", "end_date", "was_used"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"promotion_key", Int64.Type}, {"promotion_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"promotion_name", type text}, {"promotion_type", type text}, {"promotion_category", type text}, {"offer_discount_pct", Currency.Type}, {"start_date", type date}, {"end_date", type date}, {"was_used", type logical}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"promotion_name", "Promotion"}, {"promotion_type", "Promotion Type"}, {"promotion_category", "Promotion Category"}, {"offer_discount_pct", "Offer Discount %"}, {"start_date", "Start Date"}, {"end_date", "End Date"}, {"was_used", "Was Used"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

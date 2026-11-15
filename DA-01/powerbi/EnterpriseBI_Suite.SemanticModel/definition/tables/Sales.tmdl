@@ -1,0 +1,439 @@
+table Sales
+	lineageTag: 6063b254-75d6-4cee-a1c9-7503b3ea3277
+
+	/// Sales "as of" date (D24): the last order date in the whole sales module, ignoring report filters.
+	measure 'Sales As Of Date' =
+			VAR LastKey = CALCULATE ( MAX ( Sales[order_date_key] ), REMOVEFILTERS () )
+			RETURN
+			    LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], LastKey )
+		formatString: yyyy-mm-dd
+		displayFolder: As Of
+		lineageTag: 3a44ba6d-7ce1-4dc5-8bc6-540bddfac747
+
+	/// S1. Revenue (D14): sum of line totals, excluding Rejected and Cancelled orders.
+	measure Revenue =
+			CALCULATE (
+			    SUM ( Sales[Line Total] ),
+			    KEEPFILTERS ( NOT Sales[Order Status] IN { "Rejected", "Cancelled" } )
+			)
+		formatString: \$#,0
+		displayFolder: Revenue
+		lineageTag: acb00135-060d-4f1d-879f-c03cae3471a7
+
+	/// S2-S4. Revenue minus cost (the column Gross Margin), with the revenue rule applied.
+	measure 'Gross Profit' =
+			CALCULATE (
+			    SUM ( Sales[Gross Margin] ),
+			    KEEPFILTERS ( NOT Sales[Order Status] IN { "Rejected", "Cancelled" } )
+			)
+		formatString: \$#,0
+		displayFolder: Margin
+		lineageTag: 7be3ef8f-5a67-4394-9538-b323a4ecc2a3
+
+	/// S4, S6. Distinct sales orders.
+	measure Orders =
+			CALCULATE (
+			    DISTINCTCOUNT ( Sales[sales_order_id] ),
+			    KEEPFILTERS ( NOT Sales[Order Status] IN { "Rejected", "Cancelled" } )
+			)
+		formatString: #,0
+		displayFolder: Orders and Customers
+		lineageTag: cb88da04-44be-43ab-8110-7032fdf25958
+
+	/// S6. Distinct customers with orders (D65).
+	measure Customers =
+			CALCULATE (
+			    DISTINCTCOUNT ( Sales[customer_key] ),
+			    KEEPFILTERS ( NOT Sales[Order Status] IN { "Rejected", "Cancelled" } )
+			)
+		formatString: #,0
+		displayFolder: Orders and Customers
+		lineageTag: 35578851-b814-421c-9cf4-d73348f04942
+
+	/// S8. Sales value before discount.
+	measure 'Sales Before Discount' =
+			CALCULATE (
+			    SUM ( Sales[Gross Amount] ),
+			    KEEPFILTERS ( NOT Sales[Order Status] IN { "Rejected", "Cancelled" } )
+			)
+		formatString: \$#,0
+		displayFolder: Discount
+		lineageTag: b66de710-50cf-4b03-9628-2cebe95c5ab1
+
+	/// S8. Discount given on the lines (D66).
+	measure 'Total Discount' =
+			CALCULATE (
+			    SUM ( Sales[Discount Amount] ),
+			    KEEPFILTERS ( NOT Sales[Order Status] IN { "Rejected", "Cancelled" } )
+			)
+		formatString: \$#,0
+		displayFolder: Discount
+		lineageTag: 827bdcf8-5d97-4172-acd4-5c590c802d40
+
+	/// S7 (D18: hidden, always 7-8 days). Average days from order to ship, shipped lines only.
+	measure 'Days to Ship' =
+			AVERAGEX (
+			    FILTER (
+			        Sales,
+			        NOT ISBLANK ( Sales[ship_date_key] )
+			            && NOT Sales[Order Status] IN { "Rejected", "Cancelled" }
+			    ),
+			    VAR O = Sales[order_date_key]
+			    VAR S = Sales[ship_date_key]
+			    RETURN
+			        DATEDIFF (
+			            DATE ( INT ( O / 10000 ), MOD ( INT ( O / 100 ), 100 ), MOD ( O, 100 ) ),
+			            DATE ( INT ( S / 10000 ), MOD ( INT ( S / 100 ), 100 ), MOD ( S, 100 ) ),
+			            DAY
+			        )
+			)
+		formatString: 0.0
+		isHidden
+		displayFolder: Shipping
+		lineageTag: 52a98bf3-61c0-4069-a2c8-d57cdae1c69a
+
+	/// S7 (D18: hidden). Shipped lines with ship date on or before due date / shipped lines.
+	measure '% Shipped by Due Date' =
+			VAR Shipped =
+			    FILTER (
+			        Sales,
+			        NOT ISBLANK ( Sales[ship_date_key] )
+			            && NOT Sales[Order Status] IN { "Rejected", "Cancelled" }
+			    )
+			RETURN
+			    DIVIDE (
+			        COUNTROWS ( FILTER ( Shipped, Sales[ship_date_key] <= Sales[due_date_key] ) ),
+			        COUNTROWS ( Shipped )
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: Shipping
+		lineageTag: 03e15e18-e29a-4e3d-ae79-90016290956f
+
+	/// S1. Revenue from 1 January of the year in context.
+	measure 'Revenue YTD' = CALCULATE ( [Revenue], DATESYTD ( 'Date'[Date] ) )
+		formatString: \$#,0
+		displayFolder: Revenue
+		lineageTag: 602ca7d4-a906-4549-8dd3-822879a7e494
+
+	/// S1. Revenue of the same dates one year earlier, cut at the sales as-of date (decision 3).
+	measure 'Revenue PY' =
+			VAR AsOf = [Sales As Of Date]
+			VAR DatesToAsOf = FILTER ( VALUES ( 'Date'[Date] ), 'Date'[Date] <= AsOf )
+			RETURN
+			    CALCULATE ( [Revenue], SAMEPERIODLASTYEAR ( DatesToAsOf ) )
+		formatString: \$#,0
+		displayFolder: Revenue
+		lineageTag: 4fa74440-5269-4fc8-8172-c2a5519bd7e0
+
+	/// never past the sales as-of month (decision 4).
+	measure 'Revenue 3M Rolling Avg' =
+			VAR AsOf = [Sales As Of Date]
+			VAR LastMonthEnd = EOMONTH ( MIN ( MAX ( 'Date'[Date] ), AsOf ), 0 )
+			RETURN
+			    CALCULATE (
+			        AVERAGEX ( VALUES ( 'Date'[Year Month] ), [Revenue] ),
+			        DATESINPERIOD ( 'Date'[Date], LastMonthEnd, -3, MONTH )
+			    )
+		formatString: \$#,0
+		displayFolder: Revenue
+		lineageTag: a37272d2-3cb4-4176-b2ff-ba94cc21cbcf
+
+	/// S2-S4. Gross profit / revenue of the lines that have a cost (D17).
+	measure 'Gross Margin %' =
+			DIVIDE (
+			    [Gross Profit],
+			    CALCULATE ( [Revenue], KEEPFILTERS ( NOT ISBLANK ( Sales[Gross Margin] ) ) )
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Margin
+		lineageTag: de3bc689-0f3e-4e50-8894-e5a877ddcbc9
+
+	/// S6. Revenue per order.
+	measure 'Average Order Value' = DIVIDE ( [Revenue], [Orders] )
+		formatString: \$#,0.00
+		displayFolder: Orders and Customers
+		lineageTag: 129bab0b-00fe-4aa4-be8f-9041025e611d
+
+	/// S8. Discount as a share of the value before discount.
+	measure 'Discount Rate %' = DIVIDE ( [Total Discount], [Sales Before Discount] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Discount
+		lineageTag: 76bcd72a-af93-435c-aeaf-aa5bb20744b4
+
+	/// S1. Previous-year YTD on the same dates.
+	measure 'Revenue YTD PY' = CALCULATE ( [Revenue PY], DATESYTD ( 'Date'[Date] ) )
+		formatString: \$#,0
+		displayFolder: Revenue
+		lineageTag: e79c1551-1eb7-4dfd-ad5c-01adb9d6f9ac
+
+	/// S1. Growth against the same dates one year earlier.
+	measure 'Revenue YoY %' = DIVIDE ( [Revenue] - [Revenue PY], [Revenue PY] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Revenue
+		lineageTag: 83a790ff-fb21-4c8b-b291-0f6159b6873e
+
+	/// E. Sales revenue / average headcount of the period (data_model.md section 6, D57).
+	measure 'Revenue per Employee' = DIVIDE ( [Revenue], [Average Headcount] )
+		formatString: \$#,0
+		displayFolder: Executive
+		lineageTag: b3586bb1-dd9f-4730-83e4-5fe148d6387e
+
+	column sales_order_line_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ce35c1b-b1bb-4d82-81ea-dafd5bd1095d
+		summarizeBy: sum
+		sourceColumn: sales_order_line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column sales_order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 361bc89a-aee1-4a34-981d-a43f0b17f078
+		summarizeBy: sum
+		sourceColumn: sales_order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Order Number'
+		dataType: string
+		lineageTag: 6891ce87-a3ce-49ab-8770-c6f8a4b55257
+		summarizeBy: none
+		sourceColumn: Sales Order Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 6465506c-1cf9-4712-bfda-bfaf546d10af
+		summarizeBy: sum
+		sourceColumn: order_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column due_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 219e39e8-16e1-4b48-97f5-3867150564e2
+		summarizeBy: sum
+		sourceColumn: due_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column ship_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 05b6738f-21c6-4cbe-9c2f-ca145c5cd612
+		summarizeBy: sum
+		sourceColumn: ship_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: int64
+		formatString: 0
+		lineageTag: eeb3da3f-b083-4a82-9767-ff74f8050d13
+		summarizeBy: sum
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 7bf555e6-0d8b-4070-a7cf-e0193adabd92
+		summarizeBy: sum
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column salesperson_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e6671df-d0fb-4474-9720-3c7d02d422e3
+		summarizeBy: sum
+		sourceColumn: salesperson_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column territory_key
+		dataType: int64
+		formatString: 0
+		lineageTag: fe025d9c-31c9-4909-bdf1-e3a5ff432baf
+		summarizeBy: sum
+		sourceColumn: territory_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column promotion_key
+		dataType: int64
+		formatString: 0
+		lineageTag: fb3dbbbd-c2b9-49f9-b8a1-ccf3c423fb9a
+		summarizeBy: sum
+		sourceColumn: promotion_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column ship_method_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a78ff8f-5ffd-467d-a7ba-e1006ccb1273
+		summarizeBy: sum
+		sourceColumn: ship_method_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		lineageTag: b0a6bedf-85a3-446c-b73b-e1d26649a889
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Status'
+		dataType: string
+		lineageTag: 2c2c7b4c-6fa6-42fe-95ba-041048ae7c15
+		summarizeBy: none
+		sourceColumn: Order Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: da1ea750-a9aa-4ded-9023-f575ea3c7d35
+		summarizeBy: sum
+		sourceColumn: Order Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unit Price'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 0c4ce01c-f567-4961-a9d4-532195217779
+		summarizeBy: sum
+		sourceColumn: Unit Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Discount %'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: b158ede6-4858-4b90-9fa9-b207e22f6315
+		summarizeBy: sum
+		sourceColumn: Discount %
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Gross Amount'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 608c4cff-9d47-4dda-b213-8c7fe29a80f5
+		summarizeBy: sum
+		sourceColumn: Gross Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Discount Amount'
+		dataType: double
+		lineageTag: c8f6f30e-8e82-456a-ab9f-14ffe2eb72d9
+		summarizeBy: sum
+		sourceColumn: Discount Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Line Total'
+		dataType: double
+		lineageTag: 590413b2-4817-4f68-9b78-2e90341bdc4b
+		summarizeBy: sum
+		sourceColumn: Line Total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Unit Cost'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: e92f1255-5839-4f70-9b6e-277cfbaf3530
+		summarizeBy: sum
+		sourceColumn: Unit Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Cost Amount'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 0a2d96fb-0ddd-4092-8f1d-424cea12ef20
+		summarizeBy: sum
+		sourceColumn: Cost Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Gross Margin'
+		dataType: double
+		lineageTag: 0015a9ea-5472-4936-9663-097cbae03cca
+		summarizeBy: sum
+		sourceColumn: Gross Margin
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Is Cost Estimated'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 405e2bb5-c7dc-43cd-8f93-669273361e63
+		summarizeBy: none
+		sourceColumn: Is Cost Estimated
+
+		annotation SummarizationSetBy = Automatic
+
+	column batch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 61f03b85-4589-4e63-b84c-f568a3acfc59
+		summarizeBy: sum
+		sourceColumn: batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column loaded_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: bef2237d-a56f-413b-9e5c-6303b81275c3
+		summarizeBy: none
+		sourceColumn: loaded_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "fact_sales"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"sales_order_line_id", "sales_order_id", "sales_order_number", "order_date_key", "due_date_key", "ship_date_key", "product_key", "customer_key", "salesperson_key", "territory_key", "promotion_key", "ship_method_key", "channel", "order_status", "order_qty", "unit_price", "discount_pct", "gross_amount", "discount_amount", "line_total", "unit_cost", "cost_amount", "gross_margin", "is_cost_estimated", "batch_id", "loaded_at"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"sales_order_line_id", Int64.Type}, {"sales_order_id", Int64.Type}, {"sales_order_number", type text}, {"order_date_key", Int64.Type}, {"due_date_key", Int64.Type}, {"ship_date_key", Int64.Type}, {"product_key", Int64.Type}, {"customer_key", Int64.Type}, {"salesperson_key", Int64.Type}, {"territory_key", Int64.Type}, {"promotion_key", Int64.Type}, {"ship_method_key", Int64.Type}, {"channel", type text}, {"order_status", type text}, {"order_qty", Int64.Type}, {"unit_price", Currency.Type}, {"discount_pct", Currency.Type}, {"gross_amount", Currency.Type}, {"discount_amount", type number}, {"line_total", type number}, {"unit_cost", Currency.Type}, {"cost_amount", Currency.Type}, {"gross_margin", type number}, {"is_cost_estimated", type logical}, {"batch_id", Int64.Type}, {"loaded_at", type datetime}}),
+				    Renamed = Table.RenameColumns(Typed, {{"sales_order_number", "Sales Order Number"}, {"channel", "Channel"}, {"order_status", "Order Status"}, {"order_qty", "Order Quantity"}, {"unit_price", "Unit Price"}, {"discount_pct", "Discount %"}, {"gross_amount", "Gross Amount"}, {"discount_amount", "Discount Amount"}, {"line_total", "Line Total"}, {"unit_cost", "Unit Cost"}, {"cost_amount", "Cost Amount"}, {"gross_margin", "Gross Margin"}, {"is_cost_estimated", "Is Cost Estimated"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

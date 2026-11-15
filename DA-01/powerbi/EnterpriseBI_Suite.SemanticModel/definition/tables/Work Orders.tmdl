@@ -1,0 +1,219 @@
+table 'Work Orders'
+	lineageTag: 2418c894-6b87-415c-8494-2884fe6bf542
+
+	/// Production "as of" date (D24, decision 2): the last work order start date.
+	measure 'Production As Of Date' =
+			VAR LastKey = CALCULATE ( MAX ( 'Work Orders'[start_date_key] ), REMOVEFILTERS () )
+			RETURN
+			    LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], LastKey )
+		formatString: yyyy-mm-dd
+		displayFolder: As Of
+		lineageTag: f4949e7b-de70-4f15-a267-ffed1845c5dc
+
+	/// P6, P7. Work orders started in the selection (active date: start date).
+	measure 'Work Orders Started' = COUNTROWS ( 'Work Orders' )
+		formatString: #,0
+		displayFolder: Production
+		lineageTag: c5e27226-2a18-4daf-8f07-19a90408c3c1
+
+	/// P6. Units scrapped.
+	measure 'Scrapped Units' = SUM ( 'Work Orders'[Scrapped Quantity] )
+		formatString: #,0
+		displayFolder: Scrap
+		lineageTag: 0e5fe863-bc74-48e0-910f-e5c8f5cf2167
+
+	/// P6 (D46). Scrapped units / ordered units; the main P6 KPI.
+	measure 'Scrap Rate %' = DIVIDE ( SUM ( 'Work Orders'[Scrapped Quantity] ), SUM ( 'Work Orders'[Order Quantity] ) )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Scrap
+		lineageTag: dbd1dd0e-f8af-431d-a33d-f36c5eee289c
+
+	/// P6 (D46: hidden). Valued for only 21.4% of scrapped units.
+	measure 'Total Scrap Cost' = SUM ( 'Work Orders'[Scrap Cost] )
+		formatString: \$#,0
+		isHidden
+		displayFolder: Scrap
+		lineageTag: 9ff21627-0af6-49ce-883e-089742a3f97c
+
+	/// P7 (D47). Finished work orders finished by their due date / finished work orders.
+	measure 'On-time Production %' =
+			VAR Finished = FILTER ( 'Work Orders', NOT ISBLANK ( 'Work Orders'[end_date_key] ) )
+			RETURN
+			    DIVIDE (
+			        COUNTROWS ( FILTER ( Finished, 'Work Orders'[Is Finished Late] = FALSE () ) ),
+			        COUNTROWS ( Finished )
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Production
+		lineageTag: 67fbe2e5-b8e1-4dd9-a062-e6a91d4ae5f9
+
+	column work_order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 198ce6bf-3f97-414c-851e-19e329d361ca
+		summarizeBy: sum
+		sourceColumn: work_order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: a653861e-85cb-4e0b-a355-13a9493610a6
+		summarizeBy: sum
+		sourceColumn: start_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column end_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f70570ab-86d2-4701-b646-8a6e580cba42
+		summarizeBy: sum
+		sourceColumn: end_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column due_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 630c97bb-341a-46bb-be6d-fee29661f538
+		summarizeBy: sum
+		sourceColumn: due_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f3458623-61db-4316-840d-2e7e54025a0b
+		summarizeBy: sum
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column scrap_reason_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 1203607b-f7ae-4358-a3e1-918456533a1b
+		summarizeBy: sum
+		sourceColumn: scrap_reason_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: f63f0551-1626-43c4-a208-7fa28b6e4eb0
+		summarizeBy: sum
+		sourceColumn: Order Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Stocked Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: ae504a5b-1bbb-449c-b346-de87b6159763
+		summarizeBy: sum
+		sourceColumn: Stocked Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Scrapped Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 83c73c1d-66c6-4a3f-8f4c-728572f4608a
+		summarizeBy: sum
+		sourceColumn: Scrapped Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days to Finish'
+		dataType: int64
+		formatString: 0
+		lineageTag: 652c6114-7a6f-41cd-9507-75bde8deea9d
+		summarizeBy: sum
+		sourceColumn: Days to Finish
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Days Late'
+		dataType: int64
+		formatString: 0
+		lineageTag: 44c6f656-79c3-4454-9a05-ef87bd9d7b0a
+		summarizeBy: sum
+		sourceColumn: Days Late
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Finished Late'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 97434857-d355-485b-afa7-ac3fae95789e
+		summarizeBy: none
+		sourceColumn: Is Finished Late
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unit Cost'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 886cb439-4838-4edd-a5d4-592ec92f98c9
+		summarizeBy: sum
+		sourceColumn: Unit Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Scrap Cost'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 31fe9dfe-267d-4046-ae44-8a308ec2f22a
+		summarizeBy: sum
+		sourceColumn: Scrap Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Cost Source'
+		dataType: string
+		lineageTag: 4489de1a-55c0-4a24-9d4b-ea8d0d55ab55
+		summarizeBy: none
+		sourceColumn: Cost Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column batch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 022165bf-ce58-4411-988b-dc32366fa2fd
+		summarizeBy: sum
+		sourceColumn: batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column loaded_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3e24eb86-10bf-4b76-a95b-673d212150e7
+		summarizeBy: none
+		sourceColumn: loaded_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Work Orders' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "fact_work_order"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"work_order_id", "start_date_key", "end_date_key", "due_date_key", "product_key", "scrap_reason_key", "order_qty", "stocked_qty", "scrapped_qty", "days_to_finish", "days_late", "is_finished_late", "unit_cost", "scrap_cost", "cost_source", "batch_id", "loaded_at"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"work_order_id", Int64.Type}, {"start_date_key", Int64.Type}, {"end_date_key", Int64.Type}, {"due_date_key", Int64.Type}, {"product_key", Int64.Type}, {"scrap_reason_key", Int64.Type}, {"order_qty", Int64.Type}, {"stocked_qty", Int64.Type}, {"scrapped_qty", Int64.Type}, {"days_to_finish", Int64.Type}, {"days_late", Int64.Type}, {"is_finished_late", type logical}, {"unit_cost", Currency.Type}, {"scrap_cost", Currency.Type}, {"cost_source", type text}, {"batch_id", Int64.Type}, {"loaded_at", type datetime}}),
+				    Renamed = Table.RenameColumns(Typed, {{"order_qty", "Order Quantity"}, {"stocked_qty", "Stocked Quantity"}, {"scrapped_qty", "Scrapped Quantity"}, {"days_to_finish", "Days to Finish"}, {"days_late", "Days Late"}, {"is_finished_late", "Is Finished Late"}, {"unit_cost", "Unit Cost"}, {"scrap_cost", "Scrap Cost"}, {"cost_source", "Cost Source"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

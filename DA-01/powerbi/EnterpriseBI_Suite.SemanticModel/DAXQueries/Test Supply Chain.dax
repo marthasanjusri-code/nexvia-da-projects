@@ -1,0 +1,20 @@
+EVALUATE
+ROW(
+    "Purchases As Of", [Purchases As Of Date], "Inventory As Of", [Inventory As Of Date], "Production As Of", [Production As Of Date],
+    "Spend", [Spend], "PO Value", [Purchase Order Value], "PO Lines", [PO Lines], "POs", [Purchase Orders],
+    "OTIF %", [OTIF %], "Fill Rate", [Unit Fill Rate %], "Rejection %", [Rejection %], "Vendor On-time", [Vendor On-time %],
+    "Open Qty", [Open Purchase Quantity],
+	"Overdue Qty", [Overdue Open Quantity],
+    "Stock Units", [Stock Units], "Available Units", [Available Units],
+    "Stock Value", [Total Stock Value], "Coverage", [Stock Value Coverage %],
+    "Reorder", [Products to Reorder], "Below Min", [Products Below Minimum], "OK", [Products OK],
+    "Days of Cover", [Days of Stock Cover],
+    "Work Orders", [Work Orders Started], "Scrap Rate", [Scrap Rate %], "On-time Production", [On-time Production %]
+)
+
+EVALUATE
+SUMMARIZECOLUMNS(
+    Purchases[PO Status],
+    "Lines", [PO Lines], "POs", [Purchase Orders], "PO Value", [Purchase Order Value], "Spend", [Spend]
+)
+ORDER BY Purchases[PO Status]

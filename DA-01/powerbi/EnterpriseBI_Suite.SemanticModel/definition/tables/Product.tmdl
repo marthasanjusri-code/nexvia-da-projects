@@ -1,0 +1,212 @@
+table Product
+	lineageTag: fec72d1d-91e4-4065-97e3-c6ca1c26bd89
+
+	column product_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 0aeba674-8e88-4733-a3da-710388668830
+		summarizeBy: sum
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d9cf087-159f-47e1-bd42-d071b0e217ee
+		summarizeBy: sum
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: d716a6e8-e00f-4b87-a8c6-8b6ec0c7d00d
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a8068f25-98a9-4551-b2bb-b2dc6e4d8fca
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Number'
+		dataType: string
+		lineageTag: 2669122b-e909-4729-bddb-ad0205fa2ce5
+		summarizeBy: none
+		sourceColumn: Product Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: ef0f5e7a-e773-4404-aced-8f2c683de965
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Color
+		dataType: string
+		lineageTag: bf84917f-7491-4a3f-a8ed-c5f0bc31e883
+		summarizeBy: none
+		sourceColumn: Color
+
+		annotation SummarizationSetBy = Automatic
+
+	column Size
+		dataType: string
+		lineageTag: b1eb776d-289d-48f5-b781-dae662d4742d
+		summarizeBy: none
+		sourceColumn: Size
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Line'
+		dataType: string
+		lineageTag: dbfdb1f5-eeff-4d7d-9981-911aa49b2aab
+		summarizeBy: none
+		sourceColumn: Product Line
+
+		annotation SummarizationSetBy = Automatic
+
+	column Class
+		dataType: string
+		lineageTag: aeaf1f5e-b764-4d5c-b05c-2efcec313c14
+		summarizeBy: none
+		sourceColumn: Class
+
+		annotation SummarizationSetBy = Automatic
+
+	column Style
+		dataType: string
+		lineageTag: 9df8c782-657e-42b3-b139-6ed03e97b39f
+		summarizeBy: none
+		sourceColumn: Style
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subcategory
+		dataType: string
+		lineageTag: 098ae0a7-6304-4da4-b5de-4568a85f8866
+		summarizeBy: none
+		sourceColumn: Subcategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 8c65de4c-bdae-460a-b1d4-0811c6996669
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Finished Good'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 37540691-03de-4633-a4b3-f7ba99354d88
+		summarizeBy: none
+		sourceColumn: Is Finished Good
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Made In House'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: be87fd94-77c9-469e-a8c5-3a7743b6b369
+		summarizeBy: none
+		sourceColumn: Is Made In House
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Safety Stock Level'
+		dataType: int64
+		formatString: 0
+		lineageTag: d490f4cf-5ed4-4510-a15d-deb9653c3555
+		summarizeBy: sum
+		sourceColumn: Safety Stock Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Reorder Point'
+		dataType: int64
+		formatString: 0
+		lineageTag: e45a6b3e-44b6-4926-9df8-185fc58c3d92
+		summarizeBy: sum
+		sourceColumn: Reorder Point
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Standard Cost'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: b4c882ab-d636-4687-af10-5068f7e8cfef
+		summarizeBy: sum
+		sourceColumn: Standard Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'List Price'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 74fe1a0c-d4ee-4102-90fe-7960357b25aa
+		summarizeBy: sum
+		sourceColumn: List Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Sell Start Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1412120d-cf96-436f-bdca-aa27bfdeb9b0
+		summarizeBy: none
+		sourceColumn: Sell Start Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Sell End Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a751ee52-d4e9-4206-bf68-0cf298dc8dee
+		summarizeBy: none
+		sourceColumn: Sell End Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Product Status'
+		dataType: string
+		lineageTag: b1a5a12b-6392-4cbd-8257-7b5075cc04fc
+		summarizeBy: none
+		sourceColumn: Product Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Product = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_product"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"product_key", "product_id", "row_type", "is_in_source", "product_number", "product_name", "color", "size", "product_line", "class", "style", "subcategory", "category", "is_finished_good", "is_made_in_house", "safety_stock_level", "reorder_point", "standard_cost", "list_price", "sell_start_date", "sell_end_date", "product_status"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"product_key", Int64.Type}, {"product_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"product_number", type text}, {"product_name", type text}, {"color", type text}, {"size", type text}, {"product_line", type text}, {"class", type text}, {"style", type text}, {"subcategory", type text}, {"category", type text}, {"is_finished_good", type logical}, {"is_made_in_house", type logical}, {"safety_stock_level", Int64.Type}, {"reorder_point", Int64.Type}, {"standard_cost", Currency.Type}, {"list_price", Currency.Type}, {"sell_start_date", type date}, {"sell_end_date", type date}, {"product_status", type text}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"product_number", "Product Number"}, {"product_name", "Product"}, {"color", "Color"}, {"size", "Size"}, {"product_line", "Product Line"}, {"class", "Class"}, {"style", "Style"}, {"subcategory", "Subcategory"}, {"category", "Category"}, {"is_finished_good", "Is Finished Good"}, {"is_made_in_house", "Is Made In House"}, {"safety_stock_level", "Safety Stock Level"}, {"reorder_point", "Reorder Point"}, {"standard_cost", "Standard Cost"}, {"list_price", "List Price"}, {"sell_start_date", "Sell Start Date"}, {"sell_end_date", "Sell End Date"}, {"product_status", "Product Status"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

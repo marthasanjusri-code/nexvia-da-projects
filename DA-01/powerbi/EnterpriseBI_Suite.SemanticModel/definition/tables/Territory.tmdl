@@ -1,0 +1,101 @@
+table Territory
+	lineageTag: 8ee4c6b4-ca0c-4dee-ac03-5eb32ef062d9
+
+	column territory_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 46964c0a-090d-4cd4-bf9a-3e0a7aa45561
+		summarizeBy: sum
+		sourceColumn: territory_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Territory Code'
+		dataType: string
+		lineageTag: c61e0253-8c73-4a8c-a738-c3146bd5fc18
+		summarizeBy: none
+		sourceColumn: Territory Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: 23679c85-69e4-43cb-bcc1-88cbab866e1e
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e0ee1bf7-cacd-40a3-aa01-aaab2fee8b67
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column territory_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c8cdaf04-e2a4-496d-b3fd-726f42dbb347
+		summarizeBy: sum
+		sourceColumn: territory_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Territory
+		dataType: string
+		lineageTag: ff368395-fe3e-47b8-b46e-0a4b1c963a03
+		summarizeBy: none
+		sourceColumn: Territory
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Country Code'
+		dataType: string
+		lineageTag: 012ad40a-55a3-456b-ad04-49f061bc60df
+		summarizeBy: none
+		sourceColumn: Country Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: cecbd55d-d6c0-4956-aa71-86abda377910
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Region Group'
+		dataType: string
+		lineageTag: aed86f46-4d1b-4367-9585-d6a943a450bd
+		summarizeBy: none
+		sourceColumn: Region Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Region Level'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cea3ad57-cd84-41cf-acd6-b6f65b91c45c
+		summarizeBy: none
+		sourceColumn: Is Region Level
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Territory = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_territory"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"territory_key", "territory_code", "row_type", "is_in_source", "territory_id", "territory_name", "country_code", "country_name", "region_group", "is_region_level"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"territory_key", Int64.Type}, {"territory_code", type text}, {"row_type", type text}, {"is_in_source", type logical}, {"territory_id", Int64.Type}, {"territory_name", type text}, {"country_code", type text}, {"country_name", type text}, {"region_group", type text}, {"is_region_level", type logical}}),
+				    Renamed = Table.RenameColumns(Typed, {{"territory_code", "Territory Code"}, {"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"territory_name", "Territory"}, {"country_code", "Country Code"}, {"country_name", "Country"}, {"region_group", "Region Group"}, {"is_region_level", "Is Region Level"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

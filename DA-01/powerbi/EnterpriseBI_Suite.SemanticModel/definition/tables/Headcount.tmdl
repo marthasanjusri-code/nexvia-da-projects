@@ -1,0 +1,232 @@
+table Headcount
+	lineageTag: 32430567-83e1-493f-b21d-a11593612ec1
+
+	/// HR "as of" date (D24): the last headcount month-end, ignoring report filters.
+	measure 'HR As Of Date' =
+			VAR LastKey = CALCULATE ( MAX ( Headcount[month_end_date_key] ), REMOVEFILTERS () )
+			RETURN
+			    LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], LastKey )
+		formatString: yyyy-mm-dd
+		displayFolder: As Of
+		lineageTag: 753dbe05-2222-476d-9ed5-1a841a778d7e
+
+	/// H1. Employees at the last month-end of the selection; never summed over months (D57).
+	measure 'Active Headcount' =
+			VAR LastKey = MAX ( Headcount[month_end_date_key] )
+			RETURN
+			    CALCULATE ( COUNTROWS ( Headcount ), Headcount[month_end_date_key] = LastKey )
+		formatString: #,0
+		displayFolder: Headcount
+		lineageTag: c78d1cca-67b0-443b-896a-bb3d5c149a4a
+
+	/// H3. Employees hired in the selected months (one row per hire, D113).
+	measure Hires = CALCULATE ( COUNTROWS ( Headcount ), KEEPFILTERS ( Headcount[Is Hired This Month] = TRUE () ) )
+		formatString: #,0
+		displayFolder: Hiring and Tenure
+		lineageTag: d3e8ea88-6ca1-4246-ae32-7753f9e55d5d
+
+	/// H3. Average months since hire of the employees at the last month-end of the selection (current staff only).
+	measure 'Average Tenure (Months)' =
+			VAR LastKey = MAX ( Headcount[month_end_date_key] )
+			RETURN
+			    CALCULATE ( AVERAGE ( Headcount[Tenure Months] ), Headcount[month_end_date_key] = LastKey )
+		formatString: 0.0
+		displayFolder: Hiring and Tenure
+		lineageTag: 1fb52e62-8522-4989-9395-6f570a1ca035
+
+	/// H4 (D56, D64). Average hourly pay at the last month-end, with complementary suppression: blank below 5 employees, blank for a department when any department of its group has fewer than 5 (H-a), and blank when filtered by employee, HR attributes or shift (H-b).
+	measure 'Average Pay Rate' =
+			VAR LastKey = MAX ( Headcount[month_end_date_key] )
+			VAR Employees =
+			    CALCULATE ( COUNTROWS ( Headcount ), Headcount[month_end_date_key] = LastKey )
+			VAR PersonLevel =
+			    ISFILTERED ( 'Employee' ) || ISFILTERED ( 'Employee HR' ) || ISFILTERED ( 'Shift' )
+			VAR GroupsInContext = VALUES ( 'Department'[Department Group] )
+			VAR DepartmentsOfGroups =
+			    CALCULATETABLE (
+			        VALUES ( 'Department'[Department] ),
+			        REMOVEFILTERS ( 'Department' ),
+			        TREATAS ( GroupsInContext, 'Department'[Department Group] )
+			    )
+			VAR SmallestDepartment =
+			    MINX (
+			        FILTER (
+			            ADDCOLUMNS (
+			                DepartmentsOfGroups,
+			                "@Employees",
+			                    VAR ThisDepartment = 'Department'[Department]
+			                    RETURN
+			                        CALCULATE (
+			                            COUNTROWS ( Headcount ),
+			                            REMOVEFILTERS ( 'Department' ),
+			                            'Department'[Department] = ThisDepartment,
+			                            Headcount[month_end_date_key] = LastKey
+			                        )
+			            ),
+			            [@Employees] > 0
+			        ),
+			        [@Employees]
+			    )
+			VAR DepartmentShown =
+			    NOT ISFILTERED ( 'Department'[Department] ) || SmallestDepartment >= 5
+			RETURN
+			    IF (
+			        NOT PersonLevel && Employees >= 5 && DepartmentShown,
+			        CALCULATE ( AVERAGE ( Headcount[Pay Rate] ), Headcount[month_end_date_key] = LastKey )
+			    )
+		formatString: \$#,0.00
+		displayFolder: Pay
+		lineageTag: 29f70200-3851-4790-9dc8-cc0c63175bfb
+
+	/// H5. Current vacation hours of the employees at the last month-end of the selection (from Employee HR, D62).
+	measure 'Total Vacation Hours' =
+			VAR LastKey = MAX ( Headcount[month_end_date_key] )
+			VAR EmployeesAtMonthEnd =
+			    CALCULATETABLE ( VALUES ( Headcount[employee_key] ), Headcount[month_end_date_key] = LastKey )
+			RETURN
+			    CALCULATE ( SUM ( 'Employee HR'[Vacation Hours] ), TREATAS ( EmployeesAtMonthEnd, 'Employee HR'[employee_key] ) )
+		formatString: #,0
+		displayFolder: Leave
+		lineageTag: c8fd7bee-2b82-4a92-89bb-a9d6a45cd020
+
+	/// H5. Current sick leave hours of the employees at the last month-end of the selection (from Employee HR, D62).
+	measure 'Total Sick Leave Hours' =
+			VAR LastKey = MAX ( Headcount[month_end_date_key] )
+			VAR EmployeesAtMonthEnd =
+			    CALCULATETABLE ( VALUES ( Headcount[employee_key] ), Headcount[month_end_date_key] = LastKey )
+			RETURN
+			    CALCULATE ( SUM ( 'Employee HR'[Sick Leave Hours] ), TREATAS ( EmployeesAtMonthEnd, 'Employee HR'[employee_key] ) )
+		formatString: #,0
+		displayFolder: Leave
+		lineageTag: 58515e87-4d30-4859-94c3-0be69ad1daf1
+
+	/// H1, E. Average of the month-end headcounts in the selection (D57).
+	measure 'Average Headcount' = AVERAGEX ( VALUES ( Headcount[month_end_date_key] ), [Active Headcount] )
+		formatString: #,0.0
+		displayFolder: Headcount
+		lineageTag: d5a20741-19ef-4958-b8d8-84306d383226
+
+	column employee_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3334223a-bfa2-4b88-a77c-f1a7c79f2e10
+		summarizeBy: sum
+		sourceColumn: employee_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_end_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f25d5e2-be7f-4f3b-8411-f250cf77d89c
+		summarizeBy: sum
+		sourceColumn: month_end_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column employee_key
+		dataType: int64
+		formatString: 0
+		lineageTag: abcdbb7c-6cc0-496b-97f1-8d7545236ca7
+		summarizeBy: sum
+		sourceColumn: employee_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_key
+		dataType: int64
+		formatString: 0
+		lineageTag: e392046b-1b79-477e-b03a-cd3e23b6174d
+		summarizeBy: sum
+		sourceColumn: department_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column shift_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 06c2fc16-5e2e-40b9-ba30-ec09b1298e22
+		summarizeBy: sum
+		sourceColumn: shift_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pay Rate'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 7857c738-b6ed-4af3-8259-19e27578ff35
+		summarizeBy: sum
+		sourceColumn: Pay Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Pay Frequency'
+		dataType: int64
+		formatString: 0
+		lineageTag: 87aacf79-0f55-42ed-86cd-515c15e9ae4d
+		summarizeBy: sum
+		sourceColumn: Pay Frequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Age at Month End'
+		dataType: int64
+		formatString: 0
+		lineageTag: fac5e665-f95a-4d24-aa20-b8b5306a6115
+		summarizeBy: sum
+		sourceColumn: Age at Month End
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tenure Months'
+		dataType: int64
+		formatString: 0
+		lineageTag: 904d3de1-61bd-4d8e-8a03-2ac7ba49524a
+		summarizeBy: sum
+		sourceColumn: Tenure Months
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Hired This Month'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9260d20c-9bcb-4c7f-8715-5ff1dbb0aab5
+		summarizeBy: none
+		sourceColumn: Is Hired This Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column batch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: bfaefff6-7ac4-4168-bcb1-1856dee5188b
+		summarizeBy: sum
+		sourceColumn: batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column loaded_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5fc5b666-35f4-4207-8a2b-efa9e85bb8fb
+		summarizeBy: none
+		sourceColumn: loaded_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Headcount = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "fact_headcount_monthly"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"employee_id", "month_end_date_key", "employee_key", "department_key", "shift_key", "pay_rate", "pay_frequency", "age_at_month_end", "tenure_months", "is_hired_this_month", "batch_id", "loaded_at"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"employee_id", Int64.Type}, {"month_end_date_key", Int64.Type}, {"employee_key", Int64.Type}, {"department_key", Int64.Type}, {"shift_key", Int64.Type}, {"pay_rate", Currency.Type}, {"pay_frequency", Int64.Type}, {"age_at_month_end", Int64.Type}, {"tenure_months", Int64.Type}, {"is_hired_this_month", type logical}, {"batch_id", Int64.Type}, {"loaded_at", type datetime}}),
+				    Renamed = Table.RenameColumns(Typed, {{"pay_rate", "Pay Rate"}, {"pay_frequency", "Pay Frequency"}, {"age_at_month_end", "Age at Month End"}, {"tenure_months", "Tenure Months"}, {"is_hired_this_month", "Is Hired This Month"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

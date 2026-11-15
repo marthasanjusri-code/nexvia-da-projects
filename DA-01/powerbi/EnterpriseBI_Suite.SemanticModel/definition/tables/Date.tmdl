@@ -1,0 +1,314 @@
+table Date
+	lineageTag: 9995b2ad-4fb4-4458-a83d-66f3c081abdf
+	dataCategory: Time
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f51024e0-2053-475a-b6e7-8d0524491f22
+		summarizeBy: sum
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: d1f80b76-712b-4c2e-a39f-dcfaa7d128fc
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Day of Month'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7eaf5b60-e589-4221-940e-ace14eb00aab
+		summarizeBy: sum
+		sourceColumn: Day of Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 4b9ff4c0-07b7-4a4c-8819-e1063063ddf4
+		summarizeBy: none
+		sourceColumn: Day Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Short'
+		dataType: string
+		lineageTag: bbc9aec3-a848-4e73-8b43-c993d045732a
+		summarizeBy: none
+		sourceColumn: Day Short
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: dec19ff2-f013-459e-a24a-251590aa5dbd
+		summarizeBy: sum
+		sourceColumn: Day of Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Weekend'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2f4240ad-0bf2-46f2-8498-519ec485ed6b
+		summarizeBy: none
+		sourceColumn: Is Weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ISO Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: cef5a2a5-c2ac-45fb-a045-a2c8d91513a4
+		summarizeBy: sum
+		sourceColumn: ISO Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ISO Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: ffbf8c43-4a87-4e07-ab9d-a0a7fd6a2486
+		summarizeBy: sum
+		sourceColumn: ISO Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 78768ab1-5c6c-4ec5-b886-b7479cd671b9
+		summarizeBy: sum
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: de81530e-eb58-432c-bd68-86f781f6cb90
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Short'
+		dataType: string
+		lineageTag: cabb4a16-1ce0-4504-b9c6-b2209a1b7e24
+		summarizeBy: none
+		sourceColumn: Month Short
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month'
+		dataType: string
+		lineageTag: a5d19e29-1fbb-4162-b029-2c8b016e0093
+		summarizeBy: none
+		sourceColumn: Year Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5986c259-397d-4236-a368-c64069a8918b
+		summarizeBy: sum
+		sourceColumn: Year Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Start Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 656a9b20-bf3e-41ab-b7c0-2f9458d75f90
+		summarizeBy: none
+		sourceColumn: Month Start Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Month End Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c53f7adb-7258-4ea1-a298-0faea12ed506
+		summarizeBy: none
+		sourceColumn: Month End Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Is Month End'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 64873270-630d-4048-8880-26db17e1c1f1
+		summarizeBy: none
+		sourceColumn: Is Month End
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 59d0bd2d-55a6-4e7b-9665-f9e45f8e2ac4
+		summarizeBy: sum
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter Label'
+		dataType: string
+		lineageTag: 46214130-5e0d-4e00-9d15-4346c79774b6
+		summarizeBy: none
+		sourceColumn: Quarter Label
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Quarter'
+		dataType: string
+		lineageTag: bc421146-0724-4d01-8f02-2f673a579aba
+		summarizeBy: none
+		sourceColumn: Year Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 745ce100-fdb8-46ca-8981-dc71794064b5
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 058d9ed8-e879-4ab5-921b-3e1e9883c434
+		summarizeBy: sum
+		sourceColumn: Fiscal Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Year Label'
+		dataType: string
+		lineageTag: 68c0b99c-bb98-4668-9181-57a52fb64bd5
+		summarizeBy: none
+		sourceColumn: Fiscal Year Label
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Quarter'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3459494f-bd7b-4cf0-9b4e-f871eb63eab2
+		summarizeBy: sum
+		sourceColumn: Fiscal Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Month'
+		dataType: int64
+		formatString: 0
+		lineageTag: aff725ac-780d-4945-b50a-8f706a4681a3
+		summarizeBy: sum
+		sourceColumn: Fiscal Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Year Quarter'
+		dataType: string
+		lineageTag: 9062d081-92a0-412d-9a97-ded1a4206a7b
+		summarizeBy: none
+		sourceColumn: Fiscal Year Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quota Period Start'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9b02cde5-4aa5-4ca0-983d-b62f3e5cdd07
+		summarizeBy: none
+		sourceColumn: Quota Period Start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Quota Period End'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bab04edb-bc97-438d-b572-f74f6132b723
+		summarizeBy: none
+		sourceColumn: Quota Period End
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Quota Period Label'
+		dataType: string
+		lineageTag: f065791c-6d51-4151-ade3-d880253d37f1
+		summarizeBy: none
+		sourceColumn: Quota Period Label
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_date"]}[Data],
+				
+				    // B: keep only these columns, by name. Relationship and audit columns are dropped;
+				    // if one of these is ever missing in SQL, the refresh fails with a clear error.
+				    Kept = Table.SelectColumns(Data, {
+				        "date_key", "full_date", "day_of_month", "day_name", "day_short", "day_of_week",
+				        "is_weekend", "iso_week", "iso_year", "month_number", "month_name", "month_short",
+				        "year_month", "year_month_number", "month_start_date", "month_end_date", "is_month_end",
+				        "quarter", "quarter_label", "year_quarter", "year", "fiscal_year", "fiscal_year_label",
+				        "fiscal_quarter", "fiscal_month", "fiscal_year_quarter",
+				        "quota_period_start", "quota_period_end", "quota_period_label"}),
+				
+				    // C: types from the SQL column types
+				    Typed = Table.TransformColumnTypes(Kept, {
+				        {"date_key", Int64.Type}, {"full_date", type date}, {"day_of_month", Int64.Type},
+				        {"day_name", type text}, {"day_short", type text}, {"day_of_week", Int64.Type},
+				        {"is_weekend", type logical}, {"iso_week", Int64.Type}, {"iso_year", Int64.Type},
+				        {"month_number", Int64.Type}, {"month_name", type text}, {"month_short", type text},
+				        {"year_month", type text}, {"year_month_number", Int64.Type},
+				        {"month_start_date", type date}, {"month_end_date", type date}, {"is_month_end", type logical},
+				        {"quarter", Int64.Type}, {"quarter_label", type text}, {"year_quarter", type text},
+				        {"year", Int64.Type}, {"fiscal_year", Int64.Type}, {"fiscal_year_label", type text},
+				        {"fiscal_quarter", Int64.Type}, {"fiscal_month", Int64.Type}, {"fiscal_year_quarter", type text},
+				        {"quota_period_start", type date}, {"quota_period_end", type date}, {"quota_period_label", type text}}),
+				
+				    // E: readable names; the key keeps its technical name (it will be hidden)
+				    Renamed = Table.RenameColumns(Typed, {
+				        {"full_date", "Date"}, {"day_of_month", "Day of Month"}, {"day_name", "Day Name"},
+				        {"day_short", "Day Short"}, {"day_of_week", "Day of Week"}, {"is_weekend", "Is Weekend"},
+				        {"iso_week", "ISO Week"}, {"iso_year", "ISO Year"}, {"month_number", "Month Number"},
+				        {"month_name", "Month Name"}, {"month_short", "Month Short"}, {"year_month", "Year Month"},
+				        {"year_month_number", "Year Month Number"}, {"month_start_date", "Month Start Date"},
+				        {"month_end_date", "Month End Date"}, {"is_month_end", "Is Month End"},
+				        {"quarter", "Quarter"}, {"quarter_label", "Quarter Label"}, {"year_quarter", "Year Quarter"},
+				        {"year", "Year"}, {"fiscal_year", "Fiscal Year"}, {"fiscal_year_label", "Fiscal Year Label"},
+				        {"fiscal_quarter", "Fiscal Quarter"}, {"fiscal_month", "Fiscal Month"},
+				        {"fiscal_year_quarter", "Fiscal Year Quarter"}, {"quota_period_start", "Quota Period Start"},
+				        {"quota_period_end", "Quota Period End"}, {"quota_period_label", "Quota Period Label"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

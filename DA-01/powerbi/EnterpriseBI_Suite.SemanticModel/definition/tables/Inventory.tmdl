@@ -1,0 +1,303 @@
+table Inventory
+	lineageTag: f94e869b-940e-43c7-a253-ddb0ce0f2357
+
+	/// Inventory "as of" date (D24): the stock snapshot date.
+	measure 'Inventory As Of Date' =
+			VAR SnapshotKey = CALCULATE ( MAX ( Inventory[snapshot_date_key] ), REMOVEFILTERS () )
+			RETURN
+			    LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], SnapshotKey )
+		formatString: yyyy-mm-dd
+		displayFolder: As Of
+		lineageTag: 0f16d777-e180-4be9-8c7b-f36e045b8d11
+
+	/// P4. Units on hand at the snapshot; date filters are ignored because inventory is one current snapshot.
+	measure 'Stock Units' = CALCULATE ( SUM ( Inventory[Quantity] ), REMOVEFILTERS ( 'Date' ) )
+		formatString: #,0
+		displayFolder: Stock
+		lineageTag: 5b30b865-af56-48fe-b322-de3dfe668a58
+
+	/// P4 (D51). Units in storage locations, ready to ship.
+	measure 'Available Units' =
+			CALCULATE (
+			    SUM ( Inventory[Quantity] ),
+			    REMOVEFILTERS ( 'Date' ),
+			    KEEPFILTERS ( 'Location'[Location Type] = "Storage" )
+			)
+		formatString: #,0
+		displayFolder: Stock
+		lineageTag: 0e699165-a15f-4f67-b836-aa2bd8192fb2
+
+	/// P4 (D53). Stock value of the units with a cost; read with Stock Value Coverage %.
+	measure 'Total Stock Value' = CALCULATE ( SUM ( Inventory[Stock Value] ), REMOVEFILTERS ( 'Date' ) )
+		formatString: \$#,0
+		displayFolder: Stock
+		lineageTag: 1efcc6b7-645f-418c-8afd-36020c7776d8
+
+	/// P4 (D53). Share of stock units that have a cost.
+	measure 'Stock Value Coverage %' =
+			CALCULATE (
+			    DIVIDE (
+			        CALCULATE ( SUM ( Inventory[Quantity] ), KEEPFILTERS ( NOT ISBLANK ( Inventory[Unit Cost] ) ) ),
+			        SUM ( Inventory[Quantity] )
+			    ),
+			    REMOVEFILTERS ( 'Date' )
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Stock
+		lineageTag: 1541c96d-5e33-4ca7-a6c7-2d9ea748dda9
+
+	/// P4, P8 (D51). Products whose inventory position (on hand + open purchase quantity on Approved orders, P-a) is below the reorder point: Reorder now.
+	measure 'Products to Reorder' =
+			VAR Products =
+			    ADDCOLUMNS (
+			        CALCULATETABLE (
+			            SUMMARIZE ( Inventory, 'Product'[product_key], 'Product'[Reorder Point], 'Product'[Safety Stock Level] ),
+			            REMOVEFILTERS ( 'Date' )
+			        ),
+			        "@Position",
+			            CALCULATE ( SUM ( Inventory[Quantity] ), REMOVEFILTERS ( 'Date' ) )
+			                + CALCULATE (
+			                    SUMX (
+			                        FILTER (
+			                            Purchases,
+			                            Purchases[PO Status] = "Approved"
+			                                && Purchases[Received Quantity] < Purchases[Order Quantity]
+			                        ),
+			                        Purchases[Order Quantity] - Purchases[Received Quantity]
+			                    ),
+			                    REMOVEFILTERS ( 'Date' )
+			                )
+			    )
+			RETURN
+			    COUNTROWS ( FILTER ( Products, [@Position] < 'Product'[Reorder Point] ) ) + 0
+		formatString: #,0
+		displayFolder: Stock Status
+		lineageTag: 80a560a3-7d88-4181-98e1-d45ff71dc2e1
+
+	/// P4 (D51). Products at or above the reorder point but below safety stock: Below minimum.
+	measure 'Products Below Minimum' =
+			VAR Products =
+			    ADDCOLUMNS (
+			        CALCULATETABLE (
+			            SUMMARIZE ( Inventory, 'Product'[product_key], 'Product'[Reorder Point], 'Product'[Safety Stock Level] ),
+			            REMOVEFILTERS ( 'Date' )
+			        ),
+			        "@Position",
+			            CALCULATE ( SUM ( Inventory[Quantity] ), REMOVEFILTERS ( 'Date' ) )
+			                + CALCULATE (
+			                    SUMX (
+			                        FILTER (
+			                            Purchases,
+			                            Purchases[PO Status] = "Approved"
+			                                && Purchases[Received Quantity] < Purchases[Order Quantity]
+			                        ),
+			                        Purchases[Order Quantity] - Purchases[Received Quantity]
+			                    ),
+			                    REMOVEFILTERS ( 'Date' )
+			                )
+			    )
+			RETURN
+			    COUNTROWS (
+			        FILTER (
+			            Products,
+			            [@Position] >= 'Product'[Reorder Point]
+			                && [@Position] < 'Product'[Safety Stock Level]
+			        )
+			    ) + 0
+		formatString: #,0
+		displayFolder: Stock Status
+		lineageTag: 205ab15b-ccdd-486c-bbe5-4d8d3c961872
+
+	/// P4 (D51). Products at or above both limits.
+	measure 'Products OK' =
+			VAR Products =
+			    ADDCOLUMNS (
+			        CALCULATETABLE (
+			            SUMMARIZE ( Inventory, 'Product'[product_key], 'Product'[Reorder Point], 'Product'[Safety Stock Level] ),
+			            REMOVEFILTERS ( 'Date' )
+			        ),
+			        "@Position",
+			            CALCULATE ( SUM ( Inventory[Quantity] ), REMOVEFILTERS ( 'Date' ) )
+			                + CALCULATE (
+			                    SUMX (
+			                        FILTER (
+			                            Purchases,
+			                            Purchases[PO Status] = "Approved"
+			                                && Purchases[Received Quantity] < Purchases[Order Quantity]
+			                        ),
+			                        Purchases[Order Quantity] - Purchases[Received Quantity]
+			                    ),
+			                    REMOVEFILTERS ( 'Date' )
+			                )
+			    )
+			RETURN
+			    COUNTROWS (
+			        FILTER (
+			            Products,
+			            [@Position] >= 'Product'[Reorder Point]
+			                && [@Position] >= 'Product'[Safety Stock Level]
+			        )
+			    ) + 0
+		formatString: #,0
+		displayFolder: Stock Status
+		lineageTag: 1a9ef7ca-96a8-4964-84ac-224bb865b85c
+
+	/// P9 (decision 5). Stock on hand / average daily units sold over the last 90 days of sales data, for products sold in that window.
+	measure 'Days of Stock Cover' =
+			VAR SalesLastKey = CALCULATE ( MAX ( Sales[order_date_key] ), REMOVEFILTERS () )
+			VAR SalesLast = LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], SalesLastKey )
+			VAR PerProduct =
+			    ADDCOLUMNS (
+			        VALUES ( 'Product'[product_key] ),
+			        "@Units90",
+			            CALCULATE (
+			                SUM ( Sales[Order Quantity] ),
+			                REMOVEFILTERS ( 'Date' ),
+			                DATESBETWEEN ( 'Date'[Date], SalesLast - 89, SalesLast ),
+			                KEEPFILTERS ( NOT Sales[Order Status] IN { "Rejected", "Cancelled" } )
+			            ),
+			        "@Stock", CALCULATE ( SUM ( Inventory[Quantity] ), REMOVEFILTERS ( 'Date' ) )
+			    )
+			VAR Sold = FILTER ( PerProduct, [@Units90] > 0 )
+			RETURN
+			    DIVIDE ( SUMX ( Sold, [@Stock] ), SUMX ( Sold, [@Units90] ) / 90 )
+		formatString: #,0.0
+		displayFolder: Stock
+		lineageTag: 8316f873-68cb-4b5f-915a-c5d250711159
+
+	column product_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 8c125013-e3b9-4ef0-9956-26cf06900e6a
+		summarizeBy: sum
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_key
+		dataType: int64
+		formatString: 0
+		lineageTag: e25c2940-1af8-407e-8c36-5824e52175a4
+		summarizeBy: sum
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column snapshot_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: cb2c7b11-6c1d-4105-831b-d085f1497206
+		summarizeBy: sum
+		sourceColumn: snapshot_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: efea10e8-8685-4397-985c-581d85fa3692
+		summarizeBy: sum
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 94fe79e8-41e6-4002-9b36-5f3103f61df5
+		summarizeBy: sum
+		sourceColumn: location_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d7af1b0-55eb-4454-be88-991613261c75
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unit Cost'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: bc47578c-138c-44ee-8955-de35b6d03b37
+		summarizeBy: sum
+		sourceColumn: Unit Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Stock Value'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 98dfa048-f8c2-42bb-a1e2-aceb5b1c93d9
+		summarizeBy: sum
+		sourceColumn: Stock Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Cost Source'
+		dataType: string
+		lineageTag: 0a7e695b-6319-4cd5-91b8-61012a95e7bb
+		summarizeBy: none
+		sourceColumn: Cost Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Modified Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c8ad8d99-eb06-4e78-b00a-ad8f1608b681
+		summarizeBy: none
+		sourceColumn: Last Modified Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Is Zero Stock Row'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b21e72c2-f79b-48c8-ae33-6a40f12eca7c
+		summarizeBy: none
+		sourceColumn: Is Zero Stock Row
+
+		annotation SummarizationSetBy = Automatic
+
+	column batch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4fd0ab71-f9bf-475b-9de7-12d9462543d5
+		summarizeBy: sum
+		sourceColumn: batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column loaded_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 346490ad-0bc0-4305-9198-98012d014119
+		summarizeBy: none
+		sourceColumn: loaded_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Inventory = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "fact_inventory_current"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"product_key", "location_key", "snapshot_date_key", "product_id", "location_id", "quantity", "unit_cost", "stock_value", "cost_source", "last_modified_date", "is_zero_stock_row", "batch_id", "loaded_at"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"product_key", Int64.Type}, {"location_key", Int64.Type}, {"snapshot_date_key", Int64.Type}, {"product_id", Int64.Type}, {"location_id", Int64.Type}, {"quantity", Int64.Type}, {"unit_cost", Currency.Type}, {"stock_value", Currency.Type}, {"cost_source", type text}, {"last_modified_date", type date}, {"is_zero_stock_row", type logical}, {"batch_id", Int64.Type}, {"loaded_at", type datetime}}),
+				    Renamed = Table.RenameColumns(Typed, {{"quantity", "Quantity"}, {"unit_cost", "Unit Cost"}, {"stock_value", "Stock Value"}, {"cost_source", "Cost Source"}, {"last_modified_date", "Last Modified Date"}, {"is_zero_stock_row", "Is Zero Stock Row"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

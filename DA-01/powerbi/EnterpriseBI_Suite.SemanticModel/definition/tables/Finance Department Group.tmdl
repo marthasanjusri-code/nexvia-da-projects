@@ -1,0 +1,77 @@
+table 'Finance Department Group'
+	lineageTag: f13168ae-d07a-43ec-9472-3b84349cc959
+
+	column finance_department_group_key
+		dataType: int64
+		formatString: 0
+		lineageTag: afa525e9-9daa-4d23-bbce-5fa6a59dc9e5
+		summarizeBy: sum
+		sourceColumn: finance_department_group_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_group_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c2c8e5f-0939-40bd-8e17-2766f5e66ad8
+		summarizeBy: sum
+		sourceColumn: department_group_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: 5142c4fe-0395-4756-b663-e7d23dae38ca
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9c0daf74-0b3a-490c-b1ed-6d3bd66028c0
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Department Group Level 1'
+		dataType: string
+		lineageTag: 86d7e87f-55d6-4256-8753-3c33f78ebcb6
+		summarizeBy: none
+		sourceColumn: Department Group Level 1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Department Group Level 2'
+		dataType: string
+		lineageTag: 224ed6b0-6c35-47d3-91c4-956fa69903e5
+		summarizeBy: none
+		sourceColumn: Department Group Level 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Corporate Direct'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d62702cb-0d13-4716-ae56-e3fcaeedf389
+		summarizeBy: none
+		sourceColumn: Is Corporate Direct
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Finance Department Group' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_finance_department_group"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"finance_department_group_key", "department_group_id", "row_type", "is_in_source", "level_1", "level_2", "is_corporate_direct"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"finance_department_group_key", Int64.Type}, {"department_group_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"level_1", type text}, {"level_2", type text}, {"is_corporate_direct", type logical}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"level_1", "Department Group Level 1"}, {"level_2", "Department Group Level 2"}, {"is_corporate_direct", "Is Corporate Direct"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

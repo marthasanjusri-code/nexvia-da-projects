@@ -1,0 +1,154 @@
+relationship Sales_OrderDate
+	fromColumn: Sales.order_date_key
+	toColumn: Date.date_key
+
+relationship Sales_DueDate
+	isActive: false
+	fromColumn: Sales.due_date_key
+	toColumn: Date.date_key
+
+relationship Sales_ShipDate
+	isActive: false
+	fromColumn: Sales.ship_date_key
+	toColumn: Date.date_key
+
+relationship Sales_Product
+	fromColumn: Sales.product_key
+	toColumn: Product.product_key
+
+relationship Sales_Customer
+	fromColumn: Sales.customer_key
+	toColumn: Customer.customer_key
+
+relationship Sales_Salesperson
+	fromColumn: Sales.salesperson_key
+	toColumn: Employee.employee_key
+
+relationship Sales_Territory
+	fromColumn: Sales.territory_key
+	toColumn: Territory.territory_key
+
+relationship Sales_Promotion
+	fromColumn: Sales.promotion_key
+	toColumn: Promotion.promotion_key
+
+relationship Sales_ShipMethod
+	fromColumn: Sales.ship_method_key
+	toColumn: 'Ship Method'.ship_method_key
+
+relationship SalesQuota_QuotaDate
+	fromColumn: 'Sales Quota'.quota_date_key
+	toColumn: Date.date_key
+
+relationship SalesQuota_Salesperson
+	fromColumn: 'Sales Quota'.salesperson_key
+	toColumn: Employee.employee_key
+
+relationship SalesQuota_Territory
+	fromColumn: 'Sales Quota'.territory_key
+	toColumn: Territory.territory_key
+
+relationship Finance_PeriodDate
+	fromColumn: Finance.period_date_key
+	toColumn: Date.date_key
+
+relationship Finance_Organization
+	fromColumn: Finance.organization_key
+	toColumn: Organization.organization_key
+
+relationship Finance_DepartmentGroup
+	fromColumn: Finance.finance_department_group_key
+	toColumn: 'Finance Department Group'.finance_department_group_key
+
+relationship Finance_Account
+	fromColumn: Finance.account_key
+	toColumn: Account.account_key
+
+relationship Finance_Scenario
+	fromColumn: Finance.scenario_key
+	toColumn: Scenario.scenario_key
+
+relationship Purchases_OrderDate
+	fromColumn: Purchases.order_date_key
+	toColumn: Date.date_key
+
+relationship Purchases_DueDate
+	isActive: false
+	fromColumn: Purchases.due_date_key
+	toColumn: Date.date_key
+
+relationship Purchases_ShipDate
+	isActive: false
+	fromColumn: Purchases.ship_date_key
+	toColumn: Date.date_key
+
+relationship Purchases_Product
+	fromColumn: Purchases.product_key
+	toColumn: Product.product_key
+
+relationship Purchases_Vendor
+	fromColumn: Purchases.vendor_key
+	toColumn: Vendor.vendor_key
+
+relationship Purchases_Buyer
+	fromColumn: Purchases.buyer_key
+	toColumn: Employee.employee_key
+
+relationship Purchases_ShipMethod
+	fromColumn: Purchases.ship_method_key
+	toColumn: 'Ship Method'.ship_method_key
+
+relationship WorkOrders_StartDate
+	fromColumn: 'Work Orders'.start_date_key
+	toColumn: Date.date_key
+
+relationship WorkOrders_EndDate
+	isActive: false
+	fromColumn: 'Work Orders'.end_date_key
+	toColumn: Date.date_key
+
+relationship WorkOrders_DueDate
+	isActive: false
+	fromColumn: 'Work Orders'.due_date_key
+	toColumn: Date.date_key
+
+relationship WorkOrders_Product
+	fromColumn: 'Work Orders'.product_key
+	toColumn: Product.product_key
+
+relationship WorkOrders_ScrapReason
+	fromColumn: 'Work Orders'.scrap_reason_key
+	toColumn: 'Scrap Reason'.scrap_reason_key
+
+relationship Inventory_SnapshotDate
+	fromColumn: Inventory.snapshot_date_key
+	toColumn: Date.date_key
+
+relationship Inventory_Product
+	fromColumn: Inventory.product_key
+	toColumn: Product.product_key
+
+relationship Inventory_Location
+	fromColumn: Inventory.location_key
+	toColumn: Location.location_key
+
+relationship Headcount_MonthEndDate
+	fromColumn: Headcount.month_end_date_key
+	toColumn: Date.date_key
+
+relationship Headcount_Employee
+	fromColumn: Headcount.employee_key
+	toColumn: Employee.employee_key
+
+relationship Headcount_EmployeeHR
+	fromColumn: Headcount.employee_key
+	toColumn: 'Employee HR'.employee_key
+
+relationship Headcount_Department
+	fromColumn: Headcount.department_key
+	toColumn: Department.department_key
+
+relationship Headcount_Shift
+	fromColumn: Headcount.shift_key
+	toColumn: Shift.shift_key
+

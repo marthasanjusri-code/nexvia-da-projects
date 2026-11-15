@@ -1,0 +1,90 @@
+table Location
+	lineageTag: 69302474-bf89-42f3-9044-22f415afbbdd
+
+	column location_key
+		dataType: int64
+		formatString: 0
+		lineageTag: e16f0356-0cdb-4fcd-a0e5-55e4ed83694b
+		summarizeBy: sum
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ff9ece9-cdd0-4183-9326-493bb85e035f
+		summarizeBy: sum
+		sourceColumn: location_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: 23dd7be0-3e2a-4637-8132-2f5eba4fce62
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 95d7d2e8-6354-4c22-8e86-134e07a9c609
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: string
+		lineageTag: cdc2e5f3-3409-4ba2-ad76-038f12a4a036
+		summarizeBy: none
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Location Type'
+		dataType: string
+		lineageTag: 32077ce2-71ab-4bef-9aaa-2ef72c293456
+		summarizeBy: none
+		sourceColumn: Location Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost Rate'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: a0933487-3b56-4167-8e86-b8bb4ebb1275
+		summarizeBy: sum
+		sourceColumn: Cost Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Availability
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 5aac37a5-1afe-4127-b14f-13288ba2362f
+		summarizeBy: sum
+		sourceColumn: Availability
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	partition Location = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_location"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"location_key", "location_id", "row_type", "is_in_source", "location_name", "location_type", "cost_rate", "availability"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"location_key", Int64.Type}, {"location_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"location_name", type text}, {"location_type", type text}, {"cost_rate", Currency.Type}, {"availability", Currency.Type}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"location_name", "Location"}, {"location_type", "Location Type"}, {"cost_rate", "Cost Rate"}, {"availability", "Availability"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

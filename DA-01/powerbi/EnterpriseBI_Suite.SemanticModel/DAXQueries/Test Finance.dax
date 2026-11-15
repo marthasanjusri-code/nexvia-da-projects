@@ -1,0 +1,22 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+    'Date'[Year],
+    "Net Sales", [Finance Net Sales], "Gross Profit", [Finance Gross Profit],
+    "Operating Profit", [Operating Profit], "Net Income", [Net Income],
+    "Opex", [Operating Expenses],
+    "Gross %", [Finance Gross Margin %], "Operating %", [Operating Margin %], "Net %", [Net Margin %]
+)
+ORDER BY 'Date'[Year]
+
+EVALUATE
+ROW(
+    "Finance As Of", [Finance As Of Date], "BS As Of", [Balance Sheet As Of Date],
+    "NI Budget", CALCULATE([Budget Amount], 'Account'[Account Level 1] = "Net Income"),
+    "NI Actual in Budget Months", CALCULATE([Actual in Budget Months], 'Account'[Account Level 1] = "Net Income"),
+    "NI Variance", CALCULATE([Budget Variance], 'Account'[Account Level 1] = "Net Income"),
+    "NI Variance %", CALCULATE([Budget Variance %], 'Account'[Account Level 1] = "Net Income"),
+    "NS Variance", CALCULATE([Budget Variance], 'Account'[Account Level 4] = "Net Sales"),
+    "Total Assets", [Total Assets], "Current Assets", [Current Assets],
+    "Liabilities", [Total Liabilities], "Current Liabilities", [Current Liabilities],
+    "Equity", [Owners Equity], "Current Ratio", [Current Ratio]
+)

@@ -1,0 +1,82 @@
+table 'Ship Method'
+	lineageTag: fe50fbe1-8baf-44a0-ab62-eba45817dc45
+
+	column ship_method_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 03d6daed-89bd-4087-80b6-9a443c5820f2
+		summarizeBy: sum
+		sourceColumn: ship_method_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column ship_method_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b920121-f2ca-4551-8aa7-cdbcbc894987
+		summarizeBy: sum
+		sourceColumn: ship_method_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: af7de9b7-ddea-4342-8a85-a495215e7f11
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 885bf7cd-8c8f-472f-b68f-ea3d99d7f53a
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ship Method'
+		dataType: string
+		lineageTag: 6c8fd6b6-d9c3-4155-ab6d-168941e9c341
+		summarizeBy: none
+		sourceColumn: Ship Method
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ship Base'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 03c5a54e-943f-4a89-8b42-7a7c9836a848
+		summarizeBy: sum
+		sourceColumn: Ship Base
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Ship Rate'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: ee7457cf-cc54-46e3-a252-c12716bf845c
+		summarizeBy: sum
+		sourceColumn: Ship Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	partition 'Ship Method' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_ship_method"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"ship_method_key", "ship_method_id", "row_type", "is_in_source", "ship_method_name", "ship_base", "ship_rate"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"ship_method_key", Int64.Type}, {"ship_method_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"ship_method_name", type text}, {"ship_base", Currency.Type}, {"ship_rate", Currency.Type}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"ship_method_name", "Ship Method"}, {"ship_base", "Ship Base"}, {"ship_rate", "Ship Rate"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

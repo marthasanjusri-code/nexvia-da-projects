@@ -1,0 +1,8 @@
+EVALUATE
+ROW(
+    "Days",           COUNTROWS('Date'),
+    "Distinct dates", DISTINCTCOUNT('Date'[Date]),
+    "First date",     MIN('Date'[Date]),
+    "Last date",      MAX('Date'[Date]),
+    "Weekend days",   CALCULATE(COUNTROWS('Date'), 'Date'[Is Weekend] = TRUE())
+)

@@ -1,0 +1,40 @@
+// Welcome to DAX query view! Learn more about DAX queries at https://aka.ms/dax-queries.
+// Right-click on tables, columns, or measures in the data pane to access quick queries, or ask Copilot for help writing DAX.
+EVALUATE
+UNION(
+    ROW("Table", "Account",                  "Rows", COUNTROWS('Account')),
+    ROW("Table", "Customer",                 "Rows", COUNTROWS('Customer')),
+    ROW("Table", "Date",                     "Rows", COUNTROWS('Date')),
+    ROW("Table", "Department",               "Rows", COUNTROWS('Department')),
+    ROW("Table", "Employee",                 "Rows", COUNTROWS('Employee')),
+    ROW("Table", "Employee HR",              "Rows", COUNTROWS('Employee HR')),
+    ROW("Table", "Finance Department Group", "Rows", COUNTROWS('Finance Department Group')),
+    ROW("Table", "Location",                 "Rows", COUNTROWS('Location')),
+    ROW("Table", "Organization",             "Rows", COUNTROWS('Organization')),
+    ROW("Table", "Product",                  "Rows", COUNTROWS('Product')),
+    ROW("Table", "Promotion",                "Rows", COUNTROWS('Promotion')),
+    ROW("Table", "Scenario",                 "Rows", COUNTROWS('Scenario')),
+    ROW("Table", "Scrap Reason",             "Rows", COUNTROWS('Scrap Reason')),
+    ROW("Table", "Shift",                    "Rows", COUNTROWS('Shift')),
+    ROW("Table", "Ship Method",              "Rows", COUNTROWS('Ship Method')),
+    ROW("Table", "Territory",                "Rows", COUNTROWS('Territory')),
+    ROW("Table", "Vendor",                   "Rows", COUNTROWS('Vendor')),
+    ROW("Table", "Finance",                  "Rows", COUNTROWS('Finance')),
+    ROW("Table", "Headcount",                "Rows", COUNTROWS('Headcount')),
+    ROW("Table", "Inventory",                "Rows", COUNTROWS('Inventory')),
+    ROW("Table", "Purchases",                "Rows", COUNTROWS('Purchases')),
+    ROW("Table", "Sales",                    "Rows", COUNTROWS('Sales')),
+    ROW("Table", "Sales Quota",              "Rows", COUNTROWS('Sales Quota')),
+    ROW("Table", "Work Orders",              "Rows", COUNTROWS('Work Orders')),
+    ROW("Table", "Security User Region",     "Rows", COUNTROWS('Security User Region')),
+    ROW("Table", "Last Load",                "Rows", COUNTROWS('Last Load'))
+)
+
+EVALUATE
+ROW(
+    "Line Total",      FORMAT(SUM('Sales'[Line Total]),      "0.000000"),
+    "Discount Amount", FORMAT(SUM('Sales'[Discount Amount]), "0.000000"),
+    "Gross Margin",    FORMAT(SUM('Sales'[Gross Margin]),    "0.000000"),
+    "Gross Amount",    FORMAT(SUM('Sales'[Gross Amount]),    "0.0000"),
+    "Cost Amount",     FORMAT(SUM('Sales'[Cost Amount]),     "0.0000")
+)

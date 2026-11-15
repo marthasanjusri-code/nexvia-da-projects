@@ -1,0 +1,175 @@
+table Account
+	lineageTag: 3b63f6f9-37e5-4bbf-bc86-90b3c56887c8
+
+	column account_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 52928c49-04cb-4eb6-9b82-26fc5325c4bd
+		summarizeBy: sum
+		sourceColumn: account_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column account_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 45d4d3fe-a8b4-41a5-bec6-e97758ddb2f1
+		summarizeBy: sum
+		sourceColumn: account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: 985a063f-c043-4f20-a0f0-63dec06428d6
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5cb9f3e0-204a-47b0-a58e-acfceb679639
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Code'
+		dataType: string
+		lineageTag: 3d8c3400-2c17-4348-b35f-b0a0b798e240
+		summarizeBy: none
+		sourceColumn: Account Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account
+		dataType: string
+		lineageTag: cb3daa31-b3bc-489e-9e29-a35ddb284417
+		summarizeBy: none
+		sourceColumn: Account
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Type'
+		dataType: string
+		lineageTag: df6008ad-6d02-479e-bf3d-53b01bf6ada6
+		summarizeBy: none
+		sourceColumn: Account Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Operator
+		dataType: string
+		lineageTag: c525de8f-633a-4254-b801-c06742276c7d
+		summarizeBy: none
+		sourceColumn: Operator
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Value Type'
+		dataType: string
+		lineageTag: 31a0bfd6-2c90-44fc-b62b-8a9d9940c6c5
+		summarizeBy: none
+		sourceColumn: Value Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Statement
+		dataType: string
+		lineageTag: 22e2ddbb-85ac-40f2-8595-aad76df27acf
+		summarizeBy: none
+		sourceColumn: Statement
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sign to Net Income'
+		dataType: int64
+		formatString: 0
+		lineageTag: a7a81e37-e854-47a7-bc41-366512b44ce7
+		summarizeBy: sum
+		sourceColumn: Sign to Net Income
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Level 1'
+		dataType: string
+		lineageTag: 7f9ade73-9a68-4784-8651-8979627ea0d6
+		summarizeBy: none
+		sourceColumn: Account Level 1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Level 2'
+		dataType: string
+		lineageTag: 6a6adaa6-a8a0-4a41-9242-76fa5c014d38
+		summarizeBy: none
+		sourceColumn: Account Level 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Level 3'
+		dataType: string
+		lineageTag: cb7a2c26-8075-46de-ac41-1b7f79d46178
+		summarizeBy: none
+		sourceColumn: Account Level 3
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Level 4'
+		dataType: string
+		lineageTag: ea9f5216-c4fc-41cc-8e5c-e6459edb96d5
+		summarizeBy: none
+		sourceColumn: Account Level 4
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Level 5'
+		dataType: string
+		lineageTag: a386c4d9-4542-4503-82c7-1a51581a0d5c
+		summarizeBy: none
+		sourceColumn: Account Level 5
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Level 6'
+		dataType: string
+		lineageTag: 6cd612fa-7dd9-481e-847e-85077b3c4767
+		summarizeBy: none
+		sourceColumn: Account Level 6
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6cbe98ab-60aa-480c-8897-7a7d2129bc11
+		summarizeBy: sum
+		sourceColumn: Sort Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Leaf'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c53d343f-7ec7-459b-91f4-68f8318f6950
+		summarizeBy: none
+		sourceColumn: Is Leaf
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Account = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_account"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"account_key", "account_id", "row_type", "is_in_source", "account_code", "account_name", "account_type", "operator", "value_type", "statement", "sign_to_net_income", "level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "sort_order", "is_leaf"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"account_key", Int64.Type}, {"account_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"account_code", type text}, {"account_name", type text}, {"account_type", type text}, {"operator", type text}, {"value_type", type text}, {"statement", type text}, {"sign_to_net_income", Int64.Type}, {"level_1", type text}, {"level_2", type text}, {"level_3", type text}, {"level_4", type text}, {"level_5", type text}, {"level_6", type text}, {"sort_order", Int64.Type}, {"is_leaf", type logical}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"account_code", "Account Code"}, {"account_name", "Account"}, {"account_type", "Account Type"}, {"operator", "Operator"}, {"value_type", "Value Type"}, {"statement", "Statement"}, {"sign_to_net_income", "Sign to Net Income"}, {"level_1", "Account Level 1"}, {"level_2", "Account Level 2"}, {"level_3", "Account Level 3"}, {"level_4", "Account Level 4"}, {"level_5", "Account Level 5"}, {"level_6", "Account Level 6"}, {"sort_order", "Sort Order"}, {"is_leaf", "Is Leaf"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

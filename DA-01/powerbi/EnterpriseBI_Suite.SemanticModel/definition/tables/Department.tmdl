@@ -1,0 +1,68 @@
+table Department
+	lineageTag: db9e7838-804e-4fdc-9181-51c7b0cfb09a
+
+	column department_key
+		dataType: int64
+		formatString: 0
+		lineageTag: fec592ec-bcf7-4ddc-a5fe-35836093f2a8
+		summarizeBy: sum
+		sourceColumn: department_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3cdfe9f9-1841-4721-b9f0-e0948e5f9f20
+		summarizeBy: sum
+		sourceColumn: department_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: 79f24773-a5b2-41db-8374-d0ec87872960
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3821ab1a-4f80-4a7c-a90b-5919ea411090
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Department
+		dataType: string
+		lineageTag: f3ff502a-8113-4dbe-a2ab-0598508cc78d
+		summarizeBy: none
+		sourceColumn: Department
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Department Group'
+		dataType: string
+		lineageTag: ae25c58c-f689-4f2c-b71d-e8ce2a945574
+		summarizeBy: none
+		sourceColumn: Department Group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Department = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_department"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"department_key", "department_id", "row_type", "is_in_source", "department_name", "department_group"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"department_key", Int64.Type}, {"department_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"department_name", type text}, {"department_group", type text}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"department_name", "Department"}, {"department_group", "Department Group"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

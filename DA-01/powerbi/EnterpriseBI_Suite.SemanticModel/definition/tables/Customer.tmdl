@@ -1,0 +1,118 @@
+table Customer
+	lineageTag: 86142ede-1969-45eb-b25b-0da662da5a2b
+
+	column customer_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 0f406f03-4c25-4d63-a1ba-57230daa1a98
+		summarizeBy: sum
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 88f03796-4ec7-4fa4-9ef9-1cab6647311b
+		summarizeBy: sum
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: da88c3ea-54cd-4c9b-bce6-2ceae5059c11
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6ccc1883-2599-4054-a1d9-23d00dc15236
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Number'
+		dataType: string
+		lineageTag: 7439ad7d-f7e0-46d1-a5f8-9e817a0ef0bb
+		summarizeBy: none
+		sourceColumn: Account Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Type'
+		dataType: string
+		lineageTag: 7afc6671-1a53-4dc9-a9a7-dee73da0a179
+		summarizeBy: none
+		sourceColumn: Customer Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b12003c-d44a-4d7e-8b17-1e69dda67f51
+		summarizeBy: sum
+		sourceColumn: store_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Store
+		dataType: string
+		lineageTag: b2e7cc70-b5a6-43b0-bdb6-ad2203ddd1f3
+		summarizeBy: none
+		sourceColumn: Store
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: dffbdde0-9d59-414e-970b-31119422f31e
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Has Orders'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 77281dc8-68f8-4212-a862-cd91ec6a4b79
+		summarizeBy: none
+		sourceColumn: Has Orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Home Territory'
+		dataType: string
+		lineageTag: 0502d458-2466-4987-bd04-280126553894
+		summarizeBy: none
+		sourceColumn: Home Territory
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Home Region Group'
+		dataType: string
+		lineageTag: 324bb121-ff4a-47de-8af7-c58cb3cf7905
+		summarizeBy: none
+		sourceColumn: Home Region Group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_customer"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"customer_key", "customer_id", "row_type", "is_in_source", "account_number", "customer_type", "store_id", "store_name", "customer_label", "has_orders", "home_territory", "home_region_group"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"customer_key", Int64.Type}, {"customer_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"account_number", type text}, {"customer_type", type text}, {"store_id", Int64.Type}, {"store_name", type text}, {"customer_label", type text}, {"has_orders", type logical}, {"home_territory", type text}, {"home_region_group", type text}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"account_number", "Account Number"}, {"customer_type", "Customer Type"}, {"store_name", "Store"}, {"customer_label", "Customer"}, {"has_orders", "Has Orders"}, {"home_territory", "Home Territory"}, {"home_region_group", "Home Region Group"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

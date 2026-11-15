@@ -1,0 +1,105 @@
+table 'Employee HR'
+	lineageTag: 3e6f6018-f833-49e5-a793-46c0bf74ec7d
+
+	column employee_key
+		dataType: int64
+		formatString: 0
+		lineageTag: d17f2815-4889-47c9-8cfc-b3de9edb5679
+		summarizeBy: sum
+		sourceColumn: employee_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column employee_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b3e78c7b-6325-483a-917f-ad7c492625d0
+		summarizeBy: sum
+		sourceColumn: employee_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: d8866976-8c8a-441c-af58-f4a43c49670b
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2ea836bb-b31d-4cb6-b0d7-a3a848f96d61
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: 9f026c50-a666-4225-b506-19af3e361d6b
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Age Band'
+		dataType: string
+		lineageTag: 30e0fe06-a5d4-480a-922c-392f7075fc52
+		summarizeBy: none
+		sourceColumn: Age Band
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pay Type'
+		dataType: string
+		lineageTag: b48eb078-e97a-4a48-994e-762488bc1ed9
+		summarizeBy: none
+		sourceColumn: Pay Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hire Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5e079243-1ebc-40fe-b406-2f20a319360f
+		summarizeBy: none
+		sourceColumn: Hire Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Vacation Hours'
+		dataType: int64
+		formatString: 0
+		lineageTag: d31ba753-f606-44c4-b7bf-cd6cc9f531df
+		summarizeBy: sum
+		sourceColumn: Vacation Hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sick Leave Hours'
+		dataType: int64
+		formatString: 0
+		lineageTag: fc0f6651-6f11-42b4-9dde-7dafe84992e1
+		summarizeBy: sum
+		sourceColumn: Sick Leave Hours
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Employee HR' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_employee_hr"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"employee_key", "employee_id", "row_type", "is_in_source", "gender", "age_band", "pay_type", "hire_date", "vacation_hours", "sick_leave_hours"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"employee_key", Int64.Type}, {"employee_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"gender", type text}, {"age_band", type text}, {"pay_type", type text}, {"hire_date", type date}, {"vacation_hours", Int64.Type}, {"sick_leave_hours", Int64.Type}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"gender", "Gender"}, {"age_band", "Age Band"}, {"pay_type", "Pay Type"}, {"hire_date", "Hire Date"}, {"vacation_hours", "Vacation Hours"}, {"sick_leave_hours", "Sick Leave Hours"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

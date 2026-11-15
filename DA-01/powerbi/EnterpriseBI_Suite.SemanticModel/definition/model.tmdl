@@ -1,0 +1,44 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Account","Customer","Date","Department","Employee","Employee HR","Finance Department Group","Location","Organization","Product","Promotion","Scenario","Scrap Reason","Shift","Ship Method","Territory","Vendor","Finance","Headcount","Inventory","Purchases","Sales","Sales Quota","Work Orders","Security User Region","Last Load"]
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","TMDLView_Desktop","DevMode"]
+
+ref table Account
+ref table Customer
+ref table Date
+ref table Department
+ref table Employee
+ref table 'Employee HR'
+ref table 'Finance Department Group'
+ref table Location
+ref table Organization
+ref table Product
+ref table Promotion
+ref table Scenario
+ref table 'Scrap Reason'
+ref table Shift
+ref table 'Ship Method'
+ref table Territory
+ref table Vendor
+ref table Finance
+ref table Headcount
+ref table Inventory
+ref table Purchases
+ref table Sales
+ref table 'Sales Quota'
+ref table 'Work Orders'
+ref table 'Security User Region'
+ref table 'Last Load'
+
+ref cultureInfo en-US
+

@@ -1,0 +1,82 @@
+table Shift
+	lineageTag: e185846d-ad94-4477-9b7d-cfa25547c8c8
+
+	column shift_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 974c2c47-761e-474d-8adb-2a16eba83207
+		summarizeBy: sum
+		sourceColumn: shift_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column shift_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e42ff1e8-d68f-4810-ae40-85ecfab7d6eb
+		summarizeBy: sum
+		sourceColumn: shift_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Row Type'
+		dataType: string
+		lineageTag: be84a43d-e5b1-48de-b745-d7521f4a20bc
+		summarizeBy: none
+		sourceColumn: Row Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'In Source'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 43378bdc-368e-4f4b-bfbe-93edae016f1b
+		summarizeBy: none
+		sourceColumn: In Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shift
+		dataType: string
+		lineageTag: 579232f0-b628-4ec3-954c-0f4905deab74
+		summarizeBy: none
+		sourceColumn: Shift
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start Time'
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 55481552-bf50-4258-ac2c-61f4da5d215d
+		summarizeBy: none
+		sourceColumn: Start Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column 'End Time'
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: f451d417-186e-47b8-b8ac-a3ee24e14124
+		summarizeBy: none
+		sourceColumn: End Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	partition Shift = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Data = Source{[Schema = "dw", Item = "dim_shift"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"shift_key", "shift_id", "row_type", "is_in_source", "shift_name", "start_time", "end_time"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"shift_key", Int64.Type}, {"shift_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"shift_name", type text}, {"start_time", type time}, {"end_time", type time}}),
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"shift_name", "Shift"}, {"start_time", "Start Time"}, {"end_time", "End Time"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+
