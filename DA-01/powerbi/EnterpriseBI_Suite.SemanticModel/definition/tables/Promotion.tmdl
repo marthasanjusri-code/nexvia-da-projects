@@ -3,21 +3,23 @@ table Promotion
 
 	column promotion_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 45cf318c-7a2d-40b5-a813-900218da676b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: promotion_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column promotion_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f0ab50cb-359f-437e-b81b-13d2f7b67bc5
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: promotion_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
@@ -64,10 +66,10 @@ table Promotion
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: f23f6ed8-cd8c-473b-80e2-11b16e387e3f
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Offer Discount %
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 

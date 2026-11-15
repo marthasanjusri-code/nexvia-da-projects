@@ -3,21 +3,23 @@ table Customer
 
 	column customer_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 0f406f03-4c25-4d63-a1ba-57230daa1a98
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: customer_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 88f03796-4ec7-4fa4-9ef9-1cab6647311b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: customer_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
@@ -54,12 +56,13 @@ table Customer
 
 	column store_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 9b12003c-d44a-4d7e-8b17-1e69dda67f51
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: store_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column Store
 		dataType: string

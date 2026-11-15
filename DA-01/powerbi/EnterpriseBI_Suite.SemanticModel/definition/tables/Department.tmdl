@@ -3,21 +3,23 @@ table Department
 
 	column department_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: fec592ec-bcf7-4ddc-a5fe-35836093f2a8
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: department_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column department_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3cdfe9f9-1841-4721-b9f0-e0948e5f9f20
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: department_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string

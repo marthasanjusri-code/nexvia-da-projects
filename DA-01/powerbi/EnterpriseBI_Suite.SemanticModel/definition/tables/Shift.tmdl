@@ -3,21 +3,23 @@ table Shift
 
 	column shift_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 974c2c47-761e-474d-8adb-2a16eba83207
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: shift_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column shift_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e42ff1e8-d68f-4810-ae40-85ecfab7d6eb
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: shift_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string

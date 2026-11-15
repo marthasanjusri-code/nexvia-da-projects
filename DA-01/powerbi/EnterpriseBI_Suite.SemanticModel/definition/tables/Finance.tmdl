@@ -209,57 +209,63 @@ table Finance
 
 	column finance_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f6b2ad97-b1c9-4163-93ae-9fa3420285cf
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: finance_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column period_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a7a90955-51e6-416d-a34c-fd96f09c0072
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: period_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column organization_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 36bfa648-d9a2-4957-831c-4ff3c5c4f81e
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: organization_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column finance_department_group_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: c469a696-7438-4a95-9b47-220d73bfb5e8
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: finance_department_group_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column account_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 35320af9-e847-4ed1-8ac0-ff3513e826f2
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: account_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column scenario_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4b283d15-63db-4aab-9467-a2b9d293272e
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: scenario_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Entry Type'
 		dataType: string
@@ -290,47 +296,52 @@ table Finance
 
 	column 'Amount Local'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 0be1105d-630b-4921-be8c-8f23bb585685
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Amount Local
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Exchange Rate'
 		dataType: double
+		isHidden
 		lineageTag: e6b51597-3173-4910-ac7f-f2d531b848bc
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Exchange Rate
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Amount USD'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 7b3550c4-7140-4d18-8d98-08323380a049
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Amount USD
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column batch_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3258708e-73a6-4225-a591-70c131e52169
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: batch_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column loaded_at
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: 6e8b340a-d8c1-47cc-8f41-0d2ec3c9f6d3
 		summarizeBy: none

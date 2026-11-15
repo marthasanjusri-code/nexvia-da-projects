@@ -3,12 +3,13 @@ table Territory
 
 	column territory_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 46964c0a-090d-4cd4-bf9a-3e0a7aa45561
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: territory_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Territory Code'
 		dataType: string
@@ -37,12 +38,13 @@ table Territory
 
 	column territory_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: c8cdaf04-e2a4-496d-b3fd-726f42dbb347
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: territory_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column Territory
 		dataType: string

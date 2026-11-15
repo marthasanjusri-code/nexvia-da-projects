@@ -154,84 +154,93 @@ table Purchases
 
 	column purchase_order_line_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a6c564b8-c3a6-428b-aaee-fa9d76951983
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: purchase_order_line_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column purchase_order_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 08960f8e-d8d3-40d2-bd51-7cde686e98aa
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: purchase_order_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column order_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 9199cb10-2a71-49d6-8ea3-9b349200fabb
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: order_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column due_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: cf84289e-b35a-424d-8bb1-0fba6c9f91d9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: due_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column ship_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 72c05775-adb3-4a3d-afb1-5279c0e9b046
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ship_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column product_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: afdad83e-248a-4d22-ad92-13c644e8406c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: product_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column vendor_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 325331e6-820c-4d99-8bc4-40a74b14c411
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: vendor_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column buyer_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f63d37eb-57c3-4ad3-bf7b-59a146e8363c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: buyer_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column ship_method_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3c944d23-6a64-4fb9-be97-de2e640a5e13
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ship_method_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'PO Status'
 		dataType: string
@@ -243,120 +252,131 @@ table Purchases
 
 	column 'Order Quantity'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 0ba6908b-cb95-4a83-95d4-e22e31499488
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Order Quantity
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Received Quantity'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 570add39-251c-4c08-a7ef-0d649f91c6d9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Received Quantity
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Rejected Quantity'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 1e0a4817-303a-4bb3-bb5f-832b00b80242
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Rejected Quantity
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Stocked Quantity'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 8c59deaa-c99e-407e-8f10-7b0afc250030
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Stocked Quantity
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Unit Price'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: f3931813-2f38-49de-9fb4-5322ad900467
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Unit Price
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Ordered Value'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: ac130b47-094d-4701-87fd-37799cc91e21
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Ordered Value
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Accepted Value'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 584ba179-df16-4653-b0d5-c64c3e231361
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Accepted Value
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Rejected Value'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 3df385c4-81fb-49fb-846e-175d8e69b31d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Rejected Value
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Short Delivered Value'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 92d1e378-21c9-4702-b058-e9783e84bc4a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Short Delivered Value
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Freight Allocated'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 85f73955-3b7a-4da6-8139-f94b4ee456c8
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Freight Allocated
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Promised Lead Days'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 84ccd980-f52c-450b-8c5b-f7d816165b59
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Promised Lead Days
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Is Due Date Invalid'
 		dataType: boolean
@@ -369,15 +389,17 @@ table Purchases
 
 	column batch_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: ce567bbb-b2ea-4736-9efd-4ba4f3977a96
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: batch_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column loaded_at
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: b0312e65-3b0a-4d70-b2ce-6fbc30107bc2
 		summarizeBy: none

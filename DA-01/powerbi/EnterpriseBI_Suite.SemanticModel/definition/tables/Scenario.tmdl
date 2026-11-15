@@ -3,21 +3,23 @@ table Scenario
 
 	column scenario_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 0cce6907-db0b-4a3a-93cc-122b13595438
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: scenario_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column scenario_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d416c459-c6e5-45e1-86cb-3b9cebba9bf9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: scenario_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string

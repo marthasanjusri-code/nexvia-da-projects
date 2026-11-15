@@ -3,21 +3,23 @@ table 'Scrap Reason'
 
 	column scrap_reason_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a61b6063-3640-401e-8e17-b9d320362e4c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: scrap_reason_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column scrap_reason_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 24f0f835-5aa4-4fdb-8a2d-6d4153238889
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: scrap_reason_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string

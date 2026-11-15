@@ -3,21 +3,23 @@ table Location
 
 	column location_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e16f0356-0cdb-4fcd-a0e5-55e4ed83694b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: location_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column location_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 0ff9ece9-cdd0-4183-9326-493bb85e035f
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: location_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
@@ -56,10 +58,10 @@ table Location
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: a0933487-3b56-4167-8e86-b8bb4ebb1275
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Cost Rate
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
@@ -67,10 +69,10 @@ table Location
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 5aac37a5-1afe-4127-b14f-13288ba2362f
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Availability
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 

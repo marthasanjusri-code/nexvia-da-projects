@@ -3,21 +3,23 @@ table Account
 
 	column account_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 52928c49-04cb-4eb6-9b82-26fc5325c4bd
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: account_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column account_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 45d4d3fe-a8b4-41a5-bec6-e97758ddb2f1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: account_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
@@ -88,10 +90,10 @@ table Account
 		dataType: int64
 		formatString: 0
 		lineageTag: a7a81e37-e854-47a7-bc41-366512b44ce7
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Sign to Net Income
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Account Level 1'
 		dataType: string
@@ -145,10 +147,10 @@ table Account
 		dataType: int64
 		formatString: 0
 		lineageTag: 6cbe98ab-60aa-480c-8897-7a7d2129bc11
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Sort Order
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Is Leaf'
 		dataType: boolean

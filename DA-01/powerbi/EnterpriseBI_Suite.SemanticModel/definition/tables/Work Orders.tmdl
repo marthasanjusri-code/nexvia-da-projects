@@ -49,102 +49,113 @@ table 'Work Orders'
 
 	column work_order_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 198ce6bf-3f97-414c-851e-19e329d361ca
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: work_order_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column start_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a653861e-85cb-4e0b-a355-13a9493610a6
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: start_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column end_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f70570ab-86d2-4701-b646-8a6e580cba42
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: end_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column due_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 630c97bb-341a-46bb-be6d-fee29661f538
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: due_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column product_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f3458623-61db-4316-840d-2e7e54025a0b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: product_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column scrap_reason_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 1203607b-f7ae-4358-a3e1-918456533a1b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: scrap_reason_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Order Quantity'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f63f0551-1626-43c4-a208-7fa28b6e4eb0
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Order Quantity
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Stocked Quantity'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: ae504a5b-1bbb-449c-b346-de87b6159763
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Stocked Quantity
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Scrapped Quantity'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 83c73c1d-66c6-4a3f-8f4c-728572f4608a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Scrapped Quantity
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Days to Finish'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 652c6114-7a6f-41cd-9507-75bde8deea9d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Days to Finish
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Days Late'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 44c6f656-79c3-4454-9a05-ef87bd9d7b0a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Days Late
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Is Finished Late'
 		dataType: boolean
@@ -157,23 +168,25 @@ table 'Work Orders'
 
 	column 'Unit Cost'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 886cb439-4838-4edd-a5d4-592ec92f98c9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Unit Cost
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Scrap Cost'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 31fe9dfe-267d-4046-ae44-8a308ec2f22a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Scrap Cost
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
@@ -187,15 +200,17 @@ table 'Work Orders'
 
 	column batch_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 022165bf-ce58-4411-988b-dc32366fa2fd
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: batch_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column loaded_at
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: 3e24eb86-10bf-4b76-a95b-673d212150e7
 		summarizeBy: none

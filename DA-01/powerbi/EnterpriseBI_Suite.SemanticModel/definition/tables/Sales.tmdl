@@ -181,21 +181,23 @@ table Sales
 
 	column sales_order_line_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 0ce35c1b-b1bb-4d82-81ea-dafd5bd1095d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: sales_order_line_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column sales_order_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 361bc89a-aee1-4a34-981d-a43f0b17f078
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: sales_order_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Sales Order Number'
 		dataType: string
@@ -207,84 +209,93 @@ table Sales
 
 	column order_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 6465506c-1cf9-4712-bfda-bfaf546d10af
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: order_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column due_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 219e39e8-16e1-4b48-97f5-3867150564e2
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: due_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column ship_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 05b6738f-21c6-4cbe-9c2f-ca145c5cd612
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ship_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column product_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: eeb3da3f-b083-4a82-9767-ff74f8050d13
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: product_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column customer_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 7bf555e6-0d8b-4070-a7cf-e0193adabd92
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: customer_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column salesperson_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4e6671df-d0fb-4474-9720-3c7d02d422e3
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: salesperson_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column territory_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: fe025d9c-31c9-4909-bdf1-e3a5ff432baf
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: territory_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column promotion_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: fb3dbbbd-c2b9-49f9-b8a1-ccf3c423fb9a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: promotion_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column ship_method_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 5a78ff8f-5ffd-467d-a7ba-e1006ccb1273
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ship_method_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column Channel
 		dataType: string
@@ -304,95 +315,104 @@ table Sales
 
 	column 'Order Quantity'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: da1ea750-a9aa-4ded-9023-f575ea3c7d35
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Order Quantity
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Unit Price'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 0c4ce01c-f567-4961-a9d4-532195217779
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Unit Price
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Discount %'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: b158ede6-4858-4b90-9fa9-b207e22f6315
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Discount %
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Gross Amount'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 608c4cff-9d47-4dda-b213-8c7fe29a80f5
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Gross Amount
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Discount Amount'
 		dataType: double
+		isHidden
 		lineageTag: c8f6f30e-8e82-456a-ab9f-14ffe2eb72d9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Discount Amount
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Line Total'
 		dataType: double
+		isHidden
 		lineageTag: 590413b2-4817-4f68-9b78-2e90341bdc4b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Line Total
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Unit Cost'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: e92f1255-5839-4f70-9b6e-277cfbaf3530
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Unit Cost
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Cost Amount'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 0a2d96fb-0ddd-4092-8f1d-424cea12ef20
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Cost Amount
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Gross Margin'
 		dataType: double
+		isHidden
 		lineageTag: 0015a9ea-5472-4936-9663-097cbae03cca
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Gross Margin
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -407,15 +427,17 @@ table Sales
 
 	column batch_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 61f03b85-4589-4e63-b84c-f568a3acfc59
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: batch_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column loaded_at
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: bef2237d-a56f-413b-9e5c-6303b81275c3
 		summarizeBy: none

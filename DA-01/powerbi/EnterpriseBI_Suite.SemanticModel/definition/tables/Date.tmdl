@@ -4,12 +4,13 @@ table Date
 
 	column date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f51024e0-2053-475a-b6e7-8d0524491f22
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column Date
 		dataType: dateTime
@@ -27,16 +28,17 @@ table Date
 		dataType: int64
 		formatString: 0
 		lineageTag: 7eaf5b60-e589-4221-940e-ace14eb00aab
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Day of Month
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Day Name'
 		dataType: string
 		lineageTag: 4b9ff4c0-07b7-4a4c-8819-e1063063ddf4
 		summarizeBy: none
 		sourceColumn: Day Name
+		sortByColumn: 'Day of Week'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -45,6 +47,7 @@ table Date
 		lineageTag: bbc9aec3-a848-4e73-8b43-c993d045732a
 		summarizeBy: none
 		sourceColumn: Day Short
+		sortByColumn: 'Day of Week'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -52,10 +55,10 @@ table Date
 		dataType: int64
 		formatString: 0
 		lineageTag: dec19ff2-f013-459e-a24a-251590aa5dbd
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Day of Week
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Is Weekend'
 		dataType: boolean
@@ -70,34 +73,35 @@ table Date
 		dataType: int64
 		formatString: 0
 		lineageTag: cef5a2a5-c2ac-45fb-a045-a2c8d91513a4
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ISO Week
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'ISO Year'
 		dataType: int64
 		formatString: 0
 		lineageTag: ffbf8c43-4a87-4e07-ab9d-a0a7fd6a2486
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ISO Year
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Month Number'
 		dataType: int64
 		formatString: 0
 		lineageTag: 78768ab1-5c6c-4ec5-b886-b7479cd671b9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Month Number
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Month Name'
 		dataType: string
 		lineageTag: de81530e-eb58-432c-bd68-86f781f6cb90
 		summarizeBy: none
 		sourceColumn: Month Name
+		sortByColumn: 'Month Number'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -106,6 +110,7 @@ table Date
 		lineageTag: cabb4a16-1ce0-4504-b9c6-b2209a1b7e24
 		summarizeBy: none
 		sourceColumn: Month Short
+		sortByColumn: 'Month Number'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -121,10 +126,10 @@ table Date
 		dataType: int64
 		formatString: 0
 		lineageTag: 5986c259-397d-4236-a368-c64069a8918b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Year Month Number
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Month Start Date'
 		dataType: dateTime
@@ -161,10 +166,10 @@ table Date
 		dataType: int64
 		formatString: 0
 		lineageTag: 59d0bd2d-55a6-4e7b-9665-f9e45f8e2ac4
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Quarter
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Quarter Label'
 		dataType: string
@@ -186,19 +191,19 @@ table Date
 		dataType: int64
 		formatString: 0
 		lineageTag: 745ce100-fdb8-46ca-8981-dc71794064b5
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Year
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Fiscal Year'
 		dataType: int64
 		formatString: 0
 		lineageTag: 058d9ed8-e879-4ab5-921b-3e1e9883c434
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Fiscal Year
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Fiscal Year Label'
 		dataType: string
@@ -212,19 +217,19 @@ table Date
 		dataType: int64
 		formatString: 0
 		lineageTag: 3459494f-bd7b-4cf0-9b4e-f871eb63eab2
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Fiscal Quarter
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Fiscal Month'
 		dataType: int64
 		formatString: 0
 		lineageTag: aff725ac-780d-4945-b50a-8f706a4681a3
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Fiscal Month
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Fiscal Year Quarter'
 		dataType: string

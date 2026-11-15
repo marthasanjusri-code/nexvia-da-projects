@@ -35,39 +35,43 @@ table 'Sales Quota'
 
 	column salesperson_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 34772622-36dc-4095-8398-9f7b775f3fc1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: salesperson_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column quota_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3e4d7fc8-0500-475f-a15e-f9df3a4f825b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: quota_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column salesperson_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 0a07ad6a-18b7-4fd8-b47c-b196fa948341
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: salesperson_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column territory_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: cac6aad0-d515-43fa-9c98-e35d2f9148d8
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: territory_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Territory Source'
 		dataType: string
@@ -101,26 +105,29 @@ table 'Sales Quota'
 
 	column 'Sales Quota'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 03886f96-015c-4c5f-bb08-41f0cfadeb47
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Sales Quota
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column batch_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 779f92d8-952b-44a5-af0d-03f64d14bf1d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: batch_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column loaded_at
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: a145a9d7-2227-4400-b3dc-80d8a9690ac4
 		summarizeBy: none

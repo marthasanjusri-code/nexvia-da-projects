@@ -3,21 +3,23 @@ table Product
 
 	column product_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 0aeba674-8e88-4733-a3da-710388668830
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: product_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column product_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 7d9cf087-159f-47e1-bd42-d071b0e217ee
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: product_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
@@ -130,28 +132,28 @@ table Product
 		dataType: int64
 		formatString: 0
 		lineageTag: d490f4cf-5ed4-4510-a15d-deb9653c3555
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Safety Stock Level
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Reorder Point'
 		dataType: int64
 		formatString: 0
 		lineageTag: e45a6b3e-44b6-4926-9df8-185fc58c3d92
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Reorder Point
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Standard Cost'
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: b4c882ab-d636-4687-af10-5068f7e8cfef
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Standard Cost
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
@@ -159,10 +161,10 @@ table Product
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 74fe1a0c-d4ee-4102-90fe-7960357b25aa
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: List Price
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 

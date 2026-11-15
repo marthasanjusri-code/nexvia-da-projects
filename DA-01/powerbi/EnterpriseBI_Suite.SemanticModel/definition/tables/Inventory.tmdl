@@ -167,77 +167,85 @@ table Inventory
 
 	column product_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 8c125013-e3b9-4ef0-9956-26cf06900e6a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: product_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column location_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e25c2940-1af8-407e-8c36-5824e52175a4
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: location_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column snapshot_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: cb2c7b11-6c1d-4105-831b-d085f1497206
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: snapshot_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column product_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: efea10e8-8685-4397-985c-581d85fa3692
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: product_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column location_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 94fe79e8-41e6-4002-9b36-5f3103f61df5
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: location_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column Quantity
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 7d7af1b0-55eb-4454-be88-991613261c75
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Quantity
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Unit Cost'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: bc47578c-138c-44ee-8955-de35b6d03b37
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Unit Cost
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Stock Value'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 98dfa048-f8c2-42bb-a1e2-aceb5b1c93d9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Stock Value
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
@@ -271,15 +279,17 @@ table Inventory
 
 	column batch_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4fd0ab71-f9bf-475b-9de7-12d9462543d5
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: batch_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column loaded_at
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: 346490ad-0bc0-4305-9198-98012d014119
 		summarizeBy: none

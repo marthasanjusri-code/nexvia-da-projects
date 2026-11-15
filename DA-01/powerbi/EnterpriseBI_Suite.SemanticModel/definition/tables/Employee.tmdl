@@ -3,21 +3,23 @@ table Employee
 
 	column employee_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4f808314-bd13-4e89-bcf4-60385115eb68
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: employee_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column employee_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: ac90f4e5-827c-40de-9865-dcf266307487
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: employee_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
@@ -56,19 +58,20 @@ table Employee
 		dataType: int64
 		formatString: 0
 		lineageTag: 41894851-8c5c-47cd-a1a9-7ff1a10e6cac
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Organization Level
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column manager_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 64a67541-b395-4e0b-bccf-53bf1f239e30
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: manager_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Current Department'
 		dataType: string

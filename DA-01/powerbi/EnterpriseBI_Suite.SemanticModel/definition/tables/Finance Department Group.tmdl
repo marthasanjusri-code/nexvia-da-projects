@@ -3,21 +3,23 @@ table 'Finance Department Group'
 
 	column finance_department_group_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: afa525e9-9daa-4d23-bbce-5fa6a59dc9e5
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: finance_department_group_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column department_group_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 9c2c8e5f-0939-40bd-8e17-2766f5e66ad8
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: department_group_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string

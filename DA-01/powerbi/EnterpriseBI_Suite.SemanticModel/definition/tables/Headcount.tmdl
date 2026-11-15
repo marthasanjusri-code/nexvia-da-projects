@@ -108,86 +108,95 @@ table Headcount
 
 	column employee_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3334223a-bfa2-4b88-a77c-f1a7c79f2e10
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: employee_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column month_end_date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 7f25d5e2-be7f-4f3b-8411-f250cf77d89c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: month_end_date_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column employee_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: abcdbb7c-6cc0-496b-97f1-8d7545236ca7
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: employee_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column department_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e392046b-1b79-477e-b03a-cd3e23b6174d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: department_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column shift_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 06c2fc16-5e2e-40b9-ba30-ec09b1298e22
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: shift_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Pay Rate'
 		dataType: decimal
+		isHidden
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 7857c738-b6ed-4af3-8259-19e27578ff35
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Pay Rate
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column 'Pay Frequency'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 87aacf79-0f55-42ed-86cd-515c15e9ae4d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Pay Frequency
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Age at Month End'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: fac5e665-f95a-4d24-aa20-b8b5306a6115
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Age at Month End
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Tenure Months'
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 904d3de1-61bd-4d8e-8a03-2ac7ba49524a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Tenure Months
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Is Hired This Month'
 		dataType: boolean
@@ -200,15 +209,17 @@ table Headcount
 
 	column batch_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: bfaefff6-7ac4-4168-bcb1-1856dee5188b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: batch_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column loaded_at
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: 5fc5b666-35f4-4207-8a2b-efa9e85bb8fb
 		summarizeBy: none

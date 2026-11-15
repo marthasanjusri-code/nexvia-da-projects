@@ -3,21 +3,23 @@ table 'Ship Method'
 
 	column ship_method_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 03d6daed-89bd-4087-80b6-9a443c5820f2
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ship_method_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column ship_method_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4b920121-f2ca-4551-8aa7-cdbcbc894987
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ship_method_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
@@ -48,10 +50,10 @@ table 'Ship Method'
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 03c5a54e-943f-4a89-8b42-7a7c9836a848
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Ship Base
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
@@ -59,10 +61,10 @@ table 'Ship Method'
 		dataType: decimal
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: ee7457cf-cc54-46e3-a252-c12716bf845c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Ship Rate
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 

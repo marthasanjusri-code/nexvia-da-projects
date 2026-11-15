@@ -3,21 +3,23 @@ table Vendor
 
 	column vendor_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 86580abe-18a3-4e6f-b3bf-e87acfcb8bb8
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: vendor_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column vendor_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 5792e37c-ff39-410b-8e62-8646fb66950e
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: vendor_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
@@ -48,10 +50,10 @@ table Vendor
 		dataType: int64
 		formatString: 0
 		lineageTag: 45da7b31-9d90-4e08-a209-2b7c87166444
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Credit Rating
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Credit Rating Label'
 		dataType: string

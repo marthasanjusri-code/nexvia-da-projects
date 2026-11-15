@@ -3,21 +3,23 @@ table 'Employee HR'
 
 	column employee_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d17f2815-4889-47c9-8cfc-b3de9edb5679
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: employee_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column employee_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: b3e78c7b-6325-483a-917f-ad7c492625d0
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: employee_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
@@ -75,19 +77,19 @@ table 'Employee HR'
 		dataType: int64
 		formatString: 0
 		lineageTag: d31ba753-f606-44c4-b7bf-cd6cc9f531df
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Vacation Hours
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Sick Leave Hours'
 		dataType: int64
 		formatString: 0
 		lineageTag: fc0f6651-6f11-42b4-9dde-7dafe84992e1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Sick Leave Hours
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	partition 'Employee HR' = m
 		mode: import

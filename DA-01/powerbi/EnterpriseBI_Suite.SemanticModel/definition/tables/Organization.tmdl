@@ -3,21 +3,23 @@ table Organization
 
 	column organization_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: c76c4bb5-71dd-47f7-8c6a-9c3a446af605
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: organization_key
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column organization_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3edc25fa-7c95-42c7-a724-b4c7faafaf59
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: organization_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Row Type'
 		dataType: string
