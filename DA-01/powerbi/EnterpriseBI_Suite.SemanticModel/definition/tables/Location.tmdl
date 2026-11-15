@@ -56,7 +56,7 @@ table Location
 
 	column 'Cost Rate'
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		lineageTag: a0933487-3b56-4167-8e86-b8bb4ebb1275
 		summarizeBy: none
 		sourceColumn: Cost Rate
@@ -67,14 +67,12 @@ table Location
 
 	column Availability
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: #,0.00
 		lineageTag: 5aac37a5-1afe-4127-b14f-13288ba2362f
 		summarizeBy: none
 		sourceColumn: Availability
 
 		annotation SummarizationSetBy = User
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	partition Location = m
 		mode: import

@@ -148,7 +148,7 @@ table Product
 
 	column 'Standard Cost'
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		lineageTag: b4c882ab-d636-4687-af10-5068f7e8cfef
 		summarizeBy: none
 		sourceColumn: Standard Cost
@@ -159,7 +159,7 @@ table Product
 
 	column 'List Price'
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		lineageTag: 74fe1a0c-d4ee-4102-90fe-7960357b25aa
 		summarizeBy: none
 		sourceColumn: List Price

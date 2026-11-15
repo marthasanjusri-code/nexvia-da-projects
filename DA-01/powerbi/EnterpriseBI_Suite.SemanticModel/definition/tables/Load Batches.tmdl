@@ -43,10 +43,10 @@ table 'Load Batches'
 		dataType: int64
 		formatString: 0
 		lineageTag: 9d132077-c975-4d24-926a-86d48ea86bf6
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: Batch ID
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Started At'
 		dataType: dateTime
@@ -86,10 +86,10 @@ table 'Load Batches'
 		dataType: int64
 		formatString: 0
 		lineageTag: 96d05802-7f9b-40e7-9b09-a94626626932
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Duration (s)
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	partition 'Load Batches' = m
 		mode: import

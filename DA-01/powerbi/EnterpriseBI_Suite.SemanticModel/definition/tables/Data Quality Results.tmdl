@@ -58,21 +58,23 @@ table 'Data Quality Results'
 
 	column dq_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 7f203bff-a089-49a8-a0ab-f95e56e4bc40
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: dq_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column batch_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: bff363dc-dee3-4c80-9258-fa1c39870d3b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: batch_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column Check
 		dataType: string
@@ -92,14 +94,12 @@ table 'Data Quality Results'
 
 	column 'Measured Value'
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: #,0.####
 		lineageTag: 79d7b32d-5f16-4504-8a13-935ab37f7599
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Measured Value
 
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column Expected
 		dataType: string

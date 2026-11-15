@@ -48,7 +48,7 @@ table 'Ship Method'
 
 	column 'Ship Base'
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		lineageTag: 03c5a54e-943f-4a89-8b42-7a7c9836a848
 		summarizeBy: none
 		sourceColumn: Ship Base
@@ -59,7 +59,7 @@ table 'Ship Method'
 
 	column 'Ship Rate'
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		lineageTag: ee7457cf-cc54-46e3-a252-c12716bf845c
 		summarizeBy: none
 		sourceColumn: Ship Rate
