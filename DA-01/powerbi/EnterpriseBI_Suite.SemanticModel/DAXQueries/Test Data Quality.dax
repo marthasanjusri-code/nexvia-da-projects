@@ -1,0 +1,7 @@
+EVALUATE
+ROW(
+    "Latest Check Batch", [Latest Check Batch],
+    "Passed", [Checks Passed], "Warned", [Checks Warned], "Failed", [Checks Failed],
+    "Last Run Status", [Last Run Status], "Last Run Started", [Last Run Started],
+    "Last Run Duration (s)", [Last Run Duration (s)], "Runs", [Runs], "Failed Runs", [Failed Runs]
+)

@@ -152,3 +152,7 @@ relationship Headcount_Shift
 	fromColumn: Headcount.shift_key
 	toColumn: Shift.shift_key
 
+relationship DataQuality_Batch
+	fromColumn: 'Data Quality Results'.batch_id
+	toColumn: 'Load Batches'.'Batch ID'
+

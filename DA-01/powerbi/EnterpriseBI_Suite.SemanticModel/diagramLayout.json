@@ -345,6 +345,32 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 7384,
+            "y": 0
+          },
+          "nodeIndex": "Data Quality Results",
+          "nodeLineageTag": "998b3e54-54c9-4f7e-9c14-77d36c75e7b4",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 7668,
+            "y": 38
+          },
+          "nodeIndex": "Load Batches",
+          "nodeLineageTag": "aedb9d6c-880c-4aee-a807-3d69d04fd9fc",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "All tables",

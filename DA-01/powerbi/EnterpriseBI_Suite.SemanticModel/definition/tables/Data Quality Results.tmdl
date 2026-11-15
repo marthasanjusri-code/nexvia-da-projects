@@ -1,0 +1,186 @@
+table 'Data Quality Results'
+	lineageTag: 998b3e54-54c9-4f7e-9c14-77d36c75e7b4
+
+	/// D77, D119. The latest pipeline run that has check results, ignoring report filters.
+	measure 'Latest Check Batch' = CALCULATE ( MAX ( 'Data Quality Results'[batch_id] ), REMOVEFILTERS () )
+		formatString: 0
+		displayFolder: Data Quality
+		lineageTag: 742798a7-f61d-4906-af3a-ea0b295ba5ed
+
+	/// D119. Checks with status Pass in the latest run that has check results.
+	measure 'Checks Passed' =
+			VAR LatestBatch = CALCULATE ( MAX ( 'Data Quality Results'[batch_id] ), REMOVEFILTERS () )
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( 'Data Quality Results' ),
+			        'Data Quality Results'[batch_id] = LatestBatch,
+			        'Data Quality Results'[Status] = "Pass"
+			    ) + 0
+		formatString: #,0
+		displayFolder: Data Quality
+		lineageTag: daf4640d-24c5-424c-a085-3c9448cd4b9f
+
+	/// D119. Warning checks outside their threshold (status Warn) in the latest run that has check results.
+	measure 'Checks Warned' =
+			VAR LatestBatch = CALCULATE ( MAX ( 'Data Quality Results'[batch_id] ), REMOVEFILTERS () )
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( 'Data Quality Results' ),
+			        'Data Quality Results'[batch_id] = LatestBatch,
+			        'Data Quality Results'[Status] = "Warn"
+			    ) + 0
+		formatString: #,0
+		displayFolder: Data Quality
+		lineageTag: a6f7f5b0-a617-4883-9d0c-97ff461ebe99
+
+	/// D77, D118. Error checks that failed (status Fail) in the latest run that has check results; any failure rolls the run back.
+	measure 'Checks Failed' =
+			VAR LatestBatch = CALCULATE ( MAX ( 'Data Quality Results'[batch_id] ), REMOVEFILTERS () )
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( 'Data Quality Results' ),
+			        'Data Quality Results'[batch_id] = LatestBatch,
+			        'Data Quality Results'[Status] = "Fail"
+			    ) + 0
+		formatString: #,0
+		displayFolder: Data Quality
+		lineageTag: a458359b-5578-44b9-bb41-fbfb575d9604
+
+	/// Visual filter helper: 1 for rows of the latest run that has check results, otherwise 0.
+	measure 'Is Latest Check Batch' =
+			VAR LatestBatch = CALCULATE ( MAX ( 'Data Quality Results'[batch_id] ), REMOVEFILTERS () )
+			RETURN
+			    IF ( MAX ( 'Data Quality Results'[batch_id] ) = LatestBatch, 1, 0 )
+		formatString: 0
+		isHidden
+		displayFolder: Data Quality
+		lineageTag: f46a04a9-5015-49c6-a2a3-ef84684667d0
+
+	column dq_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f203bff-a089-49a8-a0ab-f95e56e4bc40
+		summarizeBy: sum
+		sourceColumn: dq_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column batch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: bff363dc-dee3-4c80-9258-fa1c39870d3b
+		summarizeBy: sum
+		sourceColumn: batch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Check
+		dataType: string
+		lineageTag: 4ed0680b-1fc5-4e5a-97ec-101e5996cab1
+		summarizeBy: none
+		sourceColumn: Check
+
+		annotation SummarizationSetBy = Automatic
+
+	column Severity
+		dataType: string
+		lineageTag: 7c50d339-1b7a-4ef4-9be5-f0449bdb0eb7
+		summarizeBy: none
+		sourceColumn: Severity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Measured Value'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 79d7b32d-5f16-4504-8a13-935ab37f7599
+		summarizeBy: sum
+		sourceColumn: Measured Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Expected
+		dataType: string
+		lineageTag: 3a72d7d6-709a-4591-8394-6ae1d140bd51
+		summarizeBy: none
+		sourceColumn: Expected
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: b75e3e0a-86f6-4c03-bc5c-95b3146fa233
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Details
+		dataType: string
+		lineageTag: aea33ae6-e1da-4cfa-9c06-e95a82b751e9
+		summarizeBy: none
+		sourceColumn: Details
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Checked At'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6ac89619-df9a-4d81-8dbc-fa1b2b3a0911
+		summarizeBy: none
+		sourceColumn: Checked At
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Check Code'
+		dataType: string
+		lineageTag: a624132a-a3f7-467a-a1d6-396f795fec7f
+		summarizeBy: none
+		sourceColumn: Check Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rule
+		dataType: string
+		lineageTag: fa9f3f50-bf94-4bb8-8949-d9e02d833252
+		summarizeBy: none
+		sourceColumn: Rule
+
+		annotation SummarizationSetBy = Automatic
+
+	column Decision
+		dataType: string
+		lineageTag: 867f21a2-1163-4c45-b91e-5015fb1397f3
+		summarizeBy: none
+		sourceColumn: Decision
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Data Quality Results' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Results = Source{[Schema = "etl", Item = "dq_result"]}[Data],
+				    Kept = Table.SelectColumns(Results, {"dq_id", "batch_id", "check_name", "severity", "measured_value",
+				                                         "expected_value", "status", "details", "checked_at"}),
+				    Checks = Table.SelectColumns(Source{[Schema = "etl", Item = "dq_check"]}[Data], {"check_code", "rule_type", "decision"}),
+				    WithCode = Table.AddColumn(Kept, "check_code", each Text.Start([check_name], 3), type text),
+				    Joined = Table.NestedJoin(WithCode, {"check_code"}, Checks, {"check_code"}, "Check", JoinKind.LeftOuter),
+				    Expanded = Table.ExpandTableColumn(Joined, "Check", {"rule_type", "decision"}),
+				    Typed = Table.TransformColumnTypes(Expanded, {
+				        {"dq_id", Int64.Type}, {"batch_id", Int64.Type}, {"check_name", type text}, {"severity", type text},
+				        {"measured_value", Currency.Type}, {"expected_value", type text}, {"status", type text},
+				        {"details", type text}, {"checked_at", type datetime}, {"check_code", type text},
+				        {"rule_type", type text}, {"decision", type text}}),
+				    Renamed = Table.RenameColumns(Typed, {
+				        {"check_name", "Check"}, {"severity", "Severity"}, {"measured_value", "Measured Value"},
+				        {"expected_value", "Expected"}, {"status", "Status"}, {"details", "Details"},
+				        {"checked_at", "Checked At"}, {"check_code", "Check Code"}, {"rule_type", "Rule"}, {"decision", "Decision"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

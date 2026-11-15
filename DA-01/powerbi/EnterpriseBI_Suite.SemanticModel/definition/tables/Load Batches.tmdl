@@ -1,0 +1,113 @@
+table 'Load Batches'
+	lineageTag: aedb9d6c-880c-4aee-a807-3d69d04fd9fc
+
+	/// D118. Status of the latest pipeline run (Succeeded or Failed), ignoring report filters.
+	measure 'Last Run Status' =
+			VAR LastBatch = CALCULATE ( MAX ( 'Load Batches'[Batch ID] ), REMOVEFILTERS () )
+			RETURN
+			    LOOKUPVALUE ( 'Load Batches'[Status], 'Load Batches'[Batch ID], LastBatch )
+		displayFolder: Load History
+		lineageTag: 28da2ad6-aab5-4507-9c17-926b2088d1fe
+
+	/// D118. Start time of the latest pipeline run.
+	measure 'Last Run Started' =
+			VAR LastBatch = CALCULATE ( MAX ( 'Load Batches'[Batch ID] ), REMOVEFILTERS () )
+			RETURN
+			    LOOKUPVALUE ( 'Load Batches'[Started At], 'Load Batches'[Batch ID], LastBatch )
+		formatString: yyyy-mm-dd hh:nn
+		displayFolder: Load History
+		lineageTag: ac22d2da-309d-4cb7-bbbe-6f7761dad192
+
+	/// D118. Duration in seconds of the latest pipeline run.
+	measure 'Last Run Duration (s)' =
+			VAR LastBatch = CALCULATE ( MAX ( 'Load Batches'[Batch ID] ), REMOVEFILTERS () )
+			RETURN
+			    LOOKUPVALUE ( 'Load Batches'[Duration (s)], 'Load Batches'[Batch ID], LastBatch )
+		formatString: #,0
+		displayFolder: Load History
+		lineageTag: ceb4d824-3a78-46d8-a3f9-384b8288ed8b
+
+	/// D118. Pipeline runs in context.
+	measure Runs = COUNTROWS ( 'Load Batches' )
+		formatString: #,0
+		displayFolder: Load History
+		lineageTag: 34925d49-9837-46cb-8173-1a10f9c1adc6
+
+	/// D118. Pipeline runs that failed and were rolled back.
+	measure 'Failed Runs' = CALCULATE ( COUNTROWS ( 'Load Batches' ), KEEPFILTERS ( 'Load Batches'[Status] = "Failed" ) ) + 0
+		formatString: #,0
+		displayFolder: Load History
+		lineageTag: 5921f9ba-8267-4439-917b-2d1c18f358a8
+
+	column 'Batch ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d132077-c975-4d24-926a-86d48ea86bf6
+		summarizeBy: count
+		sourceColumn: Batch ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Started At'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d36f0cd4-298f-49d9-b6e4-51113b61b0a3
+		summarizeBy: none
+		sourceColumn: Started At
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ended At'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 88675cfc-fa1b-4398-8a89-d1b42b2a296b
+		summarizeBy: none
+		sourceColumn: Ended At
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: b517e2d0-cc35-4ec1-9c46-9696c96630a9
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Triggered By'
+		dataType: string
+		lineageTag: 3e4261e4-7403-475c-a03c-9c1b18c8ea0c
+		summarizeBy: none
+		sourceColumn: Triggered By
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Duration (s)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 96d05802-7f9b-40e7-9b09-a94626626932
+		summarizeBy: sum
+		sourceColumn: Duration (s)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Load Batches' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "EnterpriseBI_DW"),
+				    Batches = Source{[Schema = "etl", Item = "load_batch"]}[Data],
+				    Kept = Table.SelectColumns(Batches, {"batch_id", "started_at", "ended_at", "status", "triggered_by"}),
+				    WithDuration = Table.AddColumn(Kept, "duration_seconds",
+				        each if [ended_at] = null then null else Duration.TotalSeconds([ended_at] - [started_at]), type number),
+				    Typed = Table.TransformColumnTypes(WithDuration, {
+				        {"batch_id", Int64.Type}, {"started_at", type datetime}, {"ended_at", type datetime},
+				        {"status", type text}, {"triggered_by", type text}, {"duration_seconds", Int64.Type}}),
+				    Renamed = Table.RenameColumns(Typed, {
+				        {"batch_id", "Batch ID"}, {"started_at", "Started At"}, {"ended_at", "Ended At"},
+				        {"status", "Status"}, {"triggered_by", "Triggered By"}, {"duration_seconds", "Duration (s)"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

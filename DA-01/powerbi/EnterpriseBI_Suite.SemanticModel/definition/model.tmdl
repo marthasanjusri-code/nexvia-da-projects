@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["Account","Customer","Date","Department","Employee","Employee HR","Finance Department Group","Location","Organization","Product","Promotion","Scenario","Scrap Reason","Shift","Ship Method","Territory","Vendor","Finance","Headcount","Inventory","Purchases","Sales","Sales Quota","Work Orders","Security User Region","Last Load"]
+annotation PBI_QueryOrder = ["Account","Customer","Date","Department","Employee","Employee HR","Finance Department Group","Location","Organization","Product","Promotion","Scenario","Scrap Reason","Shift","Ship Method","Territory","Vendor","Finance","Headcount","Inventory","Purchases","Sales","Sales Quota","Work Orders","Security User Region","Last Load","Data Quality Results","Load Batches"]
 
 annotation PBI_ProTooling = ["DaxQueryView_Desktop","TMDLView_Desktop","DevMode"]
 
@@ -39,6 +39,8 @@ ref table 'Sales Quota'
 ref table 'Work Orders'
 ref table 'Security User Region'
 ref table 'Last Load'
+ref table 'Data Quality Results'
+ref table 'Load Batches'
 
 ref role 'Dynamic Security'
 
