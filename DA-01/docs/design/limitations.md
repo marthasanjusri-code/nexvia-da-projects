@@ -19,7 +19,7 @@ these items on every load are listed in [`architecture.md`](architecture.md#3-da
 | Finance | No finance unit for the United Kingdom | The Europe view has UK sales but no UK finance | D72 |
 | Finance | Exchange rates in the source are synthetic, not real-world rates | Converted amounts follow the source's rates | D36 |
 | Finance | Converting assets and liabilities at month-end rates leaves a translation difference | The balance sheet does not balance exactly in USD; ratios within one unit are not affected | D36 |
-| Finance | May 2025 has income statement rows but no balance sheet rows | Balance sheet KPIs show April 2025 as their latest month | D39 |
+| Finance | May 2025 has income statement rows but no asset rows (only 6 equity reclassification rows) | Balance sheet KPIs show April 2025 as their latest month | D39, D115 |
 | HR | No termination dates; every employee is current | No attrition; headcount never falls (283 to 290 over the period) | D55 |
 | HR | Leave hours and salaried flag exist only as today's values | Shown as current values, not as history | D62 |
 | HR | No performance data for non-sales roles | No "top performing employees" view | D15 |
@@ -33,6 +33,8 @@ these items on every load are listed in [`architecture.md`](architecture.md#3-da
 | Sales | Every order ships in 7-8 days and none is late | Shipping KPIs exist but are hidden | D18 |
 | Sales | Online customers never received a promotion | Discount analysis is about reseller sales | D66 |
 | Sales | Online orders have no salesperson | Salesperson views cover reseller sales only | D59 |
+| Sales | Sales start on 30 May 2022 and June 2025 holds only 47,492 of revenue (orders stop on 29 June) | 2023 growth against 2022 (+117%) compares a full year with 7 months; a trend ending in June 2025 drops; revenue per employee is low for 2022 and 2025. Pages show the as-of date and state part years | D24, D126 |
+| Sales | Salesperson 282 sells in both Europe and North America | Salespeople cannot be filtered by one region; managers see all 17 names, figures only for their own region | D72, D132 |
 
 ---
 
@@ -71,6 +73,9 @@ Kept as they are (source data is never changed on suspicion) and documented.
 | Internal parts are valued at last purchase price, not weighted average cost | Simpler; weighted average needs full movement history | D53 |
 | HR data is hidden from regional managers; supply chain data (except inventory) is head-office only | The source has no region for these modules | D72 |
 | Staging tables are copied one after another, not as one consistent snapshot | Changing the source's isolation settings was out of scope; an orphan-line check covers the risk | D82 |
+| The Power BI connection to SQL Server is not encrypted | The laptop's SQL Server uses a self-signed certificate; on one machine no data crosses a network. A server on a network would get a trusted certificate | D121 |
+| Revenue in Power BI differs from SQL by 0.000001 | Floating point addition of 121,317 values; all money is shown and reconciled to the cent | D120 |
+| Power BI Desktop projects (.pbip) are marked as preview by Microsoft | Used for readable version control; the .pbix for submission is saved from the project | D131 |
 
 ---
 

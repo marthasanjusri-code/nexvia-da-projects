@@ -19,11 +19,15 @@ table Headcount
 		displayFolder: Headcount
 		lineageTag: c78d1cca-67b0-443b-896a-bb3d5c149a4a
 
-	/// H3. Employees hired in the selected months (one row per hire, D113).
-	measure Hires = CALCULATE ( COUNTROWS ( Headcount ), KEEPFILTERS ( Headcount[Is Hired This Month] = TRUE () ) )
+	/// H3. Employees hired in the selected months (one row per hire, D113). A real zero when headcount data exists for the selection (D17); blank where there is no headcount data.
+	measure Hires =
+			IF (
+			    NOT ISEMPTY ( Headcount ),
+			    CALCULATE ( COUNTROWS ( Headcount ), KEEPFILTERS ( Headcount[Is Hired This Month] = TRUE () ) ) + 0
+			)
 		formatString: #,0
 		displayFolder: Hiring and Tenure
-		lineageTag: d3e8ea88-6ca1-4246-ae32-7753f9e55d5d
+		lineageTag: 045c40cf-eb23-4003-b10b-42d6b459c4ab
 
 	/// H3. Average months since hire of the employees at the last month-end of the selection (current staff only).
 	measure 'Average Tenure (Months)' =

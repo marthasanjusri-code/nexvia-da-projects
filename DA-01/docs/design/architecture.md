@@ -3,7 +3,7 @@
 How data moves from the two source databases to the Power BI report, how the load is scheduled
 and checked, and how access is controlled.
 
-Decision IDs (D01-D119) refer to [`decision_log.md`](decision_log.md).
+Decision IDs (D01-D132) refer to [`decision_log.md`](decision_log.md).
 
 ---
 
@@ -136,7 +136,7 @@ Each check has a rule, because 0 is good for some checks and poor for others:
 | SQL Server | 2025 Enterprise Developer (17.0.1145.4) | Sources and warehouse |
 | SQL Server Agent | Built in, automatic start | Scheduler (pipeline) |
 | SQL Server Management Studio | 22 | Development, checks |
-| Power BI Desktop | Current Microsoft Store version | Report, model, DAX, security |
+| Power BI Desktop | 2.159.1231.0 64-bit (October 2026) | Report, model, DAX, security; saved as a Power BI Project (.pbip, TMDL) (D131) |
 | Git and GitHub | Git 2.56 | Version control |
 | Azure Data Factory | Optional | Alternative scheduler for the same procedures |
 
@@ -156,11 +156,20 @@ flowchart LR
 | Role | Sees | Does not see |
 |---|---|---|
 | Executive | Everything | – |
-| Regional Manager | Own region's sales, quotas, salespeople and finance; company-wide inventory | HR facts, `dim_employee_hr`, purchasing, production, unknown (-1) rows |
+| Regional Manager | Own region's sales, quotas and finance; salespeople's names, with figures only for their own region; company-wide inventory | HR facts, `dim_employee_hr`, purchasing, production, unknown (-1) rows |
 
-- One dynamic role reads the user's email and filters `dim_territory` and `dim_organization` by
-  the region group in `dw.security_user_region` (D71).
-- A user not in the table sees no data (D73).
+- One Power BI role, "Dynamic Security", reads the signed-in user's email with
+  `USERPRINCIPALNAME()` and takes the access level and region group from
+  `dw.security_user_region` (D71, D132).
+- A user not in the table sees no data (D73): every filter returns FALSE for them, never BLANK.
+
+| Table | Executive | Regional Manager | Not in the table |
+|---|---|---|---|
+| Territory, Organization | All rows | Own region group | None |
+| Employee | All rows | Salespeople and the "Not applicable" row (online sales) | None |
+| Headcount, Employee HR, Purchases, Work Orders | All rows | None | None |
+| Inventory, Customer | All rows | All rows | None |
+| Security User Region | Own row | Own row | None |
 - Users (D117): four employees from the source, with their source email addresses, tested with
   "View as - Other user" in Power BI Desktop (D74).
 
@@ -173,13 +182,13 @@ flowchart LR
 
 **Security tests (after the build)**
 
-| Test | Pass if |
-|---|---|
-| Each regional manager's sales total | Equals that region's total seen as Executive |
-| Sum of the three regions' sales | Equals the company total minus unknown rows |
-| Regional manager on HR pages and `dim_employee_hr` | No rows |
-| Europe manager on finance | France and Germany only |
-| User not in the mapping table | No data |
+| Test | Pass if | Result (B6) |
+|---|---|---|
+| Each regional manager's sales total | Equals that region's total in SQL | Pass |
+| Sum of the three regions' sales | Equals the company total (no sales sit on the Unknown territory) | Pass |
+| Regional manager on HR, purchasing and production | Blank | Pass (measured with Active Headcount, Spend, Work Orders Started) |
+| Regional manager on finance | Own region's finance net sales | Pass (Europe 7,787,807 = SQL) |
+| User not in the mapping table | No data | Pass |
 
 Limitation: the .pbix file itself is not protected; row-level security is enforced when content
 is shared through the Power BI Service (D74).

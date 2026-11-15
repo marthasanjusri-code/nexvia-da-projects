@@ -262,3 +262,44 @@ Notes:
   In the 112 s run the staging check step took 74 s; on its own it took 3 s. File autogrowth (about
   130 ms in total, default trace) and overlapping runs (batch times) were ruled out. The cause was
   not identified.
+
+---
+
+## B6: Power BI model, measures and security
+
+**Project:** `DA-01/powerbi/EnterpriseBI_Suite.pbip` | **Test queries:** `EnterpriseBI_Suite.SemanticModel/DAXQueries/` | **Run:** 12-15 Nov 2026 | **Result:** all passed
+
+Expected values come from SQL queries run against `EnterpriseBI_DW` in the same sessions.
+
+| # | Test (DAX query) | Expected (SQL) | Measured (Power BI) | Result |
+|---|---|---|---|---|
+| 1 | Row counts, 26 tables (`Test Row Counts`) | 25 warehouse tables as in SQL; Last Load 1 row | All 25 equal (Sales 121,317, Customer 19,821, Date 3,287 …); Last Load 1 | Pass |
+| 2 | Sales money totals at full precision (`Test Row Counts`) | Line total 109,846,381.399888; discount 527,507.913512; margin 12,557,780.599088; gross 110,373,889.3134; cost 97,288,600.8008 | Line total 109,846,381.399889 (+0.000001, D120); the other four equal | Pass |
+| 3 | Relationships (`Test Relationships`) | 37 as in the bus matrix, 6 inactive, all many-to-one, one direction; no auto date/time tables | 37, 6 inactive, as expected; 22 hidden date tables removed after Auto date/time was switched off (D124) | Pass |
+| 4 | Date table (`Test Date Table`) | 3,287 days, 3,287 distinct, 2017-01-01 to 2025-12-31, 939 weekend days (calendar count) | Same | Pass |
+| 5 | Sales measures (`Test Sales`) | Revenue by year 14,561,051.59 · 31,604,921.95 · 43,671,889.50 · 20,008,518.36; YTD 20,008,518.36 and same dates one year earlier 18,675,822.38; rolling average June 2025 2,392,769.93; quota 95,714,000, revenue in quota periods 80,487,704.18, attainment 84.09%; days to ship 7.000230; shipped by due date 100% | Same, including orders, customers, AOV, discount and gross margin % per year | Pass |
+| 6 | Finance measures (`Test Finance`) | Net sales, gross profit, operating profit, net income and operating expenses per year (e.g. 2024: 36,494,147.33 · 25,269,113.33 · 9,496,357.07 · 7,119,747.65); budget months: net income budget 7,431,330.92, actual 4,081,773.75, variance −3,349,557.18 (−45.1%), net sales variance −2,131,951.55; closing 2025-04-30: assets 19,134,799.60, current assets 17,397,293.88, liabilities 7,383,993.53, current liabilities 4,878,229.29, equity 11,750,806.07, current ratio 3.57 | Same | Pass |
+| 7 | HR measures (`Test HR`) | Headcount 283 · 287 · 290 · 290; average headcount 282.0 · 285.4 · 289.2 · 290.0; hires 9 · 4 · 3 · 0; tenure and pay at year-end; leave hours per department and group; pay blank for the 8 departments of Executive General and Administration and Research and Development (D64, D128) | Same; average pay differs from SQL by up to 0.0001 (SQL `AVG` on `money` cuts to 4 decimals: 17.98637 rounds to Power BI's 17.9864) | Pass |
+| 8 | Supply chain measures (`Test Supply Chain`) | Spend 61,211,692.73; OTIF 89.34%; fill rate 99.09%; rejection 3.13%; vendor on-time 100%; open and overdue quantity 290; stock 335,974 units, value 28,522,266.13, coverage 93.5%; reorder 61, below minimum 62, OK 363; days of cover 171.7; work orders 72,591, scrap rate 0.24%, on time 68.6%; lines, orders, value and spend per status | Same (fill rate shown as 0.9909, D120) | Pass |
+| 9 | Security setup (`Test Security Setup`) | 10 table permissions in one role, all in state Ready | 10 rows, state 1 (Ready), no error message | Pass |
+| 10 | Security, "View as" with each user (D74) | See the table below | Same | Pass |
+
+**Test 10, security by user** (Revenue · Quota · Finance Net Sales · Active Headcount, Spend, Work Orders Started · Stock Units):
+
+| User | Expected | Measured |
+|---|---|---|
+| Model owner (no role) | 109,846,381 · 95,714,000 · 91,475,269 · 290, 61,211,693, 72,591 · 335,974 | Same |
+| ken0@adventure-works.com (Executive) | Same as the owner | Same |
+| stephen0@adventure-works.com (North America) | 79,353,361 · 80,462,000 · 81,880,337 · blank · 335,974 | Same |
+| syed0@adventure-works.com (Pacific) | 10,655,336 · 1,892,000 · 1,807,125 · blank · 335,974 | Same |
+| amy0@adventure-works.com (Europe) | 19,837,684 · 13,360,000 · 7,787,807 · blank · 335,974 | Same |
+| nobody@example.com (not in the table) | All blank | All blank |
+
+Notes:
+- The three regions add up to the company totals (revenue, quota, finance net sales): no sales or
+  finance rows sit outside the three region groups.
+- The first "View as" run for Ken showed all blank because the email was not taken (the yellow bar
+  showed no email, so Power BI used the Windows account, which is not in the table: D73 working).
+  Repeated with the email entered again: as expected.
+- Test 7: the first run showed blank hires for 2025; the measure now returns 0 where headcount
+  data exists (D128).
