@@ -40,5 +40,7 @@ ref table 'Work Orders'
 ref table 'Security User Region'
 ref table 'Last Load'
 
+ref role 'Dynamic Security'
+
 ref cultureInfo en-US
 

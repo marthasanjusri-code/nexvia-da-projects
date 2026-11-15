@@ -7,7 +7,8 @@
     "Test Sales",
     "Test Finance",
     "Test HR",
-    "Test Supply Chain"
+    "Test Supply Chain",
+    "Test Security Setup"
   ],
-  "defaultTab": "Test Supply Chain"
+  "defaultTab": "Test Security Setup"
 }

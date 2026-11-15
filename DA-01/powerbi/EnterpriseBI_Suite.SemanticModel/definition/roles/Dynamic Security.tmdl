@@ -1,0 +1,55 @@
+/// D71 (R-a): one dynamic role for every user; access comes from dw.security_user_region through USERPRINCIPALNAME().
+/// Executive: all rows. Regional Manager (D72): Territory and Organization of the own region group (sales, quotas, finance);
+/// salespeople and the Not applicable row only in Employee; all Inventory and Customer rows; no Headcount, Employee HR,
+/// Purchases or Work Orders. User not in the table (D73): no rows in any secured table. Users read only their own mapping row.
+role 'Dynamic Security'
+	modelPermission: read
+
+	tablePermission 'Security User Region' = 'Security User Region'[user_email] = USERPRINCIPALNAME ()
+
+	tablePermission Territory =
+			VAR UserRole = LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () )
+			VAR UserRegion = LOOKUPVALUE ( 'Security User Region'[region_group], 'Security User Region'[user_email], USERPRINCIPALNAME () )
+			RETURN
+			    SWITCH (
+			        UserRole,
+			        "Executive", TRUE (),
+			        "Regional Manager", 'Territory'[Region Group] = UserRegion,
+			        FALSE ()
+			    )
+
+	tablePermission Organization =
+			VAR UserRole = LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () )
+			VAR UserRegion = LOOKUPVALUE ( 'Security User Region'[region_group], 'Security User Region'[user_email], USERPRINCIPALNAME () )
+			RETURN
+			    SWITCH (
+			        UserRole,
+			        "Executive", TRUE (),
+			        "Regional Manager", 'Organization'[Region Group] = UserRegion,
+			        FALSE ()
+			    )
+
+	tablePermission Employee =
+			VAR UserRole = LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () )
+			RETURN
+			    SWITCH (
+			        UserRole,
+			        "Executive", TRUE (),
+			        "Regional Manager", 'Employee'[Is Salesperson] = TRUE () || 'Employee'[employee_key] = -2,
+			        FALSE ()
+			    )
+
+	tablePermission Headcount = LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () ) = "Executive"
+
+	tablePermission 'Employee HR' = LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () ) = "Executive"
+
+	tablePermission Purchases = LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () ) = "Executive"
+
+	tablePermission 'Work Orders' = LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () ) = "Executive"
+
+	tablePermission Inventory = NOT ISBLANK ( LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () ) )
+
+	tablePermission Customer = NOT ISBLANK ( LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () ) )
+
+	annotation PBI_Id = bb61195410f4406d8a6194661e4efcea
+
