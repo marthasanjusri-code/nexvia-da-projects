@@ -1,0 +1,213 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "888983efcd358b3600d5",
+  "position": {
+    "x": 979.7631451113084,
+    "y": 288.16563091509067,
+    "z": 3003,
+    "height": 792.45548501649944,
+    "width": 940.65495234426032,
+    "tabOrder": 3003
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Load Batches"
+                    }
+                  },
+                  "Property": "Batch ID"
+                }
+              },
+              "queryRef": "Load Batches.Batch ID",
+              "nativeQueryRef": "Batch ID"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Load Batches"
+                    }
+                  },
+                  "Property": "Started At"
+                }
+              },
+              "queryRef": "Load Batches.Started At",
+              "nativeQueryRef": "Started At"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Load Batches"
+                    }
+                  },
+                  "Property": "Ended At"
+                }
+              },
+              "queryRef": "Load Batches.Ended At",
+              "nativeQueryRef": "Ended At"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Load Batches"
+                    }
+                  },
+                  "Property": "Triggered By"
+                }
+              },
+              "queryRef": "Load Batches.Triggered By",
+              "nativeQueryRef": "Triggered By"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Load Batches"
+                    }
+                  },
+                  "Property": "Duration (s)"
+                }
+              },
+              "queryRef": "Load Batches.Duration (s)",
+              "nativeQueryRef": "Duration (s)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Load Batches"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "queryRef": "Load Batches.Status",
+              "nativeQueryRef": "Status"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Load Batches"
+                  }
+                },
+                "Property": "Started At"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4b00a0590ec581eb1e5e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Load Batches"
+              }
+            },
+            "Property": "Batch ID"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6077b25d2b66498ec068",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Load Batches"
+              }
+            },
+            "Property": "Started At"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "7bd308ed2d110793e203",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Load Batches"
+              }
+            },
+            "Property": "Ended At"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "dde8d7428d4d0b073304",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Load Batches"
+              }
+            },
+            "Property": "Triggered By"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "98323c38c92a41e07307",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Load Batches"
+              }
+            },
+            "Property": "Duration (s)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9dea9bbdb93a07672e80",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Load Batches"
+              }
+            },
+            "Property": "Status"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

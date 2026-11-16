@@ -1,0 +1,318 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "83deae8d6ee069084327",
+  "position": {
+    "x": 0,
+    "y": 288.16563091509067,
+    "z": 3002,
+    "height": 792.45548501649944,
+    "width": 979.7631451113084,
+    "tabOrder": 3002
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Results"
+                    }
+                  },
+                  "Property": "Check Code"
+                }
+              },
+              "queryRef": "Data Quality Results.Check Code",
+              "nativeQueryRef": "Check Code"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Results"
+                    }
+                  },
+                  "Property": "Check"
+                }
+              },
+              "queryRef": "Data Quality Results.Check",
+              "nativeQueryRef": "Check"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Results"
+                    }
+                  },
+                  "Property": "Rule"
+                }
+              },
+              "queryRef": "Data Quality Results.Rule",
+              "nativeQueryRef": "Rule"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Results"
+                    }
+                  },
+                  "Property": "Severity"
+                }
+              },
+              "queryRef": "Data Quality Results.Severity",
+              "nativeQueryRef": "Severity"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Results"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "queryRef": "Data Quality Results.Status",
+              "nativeQueryRef": "Status"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Results"
+                    }
+                  },
+                  "Property": "Measured Value"
+                }
+              },
+              "queryRef": "Data Quality Results.Measured Value",
+              "nativeQueryRef": "Measured Value"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Results"
+                    }
+                  },
+                  "Property": "Expected"
+                }
+              },
+              "queryRef": "Data Quality Results.Expected",
+              "nativeQueryRef": "Expected"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Data Quality Results"
+                    }
+                  },
+                  "Property": "Details"
+                }
+              },
+              "queryRef": "Data Quality Results.Details",
+              "nativeQueryRef": "Details"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Data Quality Results"
+                  }
+                },
+                "Property": "Check"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "608d2d342a9a9aec1949",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Results"
+              }
+            },
+            "Property": "Check Code"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "09eebb628c422a1cd50b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Results"
+              }
+            },
+            "Property": "Check"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "696c180c0c59e4330885",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Results"
+              }
+            },
+            "Property": "Rule"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a872233c0807558deb0a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Results"
+              }
+            },
+            "Property": "Severity"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4c00f920e652e6c0ba19",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Results"
+              }
+            },
+            "Property": "Status"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "412561dc290e4245a758",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Results"
+              }
+            },
+            "Property": "Measured Value"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f683877ca500d04e2b0b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Results"
+              }
+            },
+            "Property": "Expected"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "14255460d3a09d98744e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Results"
+              }
+            },
+            "Property": "Details"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "5b4c8d45cd5b75b42885",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Data Quality Results"
+              }
+            },
+            "Property": "Is Latest Check Batch"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "Data Quality Results",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "d"
+                        }
+                      },
+                      "Property": "Is Latest Check Batch"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}
