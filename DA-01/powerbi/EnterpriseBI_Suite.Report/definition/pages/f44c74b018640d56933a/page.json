@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "f44c74b018640d56933a",
+  "displayName": "Finance",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "visualInteractions": [
+    {
+      "source": "c97359da3d0d7790d6eb",
+      "target": "1d1c03a0074087cb4705",
+      "type": "NoFilter"
+    }
+  ]
+}
