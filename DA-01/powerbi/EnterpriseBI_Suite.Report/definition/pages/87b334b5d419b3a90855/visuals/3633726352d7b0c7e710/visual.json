@@ -4,10 +4,10 @@
   "position": {
     "x": 960,
     "y": 413.21739130434781,
-    "z": 5001,
+    "z": 6000,
     "height": 601.04347826086951,
     "width": 960,
-    "tabOrder": 5001
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -115,37 +115,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "03f1b16de0d2decd0c06",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Territory"
-              }
-            },
-            "Property": "Region Group"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "2619bba80784c272d94d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Sales"
-              }
-            },
-            "Property": "Revenue"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

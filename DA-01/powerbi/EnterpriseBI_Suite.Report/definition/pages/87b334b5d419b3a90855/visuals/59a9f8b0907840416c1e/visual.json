@@ -114,51 +114,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "3e16428004ca00e3420e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Date"
-              }
-            },
-            "Property": "Month Start Date"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "03cad1a22b227b6cb8ee",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Sales"
-              }
-            },
-            "Property": "Revenue"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "21490d3b0828cc7b8d10",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Finance"
-              }
-            },
-            "Property": "Net Income"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }
