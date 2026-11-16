@@ -152,6 +152,15 @@ table Purchases
 		displayFolder: Orders
 		lineageTag: ecbd4353-90c7-47e2-a825-0e71a4980204
 
+	measure 'Purchasing Restricted Message' =
+			
+			IF (
+			    ISBLANK ( CALCULATE ( COUNTROWS ( Purchases ), REMOVEFILTERS () ) ),
+			    "Purchasing figures are restricted to executives. Stock figures are shown.",
+			    ""
+			)
+		lineageTag: db1a49c0-f7f2-46fc-96b4-0e3318db3d41
+
 	column purchase_order_line_id
 		dataType: int64
 		isHidden

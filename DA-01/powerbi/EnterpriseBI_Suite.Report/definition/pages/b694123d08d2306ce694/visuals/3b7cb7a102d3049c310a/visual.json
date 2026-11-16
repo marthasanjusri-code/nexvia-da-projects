@@ -30,9 +30,9 @@
               {
                 "textRuns": [
                   {
-                    "value": "Headcount, workforce, hiring, pay and leave. Executives only. Data as of 2025-10-31; figures are at the last month-end of the selection.",
+                    "value": "Headcount, workforce, hiring, pay and leave. Executives only. Data as of 2025-10-31",
                     "textStyle": {
-                      "fontSize": "14pt"
+                      "fontSize": "18pt"
                     }
                   }
                 ]

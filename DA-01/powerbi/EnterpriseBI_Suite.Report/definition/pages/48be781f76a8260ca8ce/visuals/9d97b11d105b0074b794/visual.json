@@ -4,10 +4,10 @@
   "position": {
     "x": 1014.2608695652174,
     "y": 248.3478260869565,
-    "z": 3002,
+    "z": 5000,
     "height": 448.695652173913,
     "width": 905.73913043478262,
-    "tabOrder": 3002
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -104,51 +104,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "8ad9371d6514ce6814ab",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Territory"
-              }
-            },
-            "Property": "Region Group"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "31089300e35e83d5234e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Sales"
-              }
-            },
-            "Property": "Revenue"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c88c6ef69a450dda7d3d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Sales"
-              }
-            },
-            "Property": "Gross Margin %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

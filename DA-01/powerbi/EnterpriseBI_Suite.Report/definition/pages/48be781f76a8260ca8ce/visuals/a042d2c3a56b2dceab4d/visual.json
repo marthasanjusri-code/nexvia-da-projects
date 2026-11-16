@@ -4,10 +4,10 @@
   "position": {
     "x": 0,
     "y": 248.3478260869565,
-    "z": 3001,
+    "z": 4000,
     "height": 448.695652173913,
     "width": 1014.2608695652174,
-    "tabOrder": 3001
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "lineChart",
@@ -100,51 +100,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "f778c2b014d895e0007d",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Date"
-              }
-            },
-            "Property": "Month Start Date"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "99216c827eeb2ba3b00e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Sales"
-              }
-            },
-            "Property": "Revenue"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "0bb882ff0d4931c9119d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Sales"
-              }
-            },
-            "Property": "Revenue 3M Rolling Avg"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

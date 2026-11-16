@@ -1,0 +1,167 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "7cdf4d9db0e3551c6d13",
+  "position": {
+    "x": 544.695652173913,
+    "y": 288,
+    "z": 6000,
+    "height": 423.65217391304344,
+    "width": 1375.304347826087,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Purchases"
+                    }
+                  },
+                  "Property": "PO Status"
+                }
+              },
+              "queryRef": "Purchases.PO Status",
+              "nativeQueryRef": "PO Status",
+              "active": true
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Purchases"
+                    }
+                  },
+                  "Property": "Purchase Orders"
+                }
+              },
+              "queryRef": "Purchases.Purchase Orders",
+              "nativeQueryRef": "Purchase Orders"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Purchases"
+                    }
+                  },
+                  "Property": "Purchase Order Value"
+                }
+              },
+              "queryRef": "Purchases.Purchase Order Value",
+              "nativeQueryRef": "Purchase Order Value"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Purchases"
+                  }
+                },
+                "Property": "Purchase Order Value"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Purchase orders by status'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f54703e28018eb038cd7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Purchases"
+              }
+            },
+            "Property": "PO Status"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f032266380740cd677c0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Purchases"
+              }
+            },
+            "Property": "Purchase Order Value"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "08bfbfda1c490444c844",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Purchases"
+              }
+            },
+            "Property": "Purchase Orders"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
