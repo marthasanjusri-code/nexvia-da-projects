@@ -1,0 +1,158 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "d96276425c0aba029470",
+  "position": {
+    "x": 10,
+    "y": 739,
+    "z": 2,
+    "height": 341,
+    "width": 842,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Sales As Of Date"
+                }
+              },
+              "queryRef": "Sales.Sales As Of Date",
+              "nativeQueryRef": "Sales As Of Date"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Finance"
+                    }
+                  },
+                  "Property": "Finance As Of Date"
+                }
+              },
+              "queryRef": "Finance.Finance As Of Date",
+              "nativeQueryRef": "Finance As Of Date"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Headcount"
+                    }
+                  },
+                  "Property": "HR As Of Date"
+                }
+              },
+              "queryRef": "Headcount.HR As Of Date",
+              "nativeQueryRef": "HR As Of Date"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Purchases"
+                    }
+                  },
+                  "Property": "Purchases As Of Date"
+                }
+              },
+              "queryRef": "Purchases.Purchases As Of Date",
+              "nativeQueryRef": "Purchases As Of Date"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Sales"
+                  }
+                },
+                "Property": "Sales As Of Date"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "dc9210637110a3a180a2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Sales As Of Date"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "be8f690f872640e3c3d8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Finance"
+              }
+            },
+            "Property": "Finance As Of Date"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "677e6363e5e04ac402c9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Headcount"
+              }
+            },
+            "Property": "HR As Of Date"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e999fcf66684140d2310",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Purchases"
+              }
+            },
+            "Property": "Purchases As Of Date"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

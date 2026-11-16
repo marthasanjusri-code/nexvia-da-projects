@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "2001fc7567050d0103e0",
+  "position": {
+    "x": 10.291629675538953,
+    "y": 69.98308179366488,
+    "z": 0,
+    "height": 298.45726059062963,
+    "width": 349.91540896832441,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Last Load"
+                    }
+                  },
+                  "Property": "Last Successful Load"
+                }
+              },
+              "queryRef": "Last Load.Last Successful Load",
+              "nativeQueryRef": "Last Successful Load"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Last Load"
+                  }
+                },
+                "Property": "Last Successful Load"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5ca89b82060b2d95cd76",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Last Load"
+              }
+            },
+            "Property": "Last Successful Load"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

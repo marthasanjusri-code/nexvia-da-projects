@@ -1,0 +1,186 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "57f51f944d13744a31c7",
+  "position": {
+    "x": 10.291629675538953,
+    "y": 384.90694986515689,
+    "z": 1,
+    "height": 343.74043116300106,
+    "width": 841.85530745908636,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Revenue"
+                }
+              },
+              "queryRef": "Sales.Revenue",
+              "nativeQueryRef": "Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Finance"
+                    }
+                  },
+                  "Property": "Net Income"
+                }
+              },
+              "queryRef": "Finance.Net Income",
+              "nativeQueryRef": "Net Income"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Headcount"
+                    }
+                  },
+                  "Property": "Active Headcount"
+                }
+              },
+              "queryRef": "Headcount.Active Headcount",
+              "nativeQueryRef": "Active Headcount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Purchases"
+                    }
+                  },
+                  "Property": "OTIF %"
+                }
+              },
+              "queryRef": "Purchases.OTIF %",
+              "nativeQueryRef": "OTIF %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Revenue per Employee"
+                }
+              },
+              "queryRef": "Sales.Revenue per Employee",
+              "nativeQueryRef": "Revenue per Employee"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Sales"
+                  }
+                },
+                "Property": "Revenue"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9db01063998c7e536a65",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "061c4e164ea2550b9d04",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Finance"
+              }
+            },
+            "Property": "Net Income"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0bbb6037da40dc6c06a4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Headcount"
+              }
+            },
+            "Property": "Active Headcount"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "71301d61a197268d68c9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Purchases"
+              }
+            },
+            "Property": "OTIF %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "585e49041c78c72792dd",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Revenue per Employee"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
