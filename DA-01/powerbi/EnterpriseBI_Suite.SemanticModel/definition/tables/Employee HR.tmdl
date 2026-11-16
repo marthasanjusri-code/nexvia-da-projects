@@ -51,6 +51,9 @@ table 'Employee HR'
 		lineageTag: 30e0fe06-a5d4-480a-922c-392f7075fc52
 		summarizeBy: none
 		sourceColumn: Age Band
+		sortByColumn: 'Age Band Order'
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
@@ -91,6 +94,18 @@ table 'Employee HR'
 
 		annotation SummarizationSetBy = User
 
+	column 'Age Band Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3a59af71-6898-4573-a955-eace1aaa9562
+		summarizeBy: none
+		sourceColumn: Age Band Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'Employee HR' = m
 		mode: import
 		source =
@@ -99,9 +114,15 @@ table 'Employee HR'
 				    Data = Source{[Schema = "dw", Item = "dim_employee_hr"]}[Data],
 				    Kept = Table.SelectColumns(Data, {"employee_key", "employee_id", "row_type", "is_in_source", "gender", "age_band", "pay_type", "hire_date", "vacation_hours", "sick_leave_hours"}),
 				    Typed = Table.TransformColumnTypes(Kept, {{"employee_key", Int64.Type}, {"employee_id", Int64.Type}, {"row_type", type text}, {"is_in_source", type logical}, {"gender", type text}, {"age_band", type text}, {"pay_type", type text}, {"hire_date", type date}, {"vacation_hours", Int64.Type}, {"sick_leave_hours", Int64.Type}}),
-				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"gender", "Gender"}, {"age_band", "Age Band"}, {"pay_type", "Pay Type"}, {"hire_date", "Hire Date"}, {"vacation_hours", "Vacation Hours"}, {"sick_leave_hours", "Sick Leave Hours"}})
+				    Renamed = Table.RenameColumns(Typed, {{"row_type", "Row Type"}, {"is_in_source", "In Source"}, {"gender", "Gender"}, {"age_band", "Age Band"}, {"pay_type", "Pay Type"}, {"hire_date", "Hire Date"}, {"vacation_hours", "Vacation Hours"}, {"sick_leave_hours", "Sick Leave Hours"}}),
+				  #"Added custom" = Table.TransformColumnTypes(Table.AddColumn(Renamed, "Age Band Order", each if [Age Band] = "Under 30" then 1
+				else if [Age Band] = "30-39" then 2
+				else if [Age Band] = "40-49" then 3
+				else if [Age Band] = "50-59" then 4
+				else if [Age Band] = "60 and over" then 5
+				else null), {{"Age Band Order", Int64.Type}})
 				in
-				    Renamed
+				    #"Added custom"
 
 	annotation PBI_ResultType = Table
 

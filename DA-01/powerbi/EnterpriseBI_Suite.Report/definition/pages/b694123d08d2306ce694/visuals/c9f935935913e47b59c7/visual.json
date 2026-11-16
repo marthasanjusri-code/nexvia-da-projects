@@ -1,0 +1,141 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "c9f935935913e47b59c7",
+  "position": {
+    "x": 0,
+    "y": 137.7391304347826,
+    "z": 2001,
+    "height": 160.69565217391303,
+    "width": 1920,
+    "tabOrder": 2001
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Headcount"
+                    }
+                  },
+                  "Property": "Active Headcount"
+                }
+              },
+              "queryRef": "Headcount.Active Headcount",
+              "nativeQueryRef": "Active Headcount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Headcount"
+                    }
+                  },
+                  "Property": "Hires"
+                }
+              },
+              "queryRef": "Headcount.Hires",
+              "nativeQueryRef": "Hires"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Headcount"
+                    }
+                  },
+                  "Property": "Average Tenure (Months)"
+                }
+              },
+              "queryRef": "Headcount.Average Tenure (Months)",
+              "nativeQueryRef": "Average Tenure (Months)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Headcount"
+                    }
+                  },
+                  "Property": "Average Pay Rate"
+                }
+              },
+              "queryRef": "Headcount.Average Pay Rate",
+              "nativeQueryRef": "Average Pay Rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Headcount"
+                    }
+                  },
+                  "Property": "Total Vacation Hours"
+                }
+              },
+              "queryRef": "Headcount.Total Vacation Hours",
+              "nativeQueryRef": "Total Vacation Hours"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Headcount"
+                    }
+                  },
+                  "Property": "Total Sick Leave Hours"
+                }
+              },
+              "queryRef": "Headcount.Total Sick Leave Hours",
+              "nativeQueryRef": "Total Sick Leave Hours"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Headcount"
+                  }
+                },
+                "Property": "Active Headcount"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI Cards'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

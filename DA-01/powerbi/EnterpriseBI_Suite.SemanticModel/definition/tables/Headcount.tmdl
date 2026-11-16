@@ -110,6 +110,15 @@ table Headcount
 		displayFolder: Headcount
 		lineageTag: d5a20741-19ef-4958-b8d8-84306d383226
 
+	measure 'Restricted Page Message' =
+			
+			IF (
+			    ISBLANK ( CALCULATE ( COUNTROWS ( Headcount ), REMOVEFILTERS () ) ),
+			    "This page is restricted to executives.",
+			    ""
+			)
+		lineageTag: fe9beeb3-ff6b-4479-a4bb-1d4375bbd6a3
+
 	column employee_id
 		dataType: int64
 		isHidden
