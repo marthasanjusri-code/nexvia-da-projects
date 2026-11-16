@@ -3,10 +3,10 @@
   "name": "59a9f8b0907840416c1e",
   "position": {
     "x": 0,
-    "y": 452.831705723714,
+    "y": 413.21739130434781,
     "z": 5000,
-    "height": 627.78941020787613,
-    "width": 959.17988576023049,
+    "height": 601.04347826086951,
+    "width": 960,
     "tabOrder": 5000
   },
   "visual": {
@@ -83,6 +83,35 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Monthly revenue and net income'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   },

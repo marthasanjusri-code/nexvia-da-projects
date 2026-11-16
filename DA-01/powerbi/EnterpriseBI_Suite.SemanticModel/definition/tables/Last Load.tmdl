@@ -3,12 +3,14 @@ table 'Last Load'
 
 	column 'Last Successful Load'
 		dataType: dateTime
-		formatString: General Date
+		formatString: yyyy-mm-dd hh:nn:ss
 		lineageTag: fca23409-a510-4b8a-99e7-54adbaa09c18
 		summarizeBy: none
 		sourceColumn: Last Successful Load
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	partition 'Last Load' = m
 		mode: import
