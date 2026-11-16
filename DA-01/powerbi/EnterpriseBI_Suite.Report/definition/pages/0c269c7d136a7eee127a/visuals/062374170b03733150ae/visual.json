@@ -1,0 +1,220 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "062374170b03733150ae",
+  "position": {
+    "x": 895.201190693788,
+    "y": 641.721283651461,
+    "z": 8004,
+    "height": 439.57907930125077,
+    "width": 1023.5454474240803,
+    "tabOrder": 8004
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
+                  "Property": "Product"
+                }
+              },
+              "queryRef": "Product.Product",
+              "nativeQueryRef": "Product"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Work Orders"
+                    }
+                  },
+                  "Property": "Work Orders Started"
+                }
+              },
+              "queryRef": "Work Orders.Work Orders Started",
+              "nativeQueryRef": "Work Orders Started"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Work Orders"
+                    }
+                  },
+                  "Property": "Scrapped Units"
+                }
+              },
+              "queryRef": "Work Orders.Scrapped Units",
+              "nativeQueryRef": "Scrapped Units"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Work Orders"
+                    }
+                  },
+                  "Property": "Scrap Rate %"
+                }
+              },
+              "queryRef": "Work Orders.Scrap Rate %",
+              "nativeQueryRef": "Scrap Rate %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Work Orders"
+                    }
+                  },
+                  "Property": "On-time Production %"
+                }
+              },
+              "queryRef": "Work Orders.On-time Production %",
+              "nativeQueryRef": "On-time Production %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Work Orders"
+                  }
+                },
+                "Property": "Work Orders Started"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Products by work orders'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "edf55c8c606351c70b10",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Product"
+              }
+            },
+            "Property": "Product"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "85328a70018005521a5b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Work Orders"
+              }
+            },
+            "Property": "Work Orders Started"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "84c6a5f3d00a0d860cc3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Work Orders"
+              }
+            },
+            "Property": "Scrapped Units"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "99281176654050530062",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Work Orders"
+              }
+            },
+            "Property": "Scrap Rate %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "76738a92a174ed2001ce",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Work Orders"
+              }
+            },
+            "Property": "On-time Production %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

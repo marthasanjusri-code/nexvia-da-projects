@@ -1,0 +1,135 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "8134d07530341509a54d",
+  "position": {
+    "x": 895.201190693788,
+    "y": 275.94015197012823,
+    "z": 8003,
+    "height": 365.78113168133274,
+    "width": 1023.5454474240803,
+    "tabOrder": 8003
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Scrap Reason"
+                    }
+                  },
+                  "Property": "Scrap Reason"
+                }
+              },
+              "queryRef": "Scrap Reason.Scrap Reason",
+              "nativeQueryRef": "Scrap Reason",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Work Orders"
+                    }
+                  },
+                  "Property": "Scrapped Units"
+                }
+              },
+              "queryRef": "Work Orders.Scrapped Units",
+              "nativeQueryRef": "Scrapped Units"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Work Orders"
+                  }
+                },
+                "Property": "Scrapped Units"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Scrapped units by reason'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "7673462c9be24a195a75",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Scrap Reason"
+              }
+            },
+            "Property": "Scrap Reason"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "36696db8eb3da8c04854",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Work Orders"
+              }
+            },
+            "Property": "Scrapped Units"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

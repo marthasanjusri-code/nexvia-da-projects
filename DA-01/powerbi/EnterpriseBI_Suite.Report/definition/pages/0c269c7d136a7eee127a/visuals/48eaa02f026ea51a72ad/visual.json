@@ -1,0 +1,158 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "48eaa02f026ea51a72ad",
+  "position": {
+    "x": 0,
+    "y": 137.97007598506411,
+    "z": 8001,
+    "height": 137.97007598506411,
+    "width": 1918.7466381178683,
+    "tabOrder": 8001
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Work Orders"
+                    }
+                  },
+                  "Property": "Work Orders Started"
+                }
+              },
+              "queryRef": "Work Orders.Work Orders Started",
+              "nativeQueryRef": "Work Orders Started"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Work Orders"
+                    }
+                  },
+                  "Property": "Scrapped Units"
+                }
+              },
+              "queryRef": "Work Orders.Scrapped Units",
+              "nativeQueryRef": "Scrapped Units"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Work Orders"
+                    }
+                  },
+                  "Property": "Scrap Rate %"
+                }
+              },
+              "queryRef": "Work Orders.Scrap Rate %",
+              "nativeQueryRef": "Scrap Rate %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Work Orders"
+                    }
+                  },
+                  "Property": "On-time Production %"
+                }
+              },
+              "queryRef": "Work Orders.On-time Production %",
+              "nativeQueryRef": "On-time Production %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Work Orders"
+                  }
+                },
+                "Property": "Work Orders Started"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "0342045915a90535c1bd",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Work Orders"
+              }
+            },
+            "Property": "Work Orders Started"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "91a9348b87ca726722c6",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Work Orders"
+              }
+            },
+            "Property": "Scrapped Units"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4b2674131c946eb74361",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Work Orders"
+              }
+            },
+            "Property": "Scrap Rate %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bbeffa27dd3e3866ad88",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Work Orders"
+              }
+            },
+            "Property": "On-time Production %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
