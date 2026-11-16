@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "57f51f944d13744a31c7",
   "position": {
-    "x": 10.291629675538953,
-    "y": 384.90694986515689,
-    "z": 1,
-    "height": 343.74043116300106,
-    "width": 841.85530745908636,
-    "tabOrder": 1
+    "x": 12.349955610646745,
+    "y": 119.38290423625186,
+    "z": 1000,
+    "height": 131.73285984689861,
+    "width": 1908.0681418449219,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -112,7 +112,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "9db01063998c7e536a65",
+        "name": "2748e6e15258b3a80749",
         "field": {
           "Measure": {
             "Expression": {
@@ -126,7 +126,7 @@
         "type": "Advanced"
       },
       {
-        "name": "061c4e164ea2550b9d04",
+        "name": "f992f9dbe8c737451c95",
         "field": {
           "Measure": {
             "Expression": {
@@ -140,7 +140,7 @@
         "type": "Advanced"
       },
       {
-        "name": "0bbb6037da40dc6c06a4",
+        "name": "ac7bbd0951bbaee9045c",
         "field": {
           "Measure": {
             "Expression": {
@@ -154,7 +154,7 @@
         "type": "Advanced"
       },
       {
-        "name": "71301d61a197268d68c9",
+        "name": "b9e7909f6128583e386e",
         "field": {
           "Measure": {
             "Expression": {
@@ -168,7 +168,7 @@
         "type": "Advanced"
       },
       {
-        "name": "585e49041c78c72792dd",
+        "name": "311d8e9a9a53da5a44c8",
         "field": {
           "Measure": {
             "Expression": {
