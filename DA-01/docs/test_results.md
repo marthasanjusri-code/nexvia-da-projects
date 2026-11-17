@@ -306,7 +306,7 @@ Notes:
 
 ## B7: Report pages and security in the report
 
-**Report:** `DA-01/powerbi/EnterpriseBI_Suite.pbip`, 7 pages (D135) | **Run:** 16-18 Nov 2026 | **Data:** batch 5082 | **Result:** all passed, except test 9, which is still to be confirmed
+**Report:** `DA-01/powerbi/EnterpriseBI_Suite.pbip`, 7 pages (D135) | **Run:** 16-18 Nov 2026 | **Data:** batch 5082 | **Result:** all passed
 
 Pages are checked with the Year slicer at 2024 unless stated. Expected values come from SQL run in the same sessions or from earlier tests.
 
@@ -320,7 +320,7 @@ Pages are checked with the Year slicer at 2024 unless stated. Expected values co
 | 6 | Purchasing & Inventory: spend 2024 and stock | Vendor total = Spend card; stock as B6 test 8 (28,522,266.13; 61 / 62 / 363); stock not filtered by year | 19,404,103 and $19M; $29M, 61 / 62 / 363 in every year | Pass |
 | 7 | Production: 2024 | Products table total = KPI cards | 28,994 / 5,496 / 0.29% / 67.2% in both | Pass |
 | 8 | Data Quality: latest load | SSMS: 27 passed, 0 warned, 0 failed; 77 runs, 21 failed | Same; checks table 27 rows (W01-W18, E01-E09), each batch once | Pass |
-| 9 | Spend by product category (P1, D139) | Category bars add up to the Spend card (19,404,103) | Four categories, no blank category; exact total to be read from data labels | To confirm |
+| 9 | Spend by product category (P1, D139) | Category bars add up to the Spend card (19,404,103) | Four categories, no blank category; data labels $8.1M + $7.1M + $4.1M + $0.1M = $19.4M | Pass |
 | 10 | Current ratio by month (F5, D139) | December 2024 = Current Ratio card | Company 3.27; Southwest Division 4.59 when selected | Pass |
 | 11 | Days of stock cover after D136 | Owner unchanged: HL Mountain Seat/Saddle 639.0, total 17.3 | 639.0 and 17.3 | Pass |
 
