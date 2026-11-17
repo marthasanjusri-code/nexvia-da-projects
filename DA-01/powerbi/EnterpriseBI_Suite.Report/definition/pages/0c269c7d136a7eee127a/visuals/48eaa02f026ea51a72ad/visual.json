@@ -4,10 +4,10 @@
   "position": {
     "x": 0,
     "y": 137.97007598506411,
-    "z": 8001,
+    "z": 4000,
     "height": 137.97007598506411,
     "width": 1918.7466381178683,
-    "tabOrder": 8001
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -94,65 +94,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "0342045915a90535c1bd",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "Work Orders Started"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "91a9348b87ca726722c6",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "Scrapped Units"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "4b2674131c946eb74361",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "Scrap Rate %"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "bbeffa27dd3e3866ad88",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "On-time Production %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -4,10 +4,10 @@
   "position": {
     "x": 979.7631451113084,
     "y": 288.16563091509067,
-    "z": 3003,
+    "z": 5000,
     "height": 792.45548501649944,
     "width": 940.65495234426032,
-    "tabOrder": 3003
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "tableEx",
@@ -121,93 +121,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "4b00a0590ec581eb1e5e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Batch ID"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "6077b25d2b66498ec068",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Started At"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "7bd308ed2d110793e203",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Ended At"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "dde8d7428d4d0b073304",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Triggered By"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "98323c38c92a41e07307",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Duration (s)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "9dea9bbdb93a07672e80",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Status"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

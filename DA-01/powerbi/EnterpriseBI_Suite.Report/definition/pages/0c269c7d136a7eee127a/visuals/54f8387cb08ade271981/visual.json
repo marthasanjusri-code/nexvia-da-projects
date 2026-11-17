@@ -4,10 +4,10 @@
   "position": {
     "x": 0,
     "y": 275.94015197012823,
-    "z": 8002,
+    "z": 5000,
     "height": 805.36021098258357,
     "width": 895.201190693788,
-    "tabOrder": 8002
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "lineChart",
@@ -117,51 +117,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "4e4ce27fe46a41e00e5b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Date"
-              }
-            },
-            "Property": "Month Start Date"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "b17b857d7ba8bd889330",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "On-time Production %"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "40899ea452074a4ed093",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "Scrap Rate %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

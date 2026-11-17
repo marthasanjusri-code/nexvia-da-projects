@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "7cdf4d9db0e3551c6d13",
   "position": {
-    "x": 544.695652173913,
-    "y": 288,
+    "x": 606.23641837936907,
+    "y": 684.05183924597463,
     "z": 6000,
-    "height": 423.65217391304344,
-    "width": 1375.304347826087,
+    "height": 396.31574813457257,
+    "width": 1313.813849980364,
     "tabOrder": 6000
   },
   "visual": {
@@ -117,51 +117,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "f54703e28018eb038cd7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Purchases"
-              }
-            },
-            "Property": "PO Status"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "f032266380740cd677c0",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Purchases"
-              }
-            },
-            "Property": "Purchase Order Value"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "08bfbfda1c490444c844",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Purchases"
-              }
-            },
-            "Property": "Purchase Orders"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

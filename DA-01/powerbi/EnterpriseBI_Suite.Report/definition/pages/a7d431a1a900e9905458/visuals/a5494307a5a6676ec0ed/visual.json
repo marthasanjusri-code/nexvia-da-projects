@@ -4,10 +4,10 @@
   "position": {
     "x": 0,
     "y": 137.90783765222199,
-    "z": 3001,
+    "z": 3000,
     "height": 150.25779326286872,
     "width": 1920.4180974555688,
-    "tabOrder": 3001
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -150,121 +150,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "88925a0a0b6920530708",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Last Run Status"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "6ae65ed090c09dbb9081",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Last Run Started"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d349e443486b42598cae",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Last Run Duration (s)"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "41b390965843ad63cad5",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Data Quality Results"
-              }
-            },
-            "Property": "Checks Passed"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "bd389845b94518cae2c8",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Data Quality Results"
-              }
-            },
-            "Property": "Checks Warned"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "52a1383f15c200bd484e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Data Quality Results"
-              }
-            },
-            "Property": "Checks Failed"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "914345483841c76a8c5a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Runs"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d7320c8cc065b3799897",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Load Batches"
-              }
-            },
-            "Property": "Failed Runs"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

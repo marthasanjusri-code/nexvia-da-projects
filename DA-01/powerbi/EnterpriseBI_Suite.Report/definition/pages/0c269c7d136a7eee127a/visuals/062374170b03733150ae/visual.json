@@ -4,10 +4,10 @@
   "position": {
     "x": 895.201190693788,
     "y": 641.721283651461,
-    "z": 8004,
+    "z": 7000,
     "height": 439.57907930125077,
     "width": 1023.5454474240803,
-    "tabOrder": 8004
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "tableEx",
@@ -142,79 +142,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "edf55c8c606351c70b10",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Product"
-              }
-            },
-            "Property": "Product"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "85328a70018005521a5b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "Work Orders Started"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "84c6a5f3d00a0d860cc3",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "Scrapped Units"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "99281176654050530062",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "Scrap Rate %"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "76738a92a174ed2001ce",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "On-time Production %"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

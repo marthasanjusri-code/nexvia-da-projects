@@ -4,10 +4,10 @@
   "position": {
     "x": 895.201190693788,
     "y": 275.94015197012823,
-    "z": 8003,
+    "z": 6000,
     "height": 365.78113168133274,
     "width": 1023.5454474240803,
-    "tabOrder": 8003
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -99,37 +99,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "7673462c9be24a195a75",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Scrap Reason"
-              }
-            },
-            "Property": "Scrap Reason"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "36696db8eb3da8c04854",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Work Orders"
-              }
-            },
-            "Property": "Scrapped Units"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "9fc89702aa270d7dc178",
   "position": {
-    "x": 544.695652173913,
-    "y": 684.52173913043475,
+    "x": 606.23641837936907,
+    "y": 287.736091111402,
     "z": 7000,
-    "height": 396.52173913043475,
-    "width": 1375.304347826087,
+    "height": 396.31574813457257,
+    "width": 843.30200287995808,
     "tabOrder": 7000
   },
   "visual": {
@@ -143,20 +143,6 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "f8d71575089527663253",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Product"
-              }
-            },
-            "Property": "Product"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
         "name": "768104fc03b4895e4c49",
         "field": {
           "Measure": {
@@ -204,76 +190,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "7ca147ef0d6180e4c4a0",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Inventory"
-              }
-            },
-            "Property": "Stock Units"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "7c4b45640b161b6694a6",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Product"
-              }
-            },
-            "Property": "Reorder Point"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "26b83fe7174c0b039d95",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Product"
-              }
-            },
-            "Property": "Safety Stock Level"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "865e044abba05aab1055",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Purchases"
-              }
-            },
-            "Property": "Open Purchase Quantity"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "285b045c729ba1ce4c25",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Inventory"
-              }
-            },
-            "Property": "Days of Stock Cover"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }
