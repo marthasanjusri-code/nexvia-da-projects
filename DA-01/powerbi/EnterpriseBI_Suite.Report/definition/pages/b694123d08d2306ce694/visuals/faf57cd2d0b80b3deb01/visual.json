@@ -49,6 +49,22 @@
             "id": "default"
           }
         }
+      ],
+      "value": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -67,5 +83,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "09a61611d46877d54b58",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Headcount"
+              }
+            },
+            "Property": "Restricted Page Message"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

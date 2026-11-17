@@ -55,5 +55,7 @@ role 'Dynamic Security'
 
 	tablePermission 'Load Batches' = LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () ) = "Executive"
 
+	tablePermission 'Product Demand 90d' = NOT ISBLANK ( LOOKUPVALUE ( 'Security User Region'[security_role], 'Security User Region'[user_email], USERPRINCIPALNAME () ) )
+
 	annotation PBI_Id = bb61195410f4406d8a6194661e4efcea
 

@@ -156,7 +156,7 @@ table Purchases
 			
 			IF (
 			    ISBLANK ( CALCULATE ( COUNTROWS ( Purchases ), REMOVEFILTERS () ) ),
-			    "Purchasing figures are restricted to executives. Stock figures are shown.",
+			    "Purchasing: executives only. Stock is shown.",
 			    ""
 			)
 		lineageTag: db1a49c0-f7f2-46fc-96b4-0e3318db3d41

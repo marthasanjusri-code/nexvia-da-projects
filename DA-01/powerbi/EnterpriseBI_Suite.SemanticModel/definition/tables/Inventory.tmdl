@@ -144,18 +144,11 @@ table Inventory
 
 	/// P9 (decision 5). Stock on hand / average daily units sold over the last 90 days of sales data, for products sold in that window.
 	measure 'Days of Stock Cover' =
-			VAR SalesLastKey = CALCULATE ( MAX ( Sales[order_date_key] ), REMOVEFILTERS () )
-			VAR SalesLast = LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], SalesLastKey )
+			
 			VAR PerProduct =
 			    ADDCOLUMNS (
 			        VALUES ( 'Product'[product_key] ),
-			        "@Units90",
-			            CALCULATE (
-			                SUM ( Sales[Order Quantity] ),
-			                REMOVEFILTERS ( 'Date' ),
-			                DATESBETWEEN ( 'Date'[Date], SalesLast - 89, SalesLast ),
-			                KEEPFILTERS ( NOT Sales[Order Status] IN { "Rejected", "Cancelled" } )
-			            ),
+			        "@Units90", CALCULATE ( SUM ( 'Product Demand 90d'[Units 90d] ) ),
 			        "@Stock", CALCULATE ( SUM ( Inventory[Quantity] ), REMOVEFILTERS ( 'Date' ) )
 			    )
 			VAR Sold = FILTER ( PerProduct, [@Units90] > 0 )

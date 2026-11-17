@@ -41,6 +41,7 @@ ref table 'Security User Region'
 ref table 'Last Load'
 ref table 'Data Quality Results'
 ref table 'Load Batches'
+ref table 'Product Demand 90d'
 
 ref role 'Dynamic Security'
 

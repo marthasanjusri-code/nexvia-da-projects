@@ -156,3 +156,7 @@ relationship DataQuality_Batch
 	fromColumn: 'Data Quality Results'.batch_id
 	toColumn: 'Load Batches'.'Batch ID'
 
+relationship 5455598e-6027-70ba-113d-8fd687da3db7
+	fromColumn: 'Product Demand 90d'.product_key
+	toColumn: Product.product_key
+

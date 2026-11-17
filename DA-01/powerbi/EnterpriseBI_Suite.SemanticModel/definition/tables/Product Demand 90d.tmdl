@@ -1,0 +1,52 @@
+table 'Product Demand 90d'
+	isHidden
+	lineageTag: 841805ba-6e18-4ae3-a838-fbe7a7d8a50b
+
+	column product_key
+		isHidden
+		formatString: 0
+		lineageTag: 52d60cd5-98dd-4f8b-83ad-e74715765142
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [product_key]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Units 90d'
+		isHidden
+		formatString: 0
+		lineageTag: b5dcf5bf-823e-444a-8c99-b59b5ef3b234
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Units 90d]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Product Demand 90d' = calculated
+		mode: import
+		source =
+				
+				VAR SalesLastKey = MAX ( Sales[order_date_key] )
+				VAR SalesLast = LOOKUPVALUE ( 'Date'[Date], 'Date'[date_key], SalesLastKey )
+				VAR FirstKey = LOOKUPVALUE ( 'Date'[date_key], 'Date'[Date], SalesLast - 89 )
+				RETURN
+				    SELECTCOLUMNS (
+				        FILTER (
+				            ADDCOLUMNS (
+				                VALUES ( Sales[product_key] ),
+				                "@Units",
+				                    CALCULATE (
+				                        SUM ( Sales[Order Quantity] ),
+				                        Sales[order_date_key] >= FirstKey,
+				                        Sales[order_date_key] <= SalesLastKey,
+				                        NOT Sales[Order Status] IN { "Rejected", "Cancelled" }
+				                    )
+				            ),
+				            [@Units] > 0
+				        ),
+				        "product_key", Sales[product_key],
+				        "Units 90d", [@Units]
+				    )
+
+	annotation PBI_Id = 40bb107383a24ab1b18d95137e71eb47
+
