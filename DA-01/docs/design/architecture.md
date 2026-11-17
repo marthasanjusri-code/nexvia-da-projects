@@ -198,11 +198,13 @@ is shared through the Power BI Service (D74).
 
 ## 6. Refresh demonstration
 
-The recorded demo shows the full chain working:
+The recorded demo shows the full chain working, without changing the sources (D01):
 
-1. Report shows current numbers.
-2. A test order is added in the source database.
-3. The SQL Server Agent job runs.
-4. `etl.load_log` and `etl.dq_result` show the new run.
-5. Power BI Desktop is refreshed.
-6. The report numbers change by the test order's amount.
+1. The Data Quality page shows the last run and the Last data load card its end time.
+2. The SQL Server Agent job "EnterpriseBI_DW nightly load" is started manually.
+3. `etl.load_batch`, `etl.load_log` and `etl.dq_result` show the new run: status Succeeded, 62 steps, 27 checks.
+4. Power BI Desktop is refreshed.
+5. The Last data load card and the Data Quality page show the new run; the business figures stay the same, as the sources did not change.
+6. "View as" shows an executive and a regional manager.
+
+Adding a test order to the source was considered and not used. It would change a source system, and the order would have to fit the date table (to 2025-12-31) and the order-total checks, or the run would roll back.
