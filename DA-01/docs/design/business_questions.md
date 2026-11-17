@@ -35,10 +35,10 @@ stays visible.
 | # | Business question | KPIs | Priority | Changed by / notes |
 |---|---|---|---|---|
 | F1 | Are we on budget? | Actual vs budget, variance, variance % | Must | Budget exists May 2022 - April 2023 only (`limitations.md`) |
-| F2 | How are revenue, expenses and net income trending? | Totals by account group over time; gross, operating and net margin % | Must | Margin % added on 10 Nov 2026: the brief asks for margin %, and the finance checks measured 67-70% gross, 25-28% operating, 19-22% net (D38). Signs from `sign_to_net_income` (D38). Originally: "Totals by account group over time" |
+| F2 | How are revenue, expenses and net income trending? | Totals by account group over time; gross, operating and net margin % | Must | Margin % added on 10 Nov 2026: the brief asks for margin %, and the finance checks measured 67.4-69.2% gross, 21.4-29.7% operating, 15.9-22.4% net on all units in USD (D38, corrected 15 Nov 2026). Signs from `sign_to_net_income` (D38). Originally: "Totals by account group over time" |
 | F3 | Which organisation units (regions) perform best financially? | Net income by organisation | Must | No finance unit for the United Kingdom (`limitations.md`) |
 | F4 | Where is money being spent? | Expenses by department group | Should | Corporate's own rows shown as "Corporate (direct)" (D35) |
-| F5 | Do we have enough cash and short-term assets to pay our upcoming bills? | Current ratio over time, by organisation | Must | Rebuilt. Evidence: KPI "Current ratio" (`data_model.md` section 6); closing balances, latest month April 2025 (D39) |
+| F5 | Do we have enough cash and short-term assets to pay our upcoming bills? | Current ratio over time, by organisation | Must | Rebuilt. Evidence: KPI "Current ratio" (`data_model.md` section 6); closing balances, latest month April 2025 (D39). Report: current ratio by month, by organisation through cross-filtering (D139) |
 | F6 | What do we own, what do we owe, and how is that changing? | Closing assets, liabilities and equity by month | Should | Rebuilt. Evidence: D39, D97; the USD balance sheet does not balance exactly (`limitations.md`) |
 | F7 | What are the figures in each unit's own currency? | F2 totals in local currency, when one currency is selected | Should | Rebuilt. Evidence: D37 and `limitations.md` (local currency view, Should); local amount kept (D36) |
 | F8 | Do the finance figures agree with the sales figures? | Finance net sales vs sales revenue, side by side, company level | Should | Rebuilt. Evidence: "F8 finding" in `fact_finance_checks.sql` (about 6% apart in total, not per organisation); never combined in one KPI (D40) |
@@ -57,7 +57,7 @@ stays visible.
 
 | # | Business question | KPIs | Priority | Changed by / notes |
 |---|---|---|---|---|
-| P1 | How much are we spending, and with which vendors? | Purchase spend (accepted goods value, all order statuses), by vendor and category | Must | **D42:** Pending and Approved orders already hold received goods. Originally: "Purchase spend (Complete orders), by vendor and category" |
+| P1 | How much are we spending, and with which vendors? | Purchase spend (accepted goods value, all order statuses), by vendor and category | Must | **D42:** Pending and Approved orders already hold received goods. Originally: "Purchase spend (Complete orders), by vendor and category". Report: by vendor (table) and by product category (chart, D139) |
 | P2 | How many purchase orders are stuck or rejected? | Count and value of Pending, Approved, Rejected | Must | |
 | P3 | Are vendors delivering good quality? | OTIF % (main), unit fill rate, rejected quantity %, by vendor | Must | **D43:** OTIF varies (89.3%) while on-time alone is always 100%. Originally: "Rejected quantity %, by vendor" |
 | P4 | Do we have enough stock? | Current stock vs safety stock and reorder point | Must | Stock status D51 |
@@ -65,7 +65,7 @@ stays visible.
 | P6 | How much production is wasted, and why? | Scrap rate %, scrap by reason | Must | Scrap rate is the main KPI (D46) |
 | P7 | Is production finishing on time? | % of work orders finished by due date | Must | **D47:** 31.4% of work orders finish late. Originally: priority Should |
 | P8 | Which products do we need to reorder now? | Products below their reorder point, counting stock plus open purchase orders | Must | Rebuilt. Evidence: inventory check 5 ("stock limits (P4, P8)"); reorder logic with open purchase quantity (D51, D52) |
-| P9 | How many days of sales does our stock cover? | Stock on hand divided by average daily units sold, per product | Should | Rebuilt. Evidence: `data_model.md` (P9 answered by `fact_sales` and `fact_inventory_current`) |
+| P9 | How many days of sales does our stock cover? | Stock on hand divided by average daily units sold, per product | Should | Rebuilt. Evidence: `data_model.md` (P9 answered by `fact_sales` and `fact_inventory_current`). Demand from an unsecured 90-day table so every user sees the same cover (D136) |
 
 ## Executive overview
 

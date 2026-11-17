@@ -303,3 +303,37 @@ Notes:
   Repeated with the email entered again: as expected.
 - Test 7: the first run showed blank hires for 2025; the measure now returns 0 where headcount
   data exists (D128).
+
+## B7: Report pages and security in the report
+
+**Report:** `DA-01/powerbi/EnterpriseBI_Suite.pbip`, 7 pages (D135) | **Run:** 16-18 Nov 2026 | **Data:** batch 5082 | **Result:** all passed, except test 9, which is still to be confirmed
+
+Pages are checked with the Year slicer at 2024 unless stated. Expected values come from SQL run in the same sessions or from earlier tests.
+
+| # | Page and test | Expected | Measured (report) | Result |
+|---|---|---|---|---|
+| 1 | Executive Overview: revenue 2024 | 43,671,889.50 (SQL on `dw.fact_sales`, Rejected and Cancelled excluded) | $44M card; region bars 29.4M + 10.0M + 4.2M | Pass |
+| 2 | Executive Overview: headcount 2024 | 290 at 2024-12-31 (SQL on `dw.fact_headcount_monthly`) | 290 | Pass |
+| 3 | Sales: channel and salesperson tables 2024 | Channel total = revenue; salesperson total = sum of the four reseller rows | 43,671,890; 32,890,352 = 322,115 + 26,055,955 + 899,346 + 5,612,935; quota 40,920,000; 83.3% | Pass |
+| 4 | Finance: 2024 income statement, budget and 2025 balance sheet | B6 test 6: net income 7,119,747.65; budget 7.43M / 4.08M / −3.35M / −45.1%; April 2025: 19,134,799.60 / 7,383,993.53 / 11,750,806.07 / 3.57 | $7M; margins 69.2 / 26.0 / 19.5%; budget card the same for every year; 2025: $19M / $7M / $12M / 3.57 | Pass |
+| 5 | HR: 2024 and 2025 | Headcount 290 in both years; hires 3 and 0, 16 in total (B4c test 3) | 290 / 3 / 54.9 months; 290 / 0 / 64.9 months; hires by year add to 16 | Pass |
+| 6 | Purchasing & Inventory: spend 2024 and stock | Vendor total = Spend card; stock as B6 test 8 (28,522,266.13; 61 / 62 / 363); stock not filtered by year | 19,404,103 and $19M; $29M, 61 / 62 / 363 in every year | Pass |
+| 7 | Production: 2024 | Products table total = KPI cards | 28,994 / 5,496 / 0.29% / 67.2% in both | Pass |
+| 8 | Data Quality: latest load | SSMS: 27 passed, 0 warned, 0 failed; 77 runs, 21 failed | Same; checks table 27 rows (W01-W18, E01-E09), each batch once | Pass |
+| 9 | Spend by product category (P1, D139) | Category bars add up to the Spend card (19,404,103) | Four categories, no blank category; exact total to be read from data labels | To confirm |
+| 10 | Current ratio by month (F5, D139) | December 2024 = Current Ratio card | Company 3.27; Southwest Division 4.59 when selected | Pass |
+| 11 | Days of stock cover after D136 | Owner unchanged: HL Mountain Seat/Saddle 639.0, total 17.3 | 639.0 and 17.3 | Pass |
+
+**Test 12, security in the report ("View as", D134, D136):**
+
+| User | Page | Expected | Measured | Result |
+|---|---|---|---|---|
+| stephen0 (North America) | Executive Overview | North America revenue only; executive-only cards blank | Revenue $29M, one region bar of $29.4M; headcount, OTIF, revenue per employee, HR and purchases as-of dates blank | Pass |
+| stephen0 | HR | Message, every visual blank | Same | Pass |
+| stephen0 | Purchasing & Inventory | Purchasing figures blank; stock as for executives; same days of stock cover | Spend, vendor table and order status blank; $29M, 61 / 62 / 363; 639.0 and 17.3 | Pass |
+| ken0 (Executive) | HR | All data, no message | 290, 3 hires, all visuals, no message | Pass |
+| nobody@example.com | HR, Purchasing & Inventory | Message, no data | Message; every value blank; the three product count cards show 0 (limitations.md) | Pass |
+
+Notes:
+- Before D136, Stephen's days of stock cover read 798.8 for HL Mountain Seat/Saddle and 24.8 in total, because security cut the sales used as the divisor. The same test after D136 gives 639.0 and 17.3.
+- The first purchasing message was too long for its card and was cut off; it was shortened to "Purchasing: executives only. Stock is shown."

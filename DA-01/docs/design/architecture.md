@@ -3,7 +3,7 @@
 How data moves from the two source databases to the Power BI report, how the load is scheduled
 and checked, and how access is controlled.
 
-Decision IDs (D01-D132) refer to [`decision_log.md`](decision_log.md).
+Decision IDs (D01-D139) refer to [`decision_log.md`](decision_log.md).
 
 ---
 
@@ -156,7 +156,7 @@ flowchart LR
 | Role | Sees | Does not see |
 |---|---|---|
 | Executive | Everything | – |
-| Regional Manager | Own region's sales, quotas and finance; salespeople's names, with figures only for their own region; company-wide inventory | HR facts, `dim_employee_hr`, purchasing, production, unknown (-1) rows |
+| Regional Manager | Own region's sales, quotas and finance; salespeople's names, with figures only for their own region; company-wide inventory | HR facts, `dim_employee_hr`, purchasing, production, data quality and load history, unknown (-1) rows |
 
 - One Power BI role, "Dynamic Security", reads the signed-in user's email with
   `USERPRINCIPALNAME()` and takes the access level and region group from
@@ -167,8 +167,8 @@ flowchart LR
 |---|---|---|---|
 | Territory, Organization | All rows | Own region group | None |
 | Employee | All rows | Salespeople and the "Not applicable" row (online sales) | None |
-| Headcount, Employee HR, Purchases, Work Orders | All rows | None | None |
-| Inventory, Customer | All rows | All rows | None |
+| Headcount, Employee HR, Purchases, Work Orders, Data Quality Results, Load Batches | All rows | None | None |
+| Inventory, Customer, Product Demand 90d | All rows | All rows | None |
 | Security User Region | Own row | Own row | None |
 - Users (D117): four employees from the source, with their source email addresses, tested with
   "View as - Other user" in Power BI Desktop (D74).
@@ -189,6 +189,7 @@ flowchart LR
 | Regional manager on HR, purchasing and production | Blank | Pass (measured with Active Headcount, Spend, Work Orders Started) |
 | Regional manager on finance | Own region's finance net sales | Pass (Europe 7,787,807 = SQL) |
 | User not in the mapping table | No data | Pass |
+| Report pages with "View as" (B7) | Messages on executive-only pages; same days of stock cover as executives | Pass |
 
 Limitation: the .pbix file itself is not protected; row-level security is enforced when content
 is shared through the Power BI Service (D74).

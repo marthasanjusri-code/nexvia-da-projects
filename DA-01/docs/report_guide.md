@@ -73,12 +73,13 @@ Clicking a bar or a table row filters the rest of the page. Click it again to cl
 
 ![Finance](screenshots/03_finance.png)
 
-**Answers:** F1, F2, F3, F4, F5 and F6 (year-end position).
+**Answers:** F1, F2, F3, F4, F5, F6 (year-end position).
 
 | Visual | Content |
 |---|---|
 | KPI cards | Finance Net Sales, Net Income, gross, operating and net margin %, Total Assets, Total Liabilities, Owners Equity, Current Ratio |
 | Monthly net sales, expenses and net income | Line chart by month |
+| Current ratio by month | Company current ratio by month; click an organisation in the net income chart to see that organisation's ratio (D139) |
 | Budget vs actual | Budget, actual in budget months, variance and variance %. The Year slicer does not filter this card, because the budget exists only for May 2022 to April 2023 |
 | Net income by organisation | By organisation unit |
 | Operating expenses by department group | By department group, level 2 |
@@ -88,6 +89,7 @@ Clicking a bar or a table row filters the rest of the page. Click it again to cl
 - Budget: $7.43M budget, $4.08M actual, −$3.35M variance, −45.1% (B6 test 6).
 - 2025 balance sheet: assets $19,134,799.60, liabilities $7,383,993.53, equity $11,750,806.07, current ratio 3.57 (B6 test 6, D115).
 - The balance sheet cards show the closing position at the last month of the selected year.
+- Current ratio chart, December 2024: 3.27 for the company and 4.59 for Southwest Division, the same as the card.
 
 ---
 
@@ -120,12 +122,13 @@ Clicking a bar or a table row filters the rest of the page. Click it again to cl
 
 ![Purchasing & Inventory](screenshots/05_purchasing_inventory.png)
 
-**Answers:** P1 (by vendor), P2, P3, P4, P8, P9.
+**Answers:** P1, P2, P3, P4, P8, P9.
 
 | Visual | Content |
 |---|---|
 | KPI cards | Spend, OTIF %, Unit Fill Rate %, Rejection %, Total Stock Value, Products to Reorder, Products Below Minimum, Products OK |
 | Spend and quality by vendor | Spend, OTIF, fill rate and rejection per vendor |
+| Spend by product category | Spend by product category (D139) |
 | Purchase orders by status | Order value by status, with the order count as a tooltip |
 | Products to reorder now | Products whose stock plus open purchase orders is below the reorder point, with days of stock cover |
 
@@ -134,7 +137,7 @@ Clicking a bar or a table row filters the rest of the page. Click it again to cl
 - Stock (current position, not filtered by the Year slicer): $28,522,266.13; 61 to reorder, 62 below minimum, 363 OK (B6 test 8).
 - Purchase orders run to 2025-09-21. Deliveries were due to 2025-10-21 and shipped to 2025-10-16.
 
-**Days of stock cover** = stock on hand ÷ average daily units sold over the last 90 days of sales. The 90-day demand is stored in a hidden table, `Product Demand 90d`, calculated at refresh. Because of that, region security does not reduce it, and every user sees the same company-wide cover (section 10).
+**Days of stock cover** = stock on hand ÷ average daily units sold over the last 90 days of sales. The 90-day demand is stored in a hidden table, `Product Demand 90d`, calculated at refresh. Because of that, region security does not reduce it, and every user sees the same company-wide cover (D136, section 10).
 
 ---
 
@@ -225,13 +228,13 @@ Power BI has no page-level security. The pages restricted to executives show a m
 
 ## 11. Questions not shown on the report pages
 
-| Question | Priority | Reason |
+All Must questions are on the pages. These Should questions are not, or only in part:
+
+| Question | Priority | Status |
 |---|---|---|
-| S7 Shipping on time | Should | Not built, time |
+| S7 Shipping on time | Should | Not built |
 | S8 Discount by offer | Should | Only the overall discount rate is shown |
-| F5 Current ratio over time, by organisation | Must | Only the year-end company ratio is shown |
-| F6 Balance sheet by month | Should | Only the year-end position is shown |
+| F6 Balance sheet by month | Should | The cards show the year-end position |
 | F7 Local currency | Should | Not built (D37) |
 | F8 Finance vs sales comparison | Should | Not built |
-| P1 Spend by category | Must | Spend is shown by vendor only |
 | P5 Stock trend | Should | Not built (D49) |

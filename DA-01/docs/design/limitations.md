@@ -76,6 +76,11 @@ Kept as they are (source data is never changed on suspicion) and documented.
 | The Power BI connection to SQL Server is not encrypted | The laptop's SQL Server uses a self-signed certificate; on one machine no data crosses a network. A server on a network would get a trusted certificate | D121 |
 | Revenue in Power BI differs from SQL by 0.000001 | Floating point addition of 121,317 values; all money is shown and reconciled to the cent | D120 |
 | Power BI Desktop projects (.pbip) are marked as preview by Microsoft | Used for readable version control; the .pbix for submission is saved from the project | D131 |
+| The scheduled load runs late when the laptop is asleep, and a load in progress pauses while it sleeps | SQL Server Agent runs on this laptop. A job that falls due during sleep runs when the laptop wakes: the runs of 12, 14 and 15 Nov each started within a minute of a wake in the Windows power log. Batch 5082 started at 03:34 on 15 Nov, the laptop slept seconds later and woke at 15:51, and the batch finished 22 s after that, so its 44,269 s are almost all sleep. On a server that stays on, the job runs at its scheduled time. The demo starts the job manually | D09, D78 |
+| Power BI Desktop has no page-level security: pages for executives are visible to every user, with their figures hidden and a message shown | The standard alternative, separate reports shown through Power BI app audiences, needs the Service | D11, D134 |
+| The age band on the HR page is the employee's age on 2025-10-31, so the age chart is the same for every year | Age band is a current attribute of `dim_employee_hr`, not a monthly snapshot; birth date is not stored | D62, D137 |
+| The three product count cards (to reorder, below minimum, OK) show 0 rather than blank for a user not in the security table | The count measures add 0 so that an empty category shows 0; no product data is shown | D73 |
+| Executive Overview shows blank cards ("--") to regional managers for headcount, OTIF and revenue per employee, without a message | The page is mainly for every user; a message would cover visible figures | D72, D134 |
 
 ---
 
