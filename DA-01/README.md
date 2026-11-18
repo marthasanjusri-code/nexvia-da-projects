@@ -6,6 +6,10 @@ Source data: Microsoft's sample databases AdventureWorks2025 (sales, HR, purchas
 
 ![Executive Overview](docs/screenshots/01_executive_overview.png)
 
+**Demo recording:** [watch on Google Drive](https://drive.google.com/file/d/1JeJ2rtqEGXWM6J1i5z7sC_08SrVVDPxX/view?usp=sharing)  
+**Presentation:** [`docs/DA01_presentation.pdf`](docs/DA01_presentation.pdf) · **Reflection:** [`docs/reflection.md`](docs/reflection.md) · **User guide:** [`docs/user_guide.md`](docs/user_guide.md)  
+**Author:** Sanju Sri Martha
+
 ---
 
 ## What it does
