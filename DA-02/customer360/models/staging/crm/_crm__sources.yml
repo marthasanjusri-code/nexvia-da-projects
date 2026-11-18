@@ -1,0 +1,43 @@
+version: 2
+
+sources:
+  - name: crm
+    description: >
+      CRM export loaded into BigQuery by scripts/generate_synthetic_data.py.
+      Orders are the real GA4 transactions; customers are built by linking
+      devices that share an order. Names and emails are synthetic.
+    schema: raw_crm
+    tables:
+      - name: customers
+        description: One row per customer account.
+        columns:
+          - name: customer_id
+            description: CRM customer key (C00001...).
+            data_tests:
+              - unique
+              - not_null
+          - name: email
+            data_tests:
+              - unique
+              - not_null
+          - name: signup_date
+            data_tests:
+              - not_null
+
+      - name: orders
+        description: One row per order; order_id is the GA4 transaction_id.
+        columns:
+          - name: order_id
+            data_tests:
+              - unique
+              - not_null
+          - name: customer_id
+            data_tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('crm', 'customers')
+                    field: customer_id
+          - name: order_total_usd
+            data_tests:
+              - not_null

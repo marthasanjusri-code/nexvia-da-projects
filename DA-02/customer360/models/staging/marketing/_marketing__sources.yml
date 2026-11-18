@@ -1,0 +1,40 @@
+version: 2
+
+sources:
+  - name: marketing
+    description: >
+      Channel cost reports loaded into BigQuery by scripts/generate_synthetic_data.py.
+      Each table follows how that channel bills: paid search per click,
+      affiliates per sale, the email platform per month.
+    schema: raw_marketing
+    tables:
+      - name: google_ads_daily_cost
+        description: Google Ads daily cost report. Clicks are real GA4 cpc sessions, priced at $2.61 CPC.
+        columns:
+          - name: date
+            data_tests:
+              - unique
+              - not_null
+          - name: cost_usd
+            data_tests:
+              - not_null
+
+      - name: affiliate_commissions
+        description: Affiliate network commission report, one row per order, 8.4% of sale.
+        columns:
+          - name: order_id
+            data_tests:
+              - unique
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('crm', 'orders')
+                    field: order_id
+
+      - name: esp_monthly_invoices
+        description: Email platform (Mailchimp Standard) monthly invoices.
+        columns:
+          - name: invoice_month
+            data_tests:
+              - unique
+              - not_null
