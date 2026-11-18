@@ -306,7 +306,7 @@ Notes:
 
 ## B7: Report pages and security in the report
 
-**Report:** `DA-01/powerbi/EnterpriseBI_Suite.pbip`, 7 pages (D135) | **Run:** 16-18 Nov 2026 | **Data:** batch 5082 | **Result:** all passed
+**Report:** `DA-01/powerbi/EnterpriseBI_Suite.pbip`, 7 pages (D135) and a drill-through page (D140) | **Run:** 16-18 Nov 2026 | **Data:** batch 5082 | **Result:** all passed
 
 Pages are checked with the Year slicer at 2024 unless stated. Expected values come from SQL run in the same sessions or from earlier tests.
 
@@ -323,6 +323,8 @@ Pages are checked with the Year slicer at 2024 unless stated. Expected values co
 | 9 | Spend by product category (P1, D139) | Category bars add up to the Spend card (19,404,103) | Four categories, no blank category; data labels $8.1M + $7.1M + $4.1M + $0.1M = $19.4M | Pass |
 | 10 | Current ratio by month (F5, D139) | December 2024 = Current Ratio card | Company 3.27; Southwest Division 4.59 when selected | Pass |
 | 11 | Days of stock cover after D136 | Owner unchanged: HL Mountain Seat/Saddle 639.0, total 17.3 | 639.0 and 17.3 | Pass |
+| 13 | Drill through from the reorder list (D140) | HL Mountain Seat/Saddle: stock 355, cover 639.0, reorder point 375; spend = vendor table total | Filter "Product is HL Mountain Seat/Saddle"; 355, 639.0, 375; spend $482K = 481,940 | Pass |
+| 14 | Drill through from Production (D140) | BB Ball Bearing 2024: 366 work orders, 0.21% scrap | 366, 0.21%; sales and spend blank (internal part) | Pass |
 
 **Test 12, security in the report ("View as", D134, D136):**
 

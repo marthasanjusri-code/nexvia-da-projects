@@ -1,6 +1,6 @@
 # Report Guide: Enterprise BI Suite
 
-This guide describes the seven pages of the Power BI report, the questions each page answers, how the region security behaves, and the figures that were checked against SQL Server. The screenshots were exported from Power BI Desktop on 17 Nov 2026, from the data loaded by batch 5082 (15 Nov 2026), with the Year slicer at 2024.
+This guide describes the seven pages and the drill-through page of the Power BI report, the questions each page answers, how the region security behaves, and the figures that were checked against SQL Server. The screenshots were exported from Power BI Desktop on 17 Nov 2026, from the data loaded by batch 5082 (15 Nov 2026), with the Year slicer at 2024.
 
 Decision numbers (D..) refer to `design/decision_log.md`. Question codes (S1, F2, ...) refer to `design/business_questions.md`.
 
@@ -19,7 +19,7 @@ Decision numbers (D..) refer to `design/decision_log.md`. Question codes (S1, F2
 | Page title and subtitle | Says what the page covers and the module's own "data as of" date (D24) |
 | Last data load card | End time of the last successful pipeline run (`etl.load_batch`) |
 | Year slicer | Filters the page by calendar year. The report opens on 2024, the latest full year in every module; 2022 and 2025 are part years |
-| Restricted message card | On executive-only pages, shows a message to users who may not see the data. Empty for executives (section 10) |
+| Restricted message card | On executive-only pages, shows a message to users who may not see the data. Empty for executives (section 11) |
 | KPI cards | Headline figures for the selected year |
 | Charts and tables | Trend, breakdown and detail |
 
@@ -137,7 +137,7 @@ Clicking a bar or a table row filters the rest of the page. Click it again to cl
 - Stock (current position, not filtered by the Year slicer): $28,522,266.13; 61 to reorder, 62 below minimum, 363 OK (B6 test 8).
 - Purchase orders run to 2025-09-21. Deliveries were due to 2025-10-21 and shipped to 2025-10-16.
 
-**Days of stock cover** = stock on hand ÷ average daily units sold over the last 90 days of sales. The 90-day demand is stored in a hidden table, `Product Demand 90d`, calculated at refresh. Because of that, region security does not reduce it, and every user sees the same company-wide cover (D136, section 10).
+**Days of stock cover** = stock on hand ÷ average daily units sold over the last 90 days of sales. The 90-day demand is stored in a hidden table, `Product Demand 90d`, calculated at refresh. Because of that, region security does not reduce it, and every user sees the same company-wide cover (D136, section 11).
 
 ---
 
@@ -178,7 +178,28 @@ This page has no Year slicer, because the data quality tables have no date relat
 
 ---
 
-## 10. Security by region
+## 10. Product Detail (drill-through page)
+
+![Product Detail](screenshots/08_product_detail.png)
+
+A hidden detail page for one product (D140). To open it, right-click a product name in **Products to reorder now** (Purchasing & Inventory) or **Products by work orders** (Production) and choose **Drill through → Product Detail**. Ctrl+click the back arrow to return.
+
+| Visual | Content |
+|---|---|
+| Product card | Product, category, list price, reorder point |
+| KPI cards | Revenue, gross margin %, orders, spend, stock units, days of stock cover, work orders started, scrap rate % for this product |
+| Monthly revenue for this product | Line chart by month |
+| Vendors for this product | Spend and OTIF per vendor |
+
+Every module links to Product, so one page shows the product across sales, purchasing, inventory and production. A value shows "--" when the product has no rows in that module; for example, a bought part has no work orders, and an internal part has no sales.
+
+**Checked:**
+- HL Mountain Seat/Saddle (from the reorder list): stock 355, days of stock cover 639.0, reorder point 375, the same as the reorder list. Spend $482K equals the vendor table total, $481,940.
+- BB Ball Bearing (from Production, 2024): 366 work orders and 0.21% scrap, the same as the Production table.
+
+---
+
+## 11. Security by region
 
 Every user is matched by email (`USERPRINCIPALNAME()`) to the table `Security User Region` through one role, **Dynamic Security** (D71–D73, D132).
 
@@ -226,7 +247,7 @@ Power BI has no page-level security. The pages restricted to executives show a m
 
 ---
 
-## 11. Questions not shown on the report pages
+## 12. Questions not shown on the report pages
 
 All Must questions are on the pages. These Should questions are not, or only in part:
 

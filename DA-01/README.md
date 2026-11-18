@@ -11,7 +11,7 @@ Source data: Microsoft's sample databases AdventureWorks2025 (sales, HR, purchas
 ## What it does
 
 - **One warehouse, four modules.** A nightly pipeline copies the needed source tables, builds a star schema (7 facts, 17 dimensions) and runs 27 data quality checks. It is all or nothing: if a check fails, the whole run is rolled back.
-- **One report, seven pages.** Executive Overview, Sales, Finance, HR, Purchasing & Inventory, Production and Data Quality. They are built for 32 agreed business questions. Every Must question is answered; the Should questions not shown are listed in the report guide.
+- **One report, seven pages plus a drill-through page.** Executive Overview, Sales, Finance, HR, Purchasing & Inventory, Production and Data Quality, and a Product Detail page reached by right-clicking a product. They are built for 32 agreed business questions. Every Must question is answered; the Should questions not shown are listed in the report guide.
 - **Security by region.** One dynamic role reads the signed-in user's email:
   - executives see everything;
   - regional managers see their own region's sales and finance, plus company-wide stock;
@@ -72,6 +72,7 @@ DA-01/
 │   ├── EnterpriseBI_Suite.SemanticModel/     model in TMDL, DAX test queries
 │   └── EnterpriseBI_Suite.Report/            7 report pages
 └── docs/
+    ├── user_guide.md          one-page guide for report users
     ├── report_guide.md        the pages, the figures checked and the security tests, with screenshots
     ├── test_results.md        results of every test (B1 to B7)
     ├── source_inventory.xlsx  source tables and columns used
@@ -80,7 +81,7 @@ DA-01/
         ├── business_questions.md   the 32 questions the report answers
         ├── architecture.md         layers, load process, quality checks, security
         ├── data_model.md           facts, dimensions and their grain
-        ├── decision_log.md         every decision with its reason and evidence (D01-D139)
+        ├── decision_log.md         every decision with its reason and evidence (D01-D140)
         └── limitations.md          known limits of the data and the solution
 ```
 
@@ -149,7 +150,7 @@ Go to **Modeling → View as**, tick **Other user**, enter one of the users belo
 | `amy0@adventure-works.com` | Regional manager, Europe |
 | any other email | No data |
 
-The expected results for each user are in [`docs/report_guide.md`](docs/report_guide.md#10-security-by-region).
+The expected results for each user are in [`docs/report_guide.md`](docs/report_guide.md#11-security-by-region).
 
 ### 6. Run the tests (optional)
 
@@ -171,8 +172,9 @@ All recorded results are in [`docs/test_results.md`](docs/test_results.md).
 | Purchasing & Inventory | Spend, vendor quality, order status, stock and what to reorder |
 | Production (executives) | Work orders, scrap and on-time completion |
 | Data Quality (executives) | Pipeline runs and the checks of the latest load |
+| Product Detail (drill-through) | One product's sales, purchases, stock and production; right-click a product → Drill through |
 
-Each module ends on its own date, so each page shows its own "data as of" date. The report opens on 2024, the latest full year in every module. Page-by-page details: [`docs/report_guide.md`](docs/report_guide.md).
+Each module ends on its own date, so each page shows its own "data as of" date. The report opens on 2024, the latest full year in every module. For report users: [`docs/user_guide.md`](docs/user_guide.md) (one page). Page-by-page details and checks: [`docs/report_guide.md`](docs/report_guide.md).
 
 ## Limitations
 
