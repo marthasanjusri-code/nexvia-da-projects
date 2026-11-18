@@ -23,7 +23,9 @@ I owned the project from start to finish:
 
 ## What I would do differently
 
-[Write two or three points in your own words. For example: publishing to the Power BI Service earlier, so that scheduled refresh and app audiences could be shown; planning the drill-through page with the first report pages; or keeping the report on one machine that stays on.]
+- **Plan the report pages with the warehouse.** I designed the drill-through page and the restricted-page messages late, after testing showed the need. Sketching every page and every user's view at the start would have surfaced them earlier.
+- **Test security on every measure, not only on tables.** The days of stock cover issue only appeared when I viewed the report as a regional manager. I would now run that check on each measure as I write it.
+- **Use a machine that stays on for scheduled work.** Running the pipeline on a laptop caused late runs and a power cut during a commit. A small server, or the Power BI Service with scheduled refresh, would have avoided both.
 
 ## Next steps for the project
 
