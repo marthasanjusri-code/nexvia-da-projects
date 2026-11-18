@@ -92,7 +92,7 @@ DA-01/
 
 | Tool | Version used |
 |---|---|
-| SQL Server with SQL Server Agent | 2025 Enterprise Developer (17.0.1145.4) |
+| SQL Server with SQL Server Agent | 2025 Enterprise Developer (17.0.1155.3) |
 | SQL Server Management Studio | 22 |
 | Power BI Desktop | 2.159.1231.0, 64-bit (October 2026) |
 

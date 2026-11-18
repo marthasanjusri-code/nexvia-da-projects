@@ -133,7 +133,7 @@ Each check has a rule, because 0 is good for some checks and poor for others:
 
 | Tool | Version | Role |
 |---|---|---|
-| SQL Server | 2025 Enterprise Developer (17.0.1145.4) | Sources and warehouse |
+| SQL Server | 2025 Enterprise Developer (17.0.1155.3) | Sources and warehouse |
 | SQL Server Agent | Built in, automatic start | Scheduler (pipeline) |
 | SQL Server Management Studio | 22 | Development, checks |
 | Power BI Desktop | 2.159.1231.0 64-bit (October 2026) | Report, model, DAX, security; saved as a Power BI Project (.pbip, TMDL) (D131) |
