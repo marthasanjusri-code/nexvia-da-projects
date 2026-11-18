@@ -11,3 +11,16 @@ notes/
 # (Microsoft: cache.abf and localSettings.json "should be included in gitIgnore")
 **/.pbi/cache.abf
 **/.pbi/localSettings.json
+
+# DA-02: Python virtual environment and caches
+.venv/
+__pycache__/
+
+# DA-02: dbt build output, installed packages and logs
+**/target/
+**/dbt_packages/
+**/logs/
+
+# DA-02: credentials never go to GitHub (the dbt profile lives in ~/.dbt)
+profiles.yml
+*.keyfile.json

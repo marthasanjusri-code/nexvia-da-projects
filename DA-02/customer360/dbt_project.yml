@@ -1,0 +1,35 @@
+name: 'customer360'
+version: '1.0.0'
+config-version: 2
+
+profile: 'customer360'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  customer360:
+    # Staging: one view per source, renamed and typed, no business logic.
+    staging:
+      +materialized: view
+      +schema: staging
+    # Intermediate: joins and logic shared by several marts.
+    intermediate:
+      +materialized: table
+      +schema: intermediate
+    # Marts: final tables for analysis and Tableau.
+    marts:
+      +materialized: table
+      +schema: marts
+
+seeds:
+  customer360:
+    +schema: raw
