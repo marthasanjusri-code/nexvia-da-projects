@@ -31,6 +31,10 @@ Published on [Tableau Public](https://public.tableau.com/app/profile/sanju.sri.m
 | Customer 360 | Customers, orders, repeat rate and revenue; customers and revenue by RFM segment; customers, past revenue, predicted 12-month CLV and probability alive by CLV tier |
 | Budget recommendations | Paid channel efficiency with the five recommendations below |
 
+![Marketing attribution](docs/screenshots/01_marketing_attribution.png)
+![Customer 360](docs/screenshots/02_customer_360.png)
+![Budget recommendations](docs/screenshots/03_budget_recommendations.png)
+
 ## Architecture
 
 ```mermaid
@@ -64,6 +68,10 @@ flowchart LR
 | Marts (tables) | `fct_sessions`, `fct_orders`, `fct_attribution`, `dim_customers`, `mart_customer_360`, `mart_channel_performance`, `mart_campaign_performance` | Sessions with customers, orders, Customer 360, attribution credits, channel and campaign ROI and CPA |
 
 **Segment.** The brief lists Segment. In production, Segment (or a similar customer data platform) would collect events and resolve identities. Here the GA4 export plays the event role and `int_identity__device_customers` does the identity resolution with the same deterministic rule (decision D14).
+
+dbt lineage, from sources through staging and intermediate to marts (`dbt docs generate`):
+
+![dbt lineage graph](docs/screenshots/04_dbt_lineage.png)
 
 Full decisions with evidence: [`docs/design/decision_log.md`](docs/design/decision_log.md). Limitations: [`docs/design/limitations.md`](docs/design/limitations.md). Test results: [`docs/test_results.md`](docs/test_results.md).
 
@@ -132,6 +140,7 @@ DA-02/
 │   └── data/                       CSV extracts used by the workbook
 └── docs/
     ├── design/decision_log.md, limitations.md
+    ├── screenshots/                dashboards and dbt lineage
     ├── test_results.md
     ├── DA02_presentation.pdf
     └── reflection.md
