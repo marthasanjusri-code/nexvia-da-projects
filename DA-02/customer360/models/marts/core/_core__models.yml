@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: One row per order.
+    columns:
+      - name: order_id
+        data_tests: [unique, not_null]
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
+      - name: last_touch_channel
+        description: Channel with last-touch credit; every order has one.
+        data_tests: [not_null]
+
+  - name: dim_customers
+    description: Customer 360 profile with RFM scores and segment.
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+      - name: rfm_segment
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Champions', 'Loyal Customers', 'Potential Loyalists', 'New Customers',
+                         'Promising', 'Need Attention', 'About to Sleep', 'At Risk',
+                         'Cannot Lose Them', 'Hibernating']
+      - name: devices
+        description: Linked devices. Every customer was identified through at least one device.
+        data_tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1

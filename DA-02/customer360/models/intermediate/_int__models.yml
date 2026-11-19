@@ -38,3 +38,16 @@ models:
               arguments:
                 to: ref('stg_crm__customers')
                 field: customer_id
+
+  - name: int_orders__purchase_events
+    description: One row per CRM order with the time of its first GA4 purchase event.
+    columns:
+      - name: order_id
+        data_tests: [unique, not_null]
+      - name: order_at
+        data_tests: [not_null]
+
+  - name: int_attribution__touchpoints
+    description: >
+      Sessions eligible for credit on each order: sessions of the customer's devices
+      within the lookback window, with direct visits removed unless the path is all direct.

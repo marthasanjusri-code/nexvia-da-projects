@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: fct_attribution
+    description: One row per order and eligible session, with credit under four attribution models.
+    columns:
+      - name: attribution_key
+        data_tests: [unique, not_null]
+      - name: order_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_orders')
+                field: order_id
+
+  - name: mart_channel_performance
+    description: Conversions, revenue, cost, ROAS, ROI and CPA by channel and attribution model.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: ['channel', 'attribution_model']
