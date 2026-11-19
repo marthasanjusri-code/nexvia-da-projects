@@ -5,7 +5,7 @@ One view of each customer and of what each marketing channel really earns. Web b
 Source data: the Google Merchandise Store GA4 sample (`bigquery-public-data.ga4_obfuscated_sample_ecommerce`, 1 Nov 2020 to 31 Jan 2021), plus a CRM and channel cost reports generated from it (see [Data](#data)).
 
 **Dashboard:** [Tableau Public](https://public.tableau.com/app/profile/sanju.sri.martha/viz/Customer360_Attribution/Marketingattribution)  
-**Demo recording:** [watch on Google Drive](DEMO_VIDEO_URL)  
+**Demo recording:** [watch on Google Drive](https://drive.google.com/file/d/1-vUTTgiPCJN-L_p6gEu7DGOP35KMmR9B/view?usp=sharing)  
 **Presentation:** [`docs/DA02_presentation.pdf`](docs/DA02_presentation.pdf) · **Reflection:** [`docs/reflection.md`](docs/reflection.md)  
 **Author:** Sanju Sri Martha  
 [![DA-02 CI](https://github.com/marthasanjusri-code/nexvia-da-projects/actions/workflows/da02-ci.yml/badge.svg)](https://github.com/marthasanjusri-code/nexvia-da-projects/actions/workflows/da02-ci.yml)
