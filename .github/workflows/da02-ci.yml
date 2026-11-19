@@ -1,0 +1,78 @@
+# Continuous integration for DA-02.
+#
+# Runs on every push and pull request that changes DA-02. It checks that the
+# project is valid without connecting to BigQuery, so no Google Cloud
+# credentials are stored in GitHub:
+#   - the Python scripts compile
+#   - dbt installs its packages and parses the whole project (every model,
+#     ref, source, macro, test and YAML file must be valid)
+#
+# Running the models and data tests in CI would need warehouse access. The
+# keyless way to give it is Workload Identity Federation (no service account
+# keys); that is listed as a next step in docs/design/limitations.md.
+
+name: DA-02 CI
+
+on:
+  push:
+    paths:
+      - "DA-02/**"
+      - ".github/workflows/da02-ci.yml"
+  pull_request:
+    paths:
+      - "DA-02/**"
+      - ".github/workflows/da02-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: DA-02
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install dbt (same versions as requirements.txt)
+        run: pip install dbt-core==1.12.7 dbt-bigquery==1.12.4
+
+      - name: Compile the Python scripts
+        run: python -m py_compile scripts/*.py
+
+      - name: Write a dbt profile with no credentials (parse does not connect)
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml <<'PROFILE'
+          customer360:
+            target: ci
+            outputs:
+              ci:
+                type: bigquery
+                method: oauth
+                project: ci-placeholder
+                dataset: customer360_ci
+                location: US
+                threads: 1
+          PROFILE
+
+      - name: Install dbt packages
+        working-directory: DA-02/customer360
+        run: dbt deps
+
+      - name: Parse the dbt project
+        working-directory: DA-02/customer360
+        run: dbt parse
+
+      - name: List models and tests
+        working-directory: DA-02/customer360
+        run: |
+          dbt ls --resource-type model --resource-type test --resource-type seed --output name | sort > nodes.txt
+          echo "Models, tests and seeds found: $(wc -l < nodes.txt)"
