@@ -5,9 +5,16 @@ Predicts customer lifetime value (CLV) with the standard "buy till you die"
 models and loads the result into BigQuery, where dbt reads it as a source.
 
 Models (PyMC-Marketing):
-  BG/NBD       how many repeat purchases a customer will make, and the
-               probability the customer is still active (Fader, Hardie & Lee, 2005)
-  Gamma-Gamma  the expected value of those purchases (Fader & Hardie, 2013)
+  BG/NBD           how many repeat purchases a customer will make, and the
+                   probability the customer is still active (Fader, Hardie & Lee, 2005).
+                   A customer can only drop out after a repeat purchase, so every
+                   one-time buyer gets probability alive = 1.
+  Modified BG/NBD  the same, but a customer can also drop out after the first
+                   purchase (Batislam et al., 2007), which matters here because
+                   88% of customers bought once.
+  Both are fitted and validated on the same holdout; the one with the smaller
+  error in total repeat purchases is used.
+  Gamma-Gamma      the expected value of those purchases (Fader & Hardie, 2013)
   CLV          expected purchases x expected value over 12 months,
                discounted at 1% a month (about 12.7% a year)
 
@@ -15,8 +22,9 @@ Steps
   1. Read orders from the dbt mart fct_orders.
   2. Build frequency / recency / T / monetary value with PyMC-Marketing's
      rfm_summary, in days. Repeat purchases are counted in distinct days.
-  3. Validate: fit on Nov-Dec 2020, predict January 2021, compare with actual.
-  4. Fit on all data and predict per customer.
+  3. Validate both transaction models: fit on Nov-Dec 2020, predict January 2021,
+     compare with actual. Pick the model with the smaller total error.
+  4. Fit the chosen model on all data and predict per customer.
   5. Load ml_clv.customer_clv (replaced on every run).
 
 Run from DA-02 with the venv active, after `dbt build`:
@@ -52,28 +60,41 @@ def mean_over_samples(x) -> pd.Series:
     return x.to_series()
 
 
-def fit_bgnbd(rfm: pd.DataFrame) -> clv.BetaGeoModel:
-    model = clv.BetaGeoModel()
+TRANSACTION_MODELS = {
+    "BG/NBD": clv.BetaGeoModel,
+    "Modified BG/NBD": clv.ModifiedBetaGeoModel,
+}
+
+
+def fit_transaction_model(name: str, rfm: pd.DataFrame):
+    model = TRANSACTION_MODELS[name]()
     model.fit(data=rfm[["customer_id", "frequency", "recency", "T"]],
               method="map", progressbar=False, random_seed=SEED)
     return model
 
 
-def validate(orders: pd.DataFrame) -> None:
+def validate(orders: pd.DataFrame) -> str:
+    """Holdout check for each model; returns the name of the better one."""
     split = clv.rfm_train_test_split(
         orders, "customer_id", "order_date",
         train_period_end=CALIBRATION_END, test_period_end=OBSERVATION_END,
         time_unit="D",
     )
-    model = fit_bgnbd(split)
     test_days = (pd.Timestamp(OBSERVATION_END) - pd.Timestamp(CALIBRATION_END)).days
-    predicted = mean_over_samples(model.expected_purchases(data=split, future_t=test_days))
     actual = split.set_index("customer_id")["test_frequency"]
     print("Validation (fit to 2020-12-31, predict January 2021):")
-    print(f"  customers in calibration: {len(split)}")
-    print(f"  repeat purchases, predicted: {predicted.sum():.1f}  actual: {actual.sum():.0f}")
-    err = (predicted - actual.reindex(predicted.index)).abs().mean()
-    print(f"  mean absolute error per customer: {err:.3f} purchases")
+    print(f"  customers in calibration: {len(split)}, actual repeat purchases: {actual.sum():.0f}")
+    errors = {}
+    for name in TRANSACTION_MODELS:
+        model = fit_transaction_model(name, split)
+        predicted = mean_over_samples(model.expected_purchases(data=split, future_t=test_days))
+        mae = (predicted - actual.reindex(predicted.index)).abs().mean()
+        errors[name] = abs(predicted.sum() - actual.sum())
+        print(f"  {name}: predicted {predicted.sum():.1f}, "
+              f"total error {errors[name]:.1f}, mean absolute error per customer {mae:.3f}")
+    chosen = min(errors, key=errors.get)
+    print(f"  chosen: {chosen}")
+    return chosen
 
 
 def main():
@@ -86,7 +107,7 @@ def main():
     print(f"Orders read: {len(orders)}, customers: {orders['customer_id'].nunique()}, "
           f"revenue {orders['order_total_usd'].sum():,.2f} USD")
 
-    validate(orders)
+    chosen = validate(orders)
 
     rfm = clv.rfm_summary(
         orders, "customer_id", "order_date", "order_total_usd",
@@ -98,11 +119,11 @@ def main():
     corr = repeat[["frequency", "monetary_value"]].corr().iloc[0, 1]
     print(f"Gamma-Gamma check, correlation of frequency and order value: {corr:.3f}")
 
-    bgm = fit_bgnbd(rfm)
+    bgm = fit_transaction_model(chosen, rfm)
     ggm = clv.GammaGammaModel()
     ggm.fit(data=repeat[["customer_id", "frequency", "monetary_value"]],
             method="map", progressbar=False, random_seed=SEED)
-    print("BG/NBD parameters:", bgm.fit_summary().round(4).to_dict())
+    print(f"{chosen} parameters:", bgm.fit_summary().round(4).to_dict())
     print("Gamma-Gamma parameters:", ggm.fit_summary().round(4).to_dict())
 
     out = pd.DataFrame({
@@ -119,7 +140,7 @@ def main():
         "T": "customer_age_days",
         "monetary_value": "repeat_order_mean_value_usd",
     })
-    out["model"] = "BG/NBD + Gamma-Gamma (PyMC-Marketing, MAP)"
+    out["model"] = f"{chosen} + Gamma-Gamma (PyMC-Marketing, MAP)"
     out["observation_end"] = pd.Timestamp(OBSERVATION_END).date()
 
     client.create_dataset(bigquery.Dataset(f"{PROJECT_ID}.ml_clv"), exists_ok=True)
