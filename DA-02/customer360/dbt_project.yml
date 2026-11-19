@@ -29,3 +29,8 @@ models:
     marts:
       +materialized: table
       +schema: marts
+
+seeds:
+  customer360:
+    # Static reference lists only (raw data is loaded as sources).
+    +schema: seeds

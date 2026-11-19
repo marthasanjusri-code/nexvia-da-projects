@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: int_ga4__sessions
+    description: >
+      One row per GA4 session with its traffic source, GA4 default channel group,
+      engagement and purchases.
+    columns:
+      - name: session_key
+        data_tests: [unique, not_null]
+      - name: user_pseudo_id
+        data_tests: [not_null]
+      - name: session_start_at
+        data_tests: [not_null]
+      - name: channel
+        description: GA4 default channel group (Google's rules, see macros/default_channel_grouping.sql).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Direct', 'Cross-network', 'Paid Shopping', 'Paid Search', 'Paid Social',
+                         'Paid Video', 'Display', 'Paid Other', 'Organic Shopping', 'Organic Social',
+                         'Organic Video', 'Organic Search', 'Email', 'Affiliates', 'Referral',
+                         'Audio', 'SMS', 'Mobile Push Notifications', 'Unassigned']
+
+  - name: int_identity__device_customers
+    description: >
+      Device-to-customer map from deterministic transaction_id matching.
+      Each device belongs to exactly one customer (merge protection).
+    columns:
+      - name: user_pseudo_id
+        description: Unique, so a device can never be linked to two customers.
+        data_tests: [unique, not_null]
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_crm__customers')
+                field: customer_id

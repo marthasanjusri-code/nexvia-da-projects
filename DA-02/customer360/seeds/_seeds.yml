@@ -1,0 +1,19 @@
+version: 2
+
+seeds:
+  - name: ga4_source_categories
+    description: >
+      Google's mapping of traffic sources to source categories (search, social,
+      video, shopping), used by the GA4 default channel group rules.
+      Published by Google at https://support.google.com/analytics/answer/9756891.
+      Copied from the Velir/dbt-ga4 package (MIT licence, release 6.3.0), which
+      downloads it from that page. A static reference list, which is what dbt seeds are for.
+    columns:
+      - name: source
+        data_tests: [unique, not_null]
+      - name: source_category
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['SOURCE_CATEGORY_SEARCH', 'SOURCE_CATEGORY_SOCIAL', 'SOURCE_CATEGORY_VIDEO', 'SOURCE_CATEGORY_SHOPPING']
