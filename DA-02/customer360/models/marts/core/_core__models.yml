@@ -48,3 +48,18 @@ models:
     columns:
       - name: customer_id
         data_tests: [unique, not_null]
+
+  - name: fct_sessions
+    description: >
+      One row per GA4 session with channel and, for devices linked by identity
+      resolution, the CRM customer_id (null for anonymous sessions).
+    columns:
+      - name: session_key
+        data_tests: [unique, not_null]
+      - name: customer_id
+        description: Null when the device never placed an order.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id

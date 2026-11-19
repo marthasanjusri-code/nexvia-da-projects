@@ -27,6 +27,8 @@ What the platform cannot show, what is unusual in the data, and what could be ad
 | RFM | Frequency uses fixed bands because 88% of customers bought once | Revisit bands with a full year of data |
 | Platform | BigQuery Sandbox: tables expire after 60 days, no scheduled queries or incremental models | With billing: incremental models, scheduled `dbt build` (dbt Cloud, Cloud Composer or GitHub Actions), source freshness checks |
 | Platform | dbt 1.12 | Upgrade to dbt v2 when stable for the project's packages |
+| CI | CI checks the project without connecting to BigQuery; data tests run locally | Run `dbt build` in GitHub Actions with Workload Identity Federation (keyless) against a separate CI dataset |
+| Campaign cost | Paid search and email cost reports have no campaign split, so monthly cost is shared by sessions; paid search campaign names are hidden in the sample | With real ad and email platform reports, load cost by campaign and drop the allocation |
 
 ## 3. CLV model
 

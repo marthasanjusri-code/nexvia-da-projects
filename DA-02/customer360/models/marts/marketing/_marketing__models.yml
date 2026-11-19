@@ -20,3 +20,13 @@ models:
       - dbt_utils.unique_combination_of_columns:
           arguments:
             combination_of_columns: ['channel', 'attribution_model']
+
+  - name: mart_campaign_performance
+    description: >
+      Conversions, revenue, cost, ROAS, ROI and CPA by paid campaign and attribution
+      model. Affiliate cost is exact per campaign; paid search and email monthly cost
+      is shared across campaigns by their sessions in that month.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: ['channel', 'campaign', 'attribution_model']

@@ -8,9 +8,10 @@ All checks run on 19 November 2026 against BigQuery project `da02-customer360-51
 |---|---|
 | `dbt test --select "source:*"` (raw tables) | PASS=18 ERROR=0 |
 | `dbt build --exclude tag:clv` (all models except CLV) | PASS=93 ERROR=0 (14 models, 1 seed, 78 tests) |
+| `dbt build --select fct_sessions+ mart_campaign_performance+` (added later) | PASS=7 ERROR=0 |
 | `dbt build --select tag:clv` (CLV staging and Customer 360) | PASS=14 ERROR=0 |
 
-The project has 90 data tests. Main ones:
+The project has 95 data tests (a full `dbt build --exclude tag:clv` now runs 100 nodes). Main ones:
 
 | Test | What it proves |
 |---|---|
@@ -23,6 +24,7 @@ The project has 90 data tests. Main ones:
 | `assert_attribution_credits_sum_to_one` | Each model gives exactly 1 credit per order |
 | `assert_every_order_is_attributed` | All 4,451 orders have at least one touchpoint |
 | `assert_revenue_reconciles` | CRM, `fct_orders` and all four models total the same revenue, to the cent |
+| `assert_campaign_cost_reconciles` | Campaign costs add up to channel costs |
 
 ## 2. Raw and staging data against the GA4 sample
 
@@ -59,6 +61,15 @@ The project has 90 data tests. Main ones:
 | Affiliates, last touch | Commission report: $14.03 ÷ 8.4% = $167 | 2 orders, $167 |
 | Email, last touch | 20 orders with an email purchase session | 20 orders |
 | Paid Search, last touch | 43 orders with a cpc purchase session, plus orders whose purchase session was direct after a paid search visit (GA4 direct rule) | 44 orders |
+
+## 4b. Campaign performance (last touch)
+
+| Check | Expected | Result |
+|---|---|---|
+| Email campaign orders and revenue | Channel: 20 orders, $1,697 | 9 + 6 + 2 + 2 + 1 + 0 = 20; $840 + $333 + $291 + $155 + $78 = $1,697 |
+| Email campaign cost | $300 | $300.01 (cent rounding) |
+| Paid search campaign cost | $20,023.92 | $20,010.87 + $13.05 = $20,023.92 |
+| Affiliate campaign | $14.03, 2 orders | $14.03, 2 orders |
 
 ## 5. CLV model
 

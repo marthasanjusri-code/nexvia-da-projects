@@ -64,6 +64,9 @@ Every design decision for the Customer 360 and Marketing Attribution Platform, w
 | D34 | CLV used as tiers for ranking, not as a dollar forecast | The model still over-predicts the holdout about two times (D32) | Limitations, section 3 |
 | D35 | CLV output loaded to `ml_clv.customer_clv` and read by dbt as a source; the models that use it are tagged `clv` | The usual pattern for model outputs; the tag gives a clear run order | `_ml__sources.yml`, README run steps |
 
+| D39 | `fct_sessions` mart: every session with its channel and the `customer_id` from identity resolution (null for anonymous sessions) | The brief asks for a sessions model that links sessions and customers | `relationships` test to `dim_customers` |
+| D40 | Campaign cost: affiliates exact (campaign on each commission row); paid search and email monthly cost shared across the channel's campaigns by their sessions in that month | The Google Ads report is daily and the email invoice monthly, with no campaign split; activity-based allocation is the standard way to share a common cost. Paid search campaign names are hidden in the sample (`<other>`) | `assert_campaign_cost_reconciles`: Email $300.01 vs $300 (cent rounding), Paid Search $20,023.92 |
+
 ## 6. Reporting
 
 | ID | Decision | Reason | Evidence |
@@ -71,3 +74,9 @@ Every design decision for the Customer 360 and Marketing Attribution Platform, w
 | D36 | Tableau Public with CSV extracts of the marts, exported by a script | Tableau Public cannot connect to BigQuery; the script keeps the extracts repeatable and all logic stays in dbt | `export_tableau_extracts.py`; export check 3,698 customers, $308,200 |
 | D37 | Every channel chart shows one attribution model at a time (dropdown) or all four side by side | Each extract row is one channel under one model; summing models would count revenue four times | Model comparison sheet totals $1,232,800 = 4 × $308,200 |
 | D38 | Workbook kept as a packaged `.twbx` in the repository and published to Tableau Public | The file is version-controlled with the code; Tableau Public gives the shareable link | `tableau/Customer360_Attribution.twbx` |
+
+## 7. Engineering
+
+| ID | Decision | Reason | Evidence |
+|---|---|---|---|
+| D41 | GitHub Actions CI without cloud credentials: compile the scripts, `dbt deps`, `dbt parse` on every push that changes DA-02 | Catches broken models, references and YAML before review, with no keys stored in GitHub. Running models and data tests in CI needs warehouse access; the keyless way is Workload Identity Federation (next step) | `.github/workflows/da02-ci.yml`; Actions tab |
