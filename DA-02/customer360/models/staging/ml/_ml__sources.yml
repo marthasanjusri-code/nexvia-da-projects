@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: ml
+    description: >
+      Model outputs written by scripts/predict_clv.py (PyMC-Marketing BG/NBD +
+      Gamma-Gamma). Run order: dbt build --exclude tag:clv, then the script,
+      then dbt build --select tag:clv.
+    schema: ml_clv
+    tables:
+      - name: customer_clv
+        config:
+          tags: ['clv']
+        description: One row per customer with predicted purchases and 12-month CLV.
+        columns:
+          - name: customer_id
+            data_tests: [unique, not_null]
