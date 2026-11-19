@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_crm__customers
+    description: One row per CRM customer account.
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+      - name: email
+        data_tests: [unique, not_null]
+      - name: signup_date
+        data_tests: [not_null]
+
+  - name: stg_crm__orders
+    description: One row per order. order_id is the GA4 transaction_id.
+    columns:
+      - name: order_id
+        data_tests: [unique, not_null]
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_crm__customers')
+                field: customer_id
+      - name: order_date
+        data_tests: [not_null]
+      - name: order_total_usd
+        data_tests: [not_null]

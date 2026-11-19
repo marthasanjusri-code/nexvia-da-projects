@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_ga4__events
+    description: >
+      One row per GA4 event with the needed event_params flattened into columns.
+      session_key identifies a session: user_pseudo_id + ga_session_id.
+    columns:
+      - name: session_key
+        data_tests: [not_null]
+      - name: event_date
+        data_tests: [not_null]
+      - name: event_at
+        data_tests: [not_null]
+      - name: event_name
+        data_tests: [not_null]
+      - name: user_pseudo_id
+        description: GA4 device (browser) identifier.
+        data_tests: [not_null]
+      - name: ga_session_id
+        data_tests: [not_null]
+      - name: transaction_id
+        description: GA4 transaction ID on purchase events; '(not set)' becomes null.
+      - name: purchase_revenue_usd
+        description: Order revenue in USD on purchase events.

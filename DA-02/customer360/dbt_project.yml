@@ -29,7 +29,3 @@ models:
     marts:
       +materialized: table
       +schema: marts
-
-seeds:
-  customer360:
-    +schema: raw

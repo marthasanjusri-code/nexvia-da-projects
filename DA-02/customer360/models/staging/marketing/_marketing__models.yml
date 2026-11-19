@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_marketing__google_ads_daily_cost
+    description: Google Ads daily cost, one row per day.
+    columns:
+      - name: cost_date
+        data_tests: [unique, not_null]
+      - name: cost_usd
+        data_tests: [not_null]
+
+  - name: stg_marketing__affiliate_commissions
+    description: Affiliate commission, one row per order.
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_crm__orders')
+                field: order_id
+
+  - name: stg_marketing__esp_monthly_invoices
+    description: Email platform invoice, one row per month.
+    columns:
+      - name: invoice_month
+        data_tests: [unique, not_null]
